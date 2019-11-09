@@ -4,6 +4,7 @@ require_once 'models/Cliente.php';
 require_once 'models/Prestamos.php';
 require_once 'models/PrestamosEntregados.php';
 require_once 'models/AbonoCliente.php';
+require_once 'models/EstadoCuenta.php';
 
 class prestamosController {
 
@@ -1084,5 +1085,14 @@ class prestamosController {
 		</script>';
 		}
 	}
+public function estadocuenta(){
 
+		require_once 'views/layout/menu.php';
+      $estadoCuenta = new EstadoCuenta();
+      $detalles = $estadoCuenta->EstadoCuenta();
+      $totalPrestamos = $estadoCuenta->TotalPrestamos();
+		require_once 'views/prestamos/estadoCuenta.php';
+		require_once 'views/layout/copy.php';
+		
+	}
 }
