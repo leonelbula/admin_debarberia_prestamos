@@ -1085,14 +1085,27 @@ class prestamosController {
 		</script>';
 		}
 	}
-public function estadocuenta(){
+	public function estadocuenta() {
 
 		require_once 'views/layout/menu.php';
-      $estadoCuenta = new EstadoCuenta();
-      $detalles = $estadoCuenta->EstadoCuenta();
-      $totalPrestamos = $estadoCuenta->TotalPrestamos();
+		$estadoCuenta = new EstadoCuenta();
+		$detalles = $estadoCuenta->EstadoCuenta();
+		$totalPrestamos = $estadoCuenta->TotalPrestamos();
 		require_once 'views/prestamos/estadoCuenta.php';
 		require_once 'views/layout/copy.php';
-		
+	}
+	public function pagorecividos() {
+		require_once 'views/layout/menu.php';
+		$fecha = date('Y-m-d');
+		$abono = new AbonoCliente();
+		$abono->setFecha($fecha);
+		$detalles = $abono->PagosDiarios();
+		require_once 'views/prestamos/pagoRecividos.php';
+		require_once 'views/layout/copy.php';
+	}
+	public function reportes() {
+		require_once 'views/layout/menu.php';		
+		require_once 'views/prestamos/reportePrestamo.php';
+		require_once 'views/layout/copy.php';
 	}
 }

@@ -5,11 +5,12 @@
         <group>
             <file>file:/C:/wamp64/www/barberia/models/Prestamos.php</file>
             <file>file:/C:/wamp64/www/barberia/views/prestamos/abonarPrestamo.php</file>
+            <file>file:/C:/wamp64/www/barberia/assets/js/prestamos.js</file>
             <file>file:/C:/wamp64/www/barberia/models/AbonoCliente.php</file>
-            <file>file:/C:/wamp64/www/barberia/views/prestamos/ver.php</file>
+            <file>file:/C:/wamp64/www/barberia/views/prestamos/listacliente.php</file>
             <file>file:/C:/wamp64/www/barberia/controllers/prestamosController.php</file>
+            <file>file:/C:/wamp64/www/barberia/models/Cliente.php</file>
             <file>file:/C:/wamp64/www/barberia/views/layout/menu.php</file>
-            <file>file:/C:/wamp64/www/barberia/models/PrestamosEntregados.php</file>
         </group>
     </open-files>
 </project-private>

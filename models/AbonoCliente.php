@@ -91,5 +91,9 @@ class AbonoCliente{
 		}
 		return $result;
 	}
-	
+	public function PagosDiarios() {
+		$sql = "SELECT SUM(valor) as total FROM abono_cliente WHERE fecha like '%{$this->getFecha()}%'";
+		$resp = $this->db->query($sql);
+		return $resp;
+	}
 }
