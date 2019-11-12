@@ -72,7 +72,7 @@
              
             <button class="btn  btn-primary  btn-lg " data-toggle="modal" data-target="#modalVentasClientes">
 
-				Pagos por Cliente
+				Prestamos por Cliente
 
 			</button>				
 
@@ -190,7 +190,7 @@
 
 		<div class="modal-content">
 
-			<form role="form" action="<?= URL_BASE ?>extensiones/tcpdf/pdf/productosventas.php" method="GET" target="_blank" >
+			<form role="form" action="<?= URL_BASE ?>extensiones/tcpdf/pdf/prestamosentregados.php" method="GET" target="_blank" >
 
 				<!--=====================================
 				CABEZA DEL MODAL
@@ -266,7 +266,7 @@
 
 		<div class="modal-content">
 
-			<form role="form" action="<?= URL_BASE ?>extensiones/tcpdf/pdf/comprasclientes.php" method="GET" target="_blank" >
+			<form role="form" action="<?= URL_BASE ?>extensiones/tcpdf/pdf/prestamosclientes.php" method="GET" target="_blank" >
 
 				<!--=====================================
 				CABEZA DEL MODAL
