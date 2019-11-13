@@ -23,7 +23,7 @@
         </div>
 		  <div class="box-body">
 			  <div class="box-header with-border">
-				  <a href="<?= URL_BASE ?>inventario/registrar">
+				  <a href="<?= URL_BASE ?>productos/registrar">
 					  <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarCategoria">
 
 						  Nuevo Producto
@@ -41,8 +41,7 @@
                 <th>Nombre</th>
                 <th>Costo</th>
 				<th>Categoria</th>
-                <th>Precio 1 mas Iva</th>               
-				<th>Impuesto</th>
+                <th>Precio venta</th>
 				<th>Stock</th> 
 				<th>acciones</th>
             </tr>

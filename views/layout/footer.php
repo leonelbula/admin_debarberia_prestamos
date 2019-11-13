@@ -19,6 +19,8 @@
 <script src="<?= URL_BASE ?>assets/js/tablaclientes.js"></script>
 <script src="<?= URL_BASE ?>assets/js/tablaPrestamos.js"></script>
 <script src="<?= URL_BASE ?>assets/js/prestamos.js"></script>
+<script src="<?= URL_BASE ?>assets/js/productos.js"></script>
+<script src="<?= URL_BASE ?>assets/js/proveedor.js"></script>
 
   
 </body>
