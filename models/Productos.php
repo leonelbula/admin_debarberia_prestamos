@@ -14,7 +14,7 @@ class Producto {
 	private $costo;	
 	private $cantidad;	
 	private $precio_venta;	
-	private $procentaje_utiidad;
+	private $procentaje_utilidad;
 	private $utilidad;	
 	private $stock_minimo;	
 	private $codigo_vendedor;	
@@ -48,7 +48,7 @@ class Producto {
 		return $this->precio_venta;
 	}
 
-	function getProcentaje_utiidad() {
+	function getProcentaje_utilidad() {
 		return $this->procentaje_utiidad;
 	}
 
@@ -96,7 +96,7 @@ class Producto {
 		$this->precio_venta = $precio_venta;
 	}
 
-	function setProcentaje_utiidad($procentaje_utiidad) {
+	function setProcentaje_utilidad($procentaje_utiidad) {
 		$this->procentaje_utiidad = $procentaje_utiidad;
 	}
 
@@ -142,9 +142,9 @@ class Producto {
 		return $resul;
 	}
 	public function Guardar() {
-		$sql = "INSERT INTO producto VALUES(NULL,{$this->getId_categoria()}, '{$this->getCodigo()}','{$this->getNombre()}',{$this->getCosto()},"
-		. "{$this->getCantidad()},{$this->getPrecio_venta()},{$this->getProcentaje_utiidad()},{$this->getUtilidad()},"
-		. "{$this->getStock_minimo()},'{$this->getCodigo_vendedor()}',{$this->getId_proveedor()}()}"
+		$sql = "INSERT INTO producto VALUES(NULL,{$this->getId_categoria()},'{$this->getCodigo()}','{$this->getNombre()}',{$this->getCosto()},"
+		. "{$this->getCantidad()},{$this->getPrecio_venta()},{$this->getProcentaje_utilidad()},{$this->getUtilidad()},"
+		. "{$this->getStock_minimo()},'{$this->getCodigo_vendedor()}',{$this->getId_proveedor()}"
 		. ")";
 		$resp = $this->db->query($sql);
 		$resul = FALSE;
@@ -154,7 +154,9 @@ class Producto {
 		return $resul;
 	}
 	public function Actulizar() {
-		$sql = "";
+		$sql = "UPDATE producto SET id_categoria={$this->getId_categoria()},codigo='{$this->getCodigo()}',nombre='{$this->getNombre()}',costo={$this->getCosto()},"
+		. "cantidad={$this->getCantidad()},precio_venta={$this->getPrecio_venta()},porcentaje_utilidad={$this->getProcentaje_utilidad()},utilidad={$this->getUtilidad()},"
+		. "stock_minimo={$this->getStock_minimo()},codigo_vendedor='{$this->getCodigo_vendedor()}',id_vendedor={$this->getId_proveedor()} WHERE id = {$this->getId()}";
 		$resp = $this->db->query($sql);
 		$resul = FALSE;
 		if($resp){
@@ -164,7 +166,7 @@ class Producto {
 
 	}
 	public function Eliminar() {
-		$sql = "DELETE FROM producto WHERE id = {$this->getId}";
+		$sql = "DELETE FROM producto WHERE id = {$this->getId()}";
 		$resp = $this->db->query($sql);
 		$resul = FALSE;
 		if($resp){

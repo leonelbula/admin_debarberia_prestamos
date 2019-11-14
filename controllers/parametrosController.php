@@ -153,12 +153,13 @@ class ParametrosController{
 		if($_POST['id']){
 			$id = $_POST['id'];
 			$num_inicio_factura = isset($_POST['num_inicio_factura']) ? $_POST['num_inicio_factura']:FALSE;
-						
-			if($_POST['generar_codigo'] == 'on'){
+				
+			if(isset($_POST['generar_codigo']) == 'on'){
 				$generar_codigo = 1;
 			}else{
 				$generar_codigo = 0;
-			}			
+			}	
+			
 			$codigo_prod = isset($_POST['codigo_prod']) ? $_POST['codigo_prod']:FALSE;
 			
 			$parametro = new Parametros();

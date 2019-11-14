@@ -20,7 +20,7 @@
 
     <div class="box">
 		<div class="box-header with-border">
-		  <a href="<?=URL_BASE?>proveedor/estadocuentaproveedor">
+		  <a href="<?=URL_BASE?>proveedor/estadocuenta">
           <button class="btn btn-primary">
 
            Cancelar

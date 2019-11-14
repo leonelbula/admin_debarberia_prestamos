@@ -1,5 +1,7 @@
 <?php
 require_once '../config/DataBase.php';
+require_once '../config/parameters.php';
+
 
 class proveedorAjax {
 	
@@ -27,18 +29,18 @@ class ProveedorCompraAjax {
 		 $i = 1;
 		 while ($row = $listaproveedor->fetch_object()) {		
 				
-
-  		$botones = "<button type='button' class='btn btn-primary agregarProveedor recuperarBotonP' idProveedor='".$row->id."'>Agregar</button>";
+		$url = URL_BASE.'proveedor';
+  		$botones = "<div class='btn-group'><a href='$url/editar&id=$row->id'><button class='btn btn-warning'><i class='fa fa-pencil'></i></button></a><a><button class='btn btn-danger btnEliminarProveedor' idproveedor='$row->id' ><i class='fa fa-times'></i></button></a></div><a href='$url/ver&id=$row->id'><button class='btn btn-info'><i class='fa fa-eye'></i></button></a></div>";
   				
 		 
 		  	$datosJson .='[
 			      "'.($i++).'",
 			      "'.$row->nombre.'",
 			      "'.$row->nit.'",
-			      "'.$row->nit.'",
-				  "'.$row->nit.'",
-				  "'.$row->nit.'",
-				  "'.$row->nit.'",				  
+			      "'.$row->direccion.'",
+				  "'.$row->telefono.'",
+				  "'.$row->ciudad.'",
+				  "'.$row->departamento.'",				  
 			      "'.$botones.'"
 			    ],';
 

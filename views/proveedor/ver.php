@@ -34,21 +34,19 @@
       <div class="box-body">
          
 		  <div class="panel panel-default">
-			  <div class="panel-heading">Informacion de Proveedor</div>
+			  <div class="panel-heading"><h4>Informacion de Proveedor</h4></div>
 				<ul class="list-group">			  
 				<?php while ($row = $detallesProveedor ->fetch_object()):
 
 				 ?>
 			  
-					<li class="list-group-item"><b>Nombre:</b> <?= strtoupper($row->nombre)?></li>
-					<li class="list-group-item"><b>Nit:</b> <?=$row->nit?></li>
-				  <li class="list-group-item"><b>Direccion:</b> <?= strtoupper($row->direccion)?></li>
-				  <li class="list-group-item"><b>Departamento:</b> <?= strtoupper($row->departamento)?></li>
-				  <li class="list-group-item"><b>Ciudad:</b></b> <?= strtoupper($row->ciudad)?></li>
-				  <li class="list-group-item"><b>Email:</b> <?= $row->email?></li>
-				  <li class="list-group-item"><b>Telefono:</b> <?= $row->telefono?></li>
-				  <li class="list-group-item"><b>Vendedor:</b>  <?= strtoupper($row->vendedor)?></li>
-				  <li class="list-group-item"><b>Tel. Vendedor</b>  <?= $row->tel_vendedor?></li>
+					<li class="list-group-item"><h4><b>Nombre:</b> <?= strtoupper($row->nombre)?></h4></li>
+				  <li class="list-group-item"><h4><b>Nit:</b> <?=$row->nit?></h4></li>
+				  <li class="list-group-item"><h4><b>Direccion:</b> <?= strtoupper($row->direccion)?></h4></li>
+				  <li class="list-group-item"><h4><b>Departamento:</b> <?= strtoupper($row->departamento)?></h4></li>
+				  <li class="list-group-item"><h4><b>Ciudad:</b></b> <?= strtoupper($row->ciudad)?></h4></li>				  
+				  <li class="list-group-item"><h4><b>Telefono:</b> <?= $row->telefono?></h4></</li>
+				 
 				  <?php endwhile; ?>
 			  </ul>
 		  </div>

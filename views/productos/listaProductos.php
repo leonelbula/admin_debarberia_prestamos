@@ -24,7 +24,7 @@
 		  <div class="box-body">
 			  <div class="box-header with-border">
 				  <a href="<?= URL_BASE ?>productos/registrar">
-					  <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarCategoria">
+					  <button class="btn btn-primary">
 
 						  Nuevo Producto
 

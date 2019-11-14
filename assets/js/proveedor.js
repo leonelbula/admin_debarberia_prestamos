@@ -1,7 +1,7 @@
 //	
 // $.ajax({
 //
-// 	url: "../ajax/tablaListasproveedor.php",
+// 	url: "../ajax/tablaProveedor.php",
 // 	success:function(respuesta){
 //			console.log("respuesta", respuesta);
 //	}
@@ -43,4 +43,30 @@ $('.tablaproveedor').DataTable( {
 } );
 
 
+/*=============================================
+BORRAR PROVEEDOR
+=============================================*/
+var rutaOculta = $("#rutaOculta").val();
 
+$(".tablaproveedor").on("click", ".btnEliminarProveedor", function(){
+
+  var idProveedor = $(this).attr("idproveedor");
+
+  swal({
+        title: '¿Está seguro de borrar este proveedor?',
+        text: "¡Si no lo está puede cancelar la accíón!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Si, borrar el proveedor!'
+      }).then(function(result){
+        if (result.value) {
+          
+            window.location = rutaOculta+"proveedor/eliminar&id="+idProveedor;
+        }
+
+  })
+
+})

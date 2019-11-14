@@ -122,42 +122,7 @@
                 </div>
                 <!-- /.input group -->
               </div>
-              <!-- /.form group -->
-
-              <!-- IP mask -->
-              <div class="form-group">
-                <label>Email:</label>
-
-                <div class="input-group">
-                  <div class="input-group-addon">
-                    <i class="fa fa-envelope-o"></i>
-                  </div>
-					<input type="text" class="form-control" value="<?=$row1->email?>"  name="email" >
-                </div>
-                <!-- /.input group -->
-              </div>
-              <!-- /.form group -->
-			   <div class="form-group">
-                <label>Vendedor:</label>
-                <div class="input-group">
-                  <div class="input-group-addon">
-                    <i class="fa fa-phone"></i>
-                  </div>
-					<input type="text" class="form-control" value="<?=$row1->vendedor?>"  name="vendedor" >
-                </div>
-                <!-- /.input group -->
-              </div>
-			   <div class="form-group">
-                <label>Telefono vendedor:</label>
-                <div class="input-group">
-                  <div class="input-group-addon">
-                    <i class="fa fa-phone"></i>
-                  </div>			
-					 <input type="text" class="form-control" value="<?=$row1->tel_vendedor?>"   name="tel_vendedor" data-inputmask='"mask": "(999) 999-9999"' data-mask>
-                </div>
-                <!-- /.input group -->
-              </div>
-
+             
             </div>
             <!-- /.box-body -->
           </div>

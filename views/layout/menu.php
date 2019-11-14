@@ -169,8 +169,7 @@ if (!isset($_SESSION['identity'])) {
           </a>
           <ul class="treeview-menu">
             <li><a href="<?=URL_BASE?>proveedor/"><i class="fa fa-circle-o"></i> PROVEEDORES</a></li>
-            <li><a href="<?=URL_BASE?>proveedor/estadocuenta"><i class="fa fa-circle-o"></i> ESTADO DE CUENTA</a></li>
-            <li><a href="<?=URL_BASE?>proveedor/reporte"><i class="fa fa-circle-o"></i> REPORTES</a></li>          
+            <li><a href="<?=URL_BASE?>proveedor/estadocuenta"><i class="fa fa-circle-o"></i> ESTADO DE CUENTA</a></li>                   
           </ul>
         </li>
         <li class="treeview">

@@ -1,16 +1,14 @@
-
-	
- //$.ajax({
-
- 	//url: "../ajax/tablaproducto.php",
- 	//success:function(respuesta){
-		//		console.log("respuesta", respuesta);
-	//}
-
- //})
+// $.ajax({
+//
+// 	url: "../ajax/tablaProducto.php",
+// 	success:function(respuesta){
+//				console.log("respuesta", respuesta);
+//	}
+//
+// })
  
  $('.tablaprouctos').DataTable( {
-    "ajax": "../ajax/tablaproducto.php",
+    "ajax": "../ajax/tablaProducto.php",
     "deferRender": true,
 	"retrieve": true,
 	"processing": true,
@@ -72,5 +70,33 @@ $(".formularioProducto").on("change", "input.Utilidad", function(){
 	$("#precio_venta").val(precio_venta);
 	$(".precio_venta").number(true);
 	
+})
+
+/*=============================================
+BORRAR PRODUCTO
+=============================================*/
+var rutaOculta = $("#rutaOculta").val();
+
+$(".tablaprouctos").on("click", ".btnEliminarProducto", function(){
+
+  var idProducto = $(this).attr("idproducto");
+
+  swal({
+        title: '¿Está seguro de borrar este producto?',
+        text: "¡Si no lo está puede cancelar la accíón!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Si, borrar el producto!'
+      }).then(function(result){
+        if (result.value) {
+          
+            window.location = rutaOculta+"productos/eliminarproducto&id="+idProducto;
+        }
+
+  })
+
 })
 

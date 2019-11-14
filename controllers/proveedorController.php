@@ -6,38 +6,42 @@ require_once 'models/AbonosProveedor.php';
 
 class proveedorController {
 
-	public function Index() {		
+	public function Index() {
 		require_once 'views/layout/menu.php';
 		$proveedor = new Proveedor();
-		$listaproveedor = $proveedor->listarProveedor();		
+		$listaproveedor = $proveedor->listarProveedor();
 		require_once 'views/proveedor/listaproveedor.php';
 		require_once 'views/layout/copy.php';
 	}
+
 	static public function listaProveedor() {
 		$proveedor = new Proveedor();
 		$listaproveedor = $proveedor->listarProveedor();
 		return $listaproveedor;
 	}
+
 	static public function MostrarproveedorId($id) {
 		$proveedor = new Proveedor();
 		$proveedor->setId($id);
 		$listaProveedor = $proveedor->listarProveedorId();
 		return $listaProveedor;
 	}
+
 	public function registrar() {
 		require_once 'views/layout/menu.php';
 		require_once 'views/proveedor/registrar.php';
 		require_once 'views/layout/copy.php';
 	}
+
 	public function editar() {
 		require_once 'views/layout/menu.php';
-		if(isset($_GET['id'])){
+		if (isset($_GET['id'])) {
 			$id = $_GET['id'];
 			$proveedor = new Proveedor();
 			$proveedor->setId($id);
 			$detallesProveedor = $proveedor->listarProveedorId();
 			require_once 'views/proveedor/editar.php';
-		}else{
+		} else {
 			echo'<script>
 
 					swal({
@@ -55,31 +59,31 @@ class proveedorController {
 
 			  	</script>';
 		}
-		
 	}
+
 	public function Guardar() {
-		if($_POST){
-			$nombre = isset($_POST['nombre']) ? $_POST['nombre']:FALSE;
-			$nit = isset($_POST['nit']) ? $_POST['nit']:FALSE;
-			$direccion = isset($_POST['direccion']) ? $_POST['direccion']:FALSE;
-			$departamento = isset($_POST['departamento']) ? $_POST['departamento']:FALSE;
-			$ciudad = isset($_POST['ciudad']) ? $_POST['ciudad']:FALSE;
-			$telefono = isset($_POST['telefono']) ? $_POST['telefono']:FALSE;			
-				
-			
-			
-			if($nombre && $nit && $direccion && $ciudad){
+		if ($_POST) {
+			$nombre = isset($_POST['nombre']) ? $_POST['nombre'] : FALSE;
+			$nit = isset($_POST['nit']) ? $_POST['nit'] : FALSE;
+			$direccion = isset($_POST['direccion']) ? $_POST['direccion'] : FALSE;
+			$departamento = isset($_POST['departamento']) ? $_POST['departamento'] : FALSE;
+			$ciudad = isset($_POST['ciudad']) ? $_POST['ciudad'] : FALSE;
+			$telefono = isset($_POST['telefono']) ? $_POST['telefono'] : FALSE;
+
+
+
+			if ($nombre && $nit && $direccion && $ciudad) {
 				$proveedor = new Proveedor();
 				$proveedor->setNombre($nombre);
 				$proveedor->setNit($nit);
 				$proveedor->setDireccion($direccion);
 				$proveedor->setDepartamento($departamento);
 				$proveedor->setCiudad($ciudad);
-				$proveedor->setTelefono($telefono);		
-						
-				
+				$proveedor->setTelefono($telefono);
+
+
 				$resp = $proveedor->Guargar();
-			
+
 				if ($resp) {
 					echo'<script>
 
@@ -118,18 +122,19 @@ class proveedorController {
 			}
 		}
 	}
+
 	public function Actualizar() {
-		if(!empty($_POST['id'])){
+		if (!empty($_POST['id'])) {
 			$id = $_POST['id'];
-			$nombre = isset($_POST['nombre']) ? $_POST['nombre']:FALSE;
-			$nit = isset($_POST['nit']) ? $_POST['nit']:FALSE;
-			$direccion = isset($_POST['direccion']) ? $_POST['direccion']:FALSE;
-			$departamento = isset($_POST['departamento']) ? $_POST['departamento']:FALSE;
-			$ciudad = isset($_POST['ciudad']) ? $_POST['ciudad']:FALSE;
-			$telefono = isset($_POST['telefono']) ? $_POST['telefono']:FALSE;			
-			
-			
-			if($id && $nombre && $nit){
+			$nombre = isset($_POST['nombre']) ? $_POST['nombre'] : FALSE;
+			$nit = isset($_POST['nit']) ? $_POST['nit'] : FALSE;
+			$direccion = isset($_POST['direccion']) ? $_POST['direccion'] : FALSE;
+			$departamento = isset($_POST['departamento']) ? $_POST['departamento'] : FALSE;
+			$ciudad = isset($_POST['ciudad']) ? $_POST['ciudad'] : FALSE;
+			$telefono = isset($_POST['telefono']) ? $_POST['telefono'] : FALSE;
+
+
+			if ($id && $nombre && $nit) {
 				$proveedor = new Proveedor();
 				$proveedor->setId($id);
 				$proveedor->setNombre($nombre);
@@ -137,11 +142,11 @@ class proveedorController {
 				$proveedor->setDireccion($direccion);
 				$proveedor->setDepartamento($departamento);
 				$proveedor->setCiudad($ciudad);
-				$proveedor->setTelefono($telefono);			
-				
-			
+				$proveedor->setTelefono($telefono);
+
+
 				$resp = $proveedor->Actualizar();
-				
+
 				if ($resp) {
 					echo'<script>
 
@@ -178,7 +183,7 @@ class proveedorController {
 			  	</script>';
 				}
 			}
-		}else{
+		} else {
 			echo'<script>
 
 					swal({
@@ -197,13 +202,39 @@ class proveedorController {
 		</script>';
 		}
 	}
+
 	public function Eliminar() {
-		if(!empty($_GET['id'])){
+		if (!empty($_GET['id'])) {
 			$id = $_GET['id'];
-			$proveedor = new Proveedor();
-			$proveedor->setId($id);
-			$resp = $proveedor->Eliminar();
-			if ($resp) {
+			$compras = new Compra();
+			$compras->setId_proveedor($id);
+			$result = $compras->estadoCuenta();
+
+			if ($result->num_rows != 0) {
+			
+				echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Este proveedor no se puede eliminar presenta saldos por pagar en compras !",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "index";
+
+							}
+						})
+
+			  	</script>';
+			} else {
+				
+				$proveedor = new Proveedor();
+				$proveedor->setId($id);
+
+				$resp = $proveedor->Eliminar();
+				if ($resp) {
 					echo'<script>
 
 					swal({
@@ -238,7 +269,8 @@ class proveedorController {
 
 			  	</script>';
 				}
-		}else{
+			}
+		} else {
 			echo'<script>
 
 					swal({
@@ -257,15 +289,16 @@ class proveedorController {
 		</script>';
 		}
 	}
+
 	public function ver() {
 		require_once 'views/layout/menu.php';
-		if(isset($_GET['id'])){
+		if (isset($_GET['id'])) {
 			$id = $_GET['id'];
 			$proveedor = new Proveedor();
 			$proveedor->setId($id);
 			$detallesProveedor = $proveedor->listarProveedorId();
 			require_once 'views/proveedor/ver.php';
-		}else{
+		} else {
 			echo'<script>
 
 					swal({
@@ -283,23 +316,24 @@ class proveedorController {
 
 			  	</script>';
 		}
-		
 	}
-	public function estadocuentaproveedor() {
+
+	public function estadocuenta() {
 		require_once 'views/layout/menu.php';
 		$cuenta = new Compra();
-		$listaEstado = $cuenta->MostrarComprasProv();		
-		require_once 'views/proveedor/estadoCuenta.php';		
+		$listaEstado = $cuenta->MostrarComprasProv();
+		require_once 'views/proveedor/estadoCuenta.php';
 		require_once 'views/layout/copy.php';
 	}
+
 	public function verestadocuentaprov() {
 		require_once 'views/layout/menu.php';
-		if(isset($_GET['id'])){
+		if (isset($_GET['id'])) {
 			$id_proveedor = $_GET['id'];
 			$cuenta = new Compra();
 			$cuenta->setId_proveedor($id_proveedor);
 			$listaEstado = $cuenta->MostrarComprasProveedor();
-		}else{
+		} else {
 			echo'<script>
 
 					swal({
@@ -317,19 +351,20 @@ class proveedorController {
 
 			  	</script>';
 		}
-		
-		
-		require_once 'views/proveedor/estadoCuentaProvedor.php';		
+
+
+		require_once 'views/proveedor/estadoCuentaProvedor.php';
 		require_once 'views/layout/copy.php';
 	}
+
 	public function abonarfactura() {
 		require_once 'views/layout/menu.php';
-		if(isset($_GET['id'])){
+		if (isset($_GET['id'])) {
 			$id = $_GET['id'];
 			$cuenta = new Compra();
 			$cuenta->setId($id);
 			$listaEstado = $cuenta->MostrarComprasId();
-		}else{
+		} else {
 			echo'<script>
 
 					swal({
@@ -347,28 +382,29 @@ class proveedorController {
 
 			  	</script>';
 		}
-		
-		
-		require_once 'views/proveedor/abonarfactura.php';		
+
+
+		require_once 'views/proveedor/abonarfactura.php';
 		require_once 'views/layout/copy.php';
 	}
+
 	public function guardarabono() {
 		if (isset($_POST['id'])) {
 			$id_factura = $_POST['id'];
-			$abono = (int)$_POST['valor'];			
+			$abono = (int) $_POST['valor'];
 			$descripcion = $_POST['descripcion'];
 			$fecha = $_POST['fecha'];
-			
-			if($id_factura && $abono && $fecha){
-			
+
+			if ($id_factura && $abono && $fecha) {
+
 				$saldoCompra = new Compra();
 				$saldoCompra->setId($id_factura);
 				$valorSald = $saldoCompra->MostrarComprasId();
 
 				while ($row = $valorSald->fetch_object()) {
-					$saldoPendiente = (int)$row->saldo;
-				}			
-				if($saldoPendiente > $abono){
+					$saldoPendiente = (int) $row->saldo;
+				}
+				if ($saldoPendiente > $abono) {
 
 					$nuevoSaldo = $saldoPendiente - $abono;
 					$CompraAbono = new Compra();
@@ -384,7 +420,7 @@ class proveedorController {
 
 					$reptB = $abonoCompra->RegistrarAbono();
 
-					if($reptA && $reptB){
+					if ($reptA && $reptB) {
 						echo'<script>
 
 						swal({
@@ -395,14 +431,14 @@ class proveedorController {
 							  }).then(function(result){
 								if (result.value) {
 
-								window.location = "verestadocuentaprov&id='.$_POST['id'].'";
+								window.location = "verestadocuentaprov&id=' . $_POST['id'] . '";
 
 								}
 							})
 
 						</script>';
 					}
-				}else{
+				} else {
 					echo'<script>
 
 						swal({
@@ -413,14 +449,14 @@ class proveedorController {
 							  }).then(function(result){
 								if (result.value) {
 
-								window.location = "abonarfactura&id='.$_POST['id'].'";
+								window.location = "abonarfactura&id=' . $_POST['id'] . '";
 
 								}
 							})
 
 					</script>';
 				}
-			}else{
+			} else {
 				echo'<script>
 
 						swal({
@@ -431,32 +467,30 @@ class proveedorController {
 							  }).then(function(result){
 								if (result.value) {
 
-								window.location = "abonarfactura&id='.$_POST['id'].'";
+								window.location = "abonarfactura&id=' . $_POST['id'] . '";
 
 								}
 							})
 
 					</script>';
 			}
-			
 		}
 	}
+
 	public function abonosfactura() {
 		require_once 'views/layout/menu.php';
 		if (isset($_GET['id'])) {
-			
+
 			$id_factura = $_GET['id'];
-			
+
 			$abonos = new AbonosProveedor();
 			$abonos->setId_factura($id_factura);
 			$listaAbono = $abonos->MostrarAbonosId();
-			
+
 			$saldoCompra = new Compra();
 			$saldoCompra->setId($id_factura);
-			$valorSald = $saldoCompra->MostrarComprasId();		
-				
-			
-		}else{
+			$valorSald = $saldoCompra->MostrarComprasId();
+		} else {
 			echo'<script>
 
 					swal({
@@ -474,17 +508,18 @@ class proveedorController {
 
 			  	</script>';
 		}
-		require_once 'views/proveedor/abonosfactura.php';		
+		require_once 'views/proveedor/abonosfactura.php';
 		require_once 'views/layout/copy.php';
 	}
+
 	public function editarAbono() {
 		require_once 'views/layout/menu.php';
-		if(isset($_GET['id'])){
+		if (isset($_GET['id'])) {
 			$id = $_GET['id'];
 			$abono = new AbonosProveedor();
 			$abono->setId($id);
 			$DatosAbono = $abono->VerAbonoId();
-		}else{
+		} else {
 			echo'<script>
 
 					swal({
@@ -502,27 +537,28 @@ class proveedorController {
 
 			  	</script>';
 		}
-		require_once 'views/proveedor/editarabonos.php';		
+		require_once 'views/proveedor/editarabonos.php';
 		require_once 'views/layout/copy.php';
 	}
+
 	public function ActualizarAbono() {
-		if($_POST['id']){
-			
-			$id = isset($_POST['id'])? $_POST['id']:FALSE;
-			$abonoValor = isset($_POST['valor']) ? $_POST['valor']:FALSE;			
+		if ($_POST['id']) {
+
+			$id = isset($_POST['id']) ? $_POST['id'] : FALSE;
+			$abonoValor = isset($_POST['valor']) ? $_POST['valor'] : FALSE;
 			$descripcion = $_POST['descripcion'];
-			$fecha = isset($_POST['fecha']) ? $_POST['fecha']:FALSE;
-			
-			if($id && $abonoValor && $fecha){
-				
-			
+			$fecha = isset($_POST['fecha']) ? $_POST['fecha'] : FALSE;
+
+			if ($id && $abonoValor && $fecha) {
+
+
 				$abono = new AbonosProveedor();
 				$abono->setId($id);
 				$DatosAbono = $abono->VerAbonoId();
 
-				while ($row =$DatosAbono-> fetch_object()) {
+				while ($row = $DatosAbono->fetch_object()) {
 					$id_compra = $row->id_factura;
-					$abonoanterior = (int)$row->valor;
+					$abonoanterior = (int) $row->valor;
 				}
 
 				$compra = new Compra();
@@ -530,16 +566,16 @@ class proveedorController {
 				$datoCompra = $compra->MostrarComprasId();
 
 				while ($row1 = $datoCompra->fetch_object()) {
-					$saldo = (int)$row1->saldo;
+					$saldo = (int) $row1->saldo;
 				}
-				if($saldo >= $abonoValor){
-					
+				if ($saldo >= $abonoValor) {
+
 					$nuevosaldo = $saldo + $abonoanterior;
 
 					$compra->setSaldo($nuevosaldo);
 					$compra->Abonar();
-					
-					$nuevovalorA = $nuevosaldo - (int)$abonoValor;
+
+					$nuevovalorA = $nuevosaldo - (int) $abonoValor;
 
 					$compra->setSaldo($nuevovalorA);
 					$compra->Abonar();
@@ -550,7 +586,7 @@ class proveedorController {
 					$abono->setFecha($fecha);
 					$respt = $abono->EditarAbono();
 
-					if($respt){
+					if ($respt) {
 						echo'<script>
 
 							swal({
@@ -561,7 +597,7 @@ class proveedorController {
 								  }).then(function(result){
 									if (result.value) {
 
-									window.location = "abonosfactura&id='.$id_compra.'";
+									window.location = "abonosfactura&id=' . $id_compra . '";
 
 									}
 								})
@@ -578,7 +614,7 @@ class proveedorController {
 							}).then(function(result){
 							  if (result.value) {
 
-							  window.location = "abonarfactura&id='.$id_compra.'";
+							  window.location = "abonarfactura&id=' . $id_compra . '";
 
 							  }
 						  })
@@ -596,14 +632,14 @@ class proveedorController {
 							  }).then(function(result){
 								if (result.value) {
 
-								window.location = "editarabono&id='.$_POST['id'].'";
+								window.location = "editarabono&id=' . $_POST['id'] . '";
 
 								}
 							})
 
 					</script>';
 				}
-			}else{
+			} else {
 				echo'<script>
 
 						swal({
@@ -614,17 +650,14 @@ class proveedorController {
 							  }).then(function(result){
 								if (result.value) {
 
-								window.location = "editarabono&id='.$_POST['id'].'";
+								window.location = "editarabono&id=' . $_POST['id'] . '";
 
 								}
 							})
 
 				</script>';
 			}
-			
-			
-			
-		}else{
+		} else {
 			echo'<script>
 
 					swal({
@@ -643,38 +676,39 @@ class proveedorController {
 			  	</script>';
 		}
 	}
+
 	public function EliminarAbono() {
-		if($_GET['id']){
-			
+		if ($_GET['id']) {
+
 			$id = $_GET['id'];
-			
-			
+
+
 			$abono = new AbonosProveedor();
 			$abono->setId($id);
 			$DatosAbono = $abono->VerAbonoId();
-			
-			while ($row =$DatosAbono-> fetch_object()) {
+
+			while ($row = $DatosAbono->fetch_object()) {
 				$id_compra = $row->id_factura;
-				$abonoanterior = (int)$row->valor;
+				$abonoanterior = (int) $row->valor;
 			}
-			
+
 			$compra = new Compra();
 			$compra->setId($id_compra);
 			$datoCompra = $compra->MostrarComprasId();
-			
+
 			while ($row1 = $datoCompra->fetch_object()) {
-				$saldo = (int)$row1->saldo;
+				$saldo = (int) $row1->saldo;
 			}
 			$nuevosaldo = $saldo + $abonoanterior;
-			
+
 			$compra->setSaldo($nuevosaldo);
 			$compra->Abonar();
-			
+
 			$abono->setId($id);
-			
+
 			$respt = $abono->Eliminarbono();
-			
-			if($respt){
+
+			if ($respt) {
 				echo'<script>
 
 					swal({
@@ -685,7 +719,7 @@ class proveedorController {
 						  }).then(function(result){
 							if (result.value) {
 
-							window.location = "abonosfactura&id='.$id_compra.'";
+							window.location = "abonosfactura&id=' . $id_compra . '";
 
 							}
 						})
@@ -694,11 +728,7 @@ class proveedorController {
 			} else {
 				
 			}
-			
-			
-			
-			
-		}else{
+		} else {
 			echo'<script>
 
 					swal({
@@ -717,4 +747,5 @@ class proveedorController {
 			  	</script>';
 		}
 	}
+
 }

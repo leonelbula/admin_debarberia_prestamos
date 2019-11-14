@@ -85,7 +85,7 @@ var rutaOculta = $("#rutaOculta").val();
 
 $(".tablasPrestamos").on("click", ".btnEliminarPrestamos", function(){
 
-  var idAbono = $(this).attr("idprestamos");
+  var idprestamo = $(this).attr("idprestamos");
 
   swal({
         title: '¿Está seguro de borrar el prestamo?',
@@ -99,7 +99,7 @@ $(".tablasPrestamos").on("click", ".btnEliminarPrestamos", function(){
       }).then(function(result){
         if (result.value) {
           
-            window.location = rutaOculta+"prestamos/eliminarprestamos&id="+idAbono;
+            window.location = rutaOculta+"prestamos/eliminarprestamos&id="+idprestamo;
         }
 
   })
