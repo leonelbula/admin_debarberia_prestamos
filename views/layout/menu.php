@@ -114,11 +114,12 @@ if (!isset($_SESSION['identity'])) {
             <i class="fa fa-files-o"></i>
             <span>SUCURSALES</span>
             <span class="pull-right-container">
-              
+              <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
             <li><a href="<?=URL_BASE?>sucursal/"><i class="fa fa-circle-o"></i>LISTA SUCURSALES</a></li>
+			<li><a href="<?=URL_BASE?>sucursal/ventas"><i class="fa fa-circle-o"></i>VENTAS</a></li>
             <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> REPORTES</a></li>          
           
           </ul>

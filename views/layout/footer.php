@@ -21,7 +21,7 @@
 <script src="<?= URL_BASE ?>assets/js/prestamos.js"></script>
 <script src="<?= URL_BASE ?>assets/js/productos.js"></script>
 <script src="<?= URL_BASE ?>assets/js/proveedor.js"></script>
-
+<script src="<?= URL_BASE ?>assets/js/sucursal.js"></script>
   
 </body>
 </html>

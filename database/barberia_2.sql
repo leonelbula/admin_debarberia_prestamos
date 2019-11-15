@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 09-11-2019 a las 12:46:09
+-- Tiempo de generación: 15-11-2019 a las 12:45:46
 -- Versión del servidor: 5.7.26
 -- Versión de PHP: 7.2.18
 
@@ -38,14 +38,19 @@ CREATE TABLE IF NOT EXISTS `abono_cliente` (
   PRIMARY KEY (`id`),
   KEY `id_cliente_p` (`id_cliente_p`),
   KEY `id_prestamo` (`id_prestamo`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `abono_cliente`
 --
 
 INSERT INTO `abono_cliente` (`id`, `id_prestamo`, `id_cliente_p`, `fecha`, `valor`) VALUES
-(6, 2, 2, '2019-11-09', 12778);
+(6, 2, 2, '2019-11-09', 12778),
+(7, 2, 2, '2019-11-10', 12778),
+(8, 2, 2, '2019-11-10', 12778),
+(9, 3, 1, '2019-11-10', 4000),
+(10, 4, 4, '2019-11-10', 100000),
+(11, 3, 1, '2019-11-10', 236000);
 
 -- --------------------------------------------------------
 
@@ -127,7 +132,15 @@ CREATE TABLE IF NOT EXISTS `categoria_producto` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` text COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `categoria_producto`
+--
+
+INSERT INTO `categoria_producto` (`id`, `nombre`) VALUES
+(1, 'PRODUCTOS MEKATO'),
+(2, 'PRODUCTOS ESTÃ‰TICOS');
 
 -- --------------------------------------------------------
 
@@ -177,7 +190,8 @@ CREATE TABLE IF NOT EXISTS `cliente_prestamo` (
 INSERT INTO `cliente_prestamo` (`id`, `nombre`, `nit`, `telefono`, `direccion`, `ciudad`) VALUES
 (1, 'PEDRO JOSE MARTINEZ DIAZ', '78454540', '3007414710', 'CALLE 15 CENTRO', 'SAHAGUN'),
 (2, 'MARLOS ARRIETA BRUN', '106948784', 'calle 11 NÂ° 20 - 4', 'SAHAGUN', '7777777'),
-(3, 'MARIA DEL CARMEN BUSTAMENTE LOPEZ', '45454545', 'calle 8 centro', 'SAHAGUN', '7877772');
+(3, 'MARIA DEL CARMEN BUSTAMENTE LOPEZ', '45454545', 'calle 8 centro', 'SAHAGUN', '7877772'),
+(4, 'WALTER ALVAREZ CORDERO', '10647878', 'calle 4 ', 'SAHAGUN', '312457863');
 
 -- --------------------------------------------------------
 
@@ -262,7 +276,14 @@ CREATE TABLE IF NOT EXISTS `datos_empresa` (
   `telefono` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
   `fecha_inicio` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `datos_empresa`
+--
+
+INSERT INTO `datos_empresa` (`id`, `nombre`, `nit`, `direccion`, `ciudad`, `departamento`, `telefono`, `fecha_inicio`) VALUES
+(1, 'NOMBRE EMPRESA', '890454500-2', 'CALLE 11 CENTRO', 'SAHAGUN', 'CORDOBA', '7777777', '2019-11-10');
 
 -- --------------------------------------------------------
 
@@ -326,6 +347,28 @@ CREATE TABLE IF NOT EXISTS `intereses` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `parametros`
+--
+
+DROP TABLE IF EXISTS `parametros`;
+CREATE TABLE IF NOT EXISTS `parametros` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `num_inicio_factura` int(11) NOT NULL,
+  `generar_codigo` int(11) NOT NULL,
+  `codigo_prod` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `parametros`
+--
+
+INSERT INTO `parametros` (`id`, `num_inicio_factura`, `generar_codigo`, `codigo_prod`) VALUES
+(1, 1, 1, 1000);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `prestamos_cliente`
 --
 
@@ -345,15 +388,16 @@ CREATE TABLE IF NOT EXISTS `prestamos_cliente` (
   `utilidad` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `prestamos_cliente_ibfk_1` (`id_cliente`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `prestamos_cliente`
 --
 
 INSERT INTO `prestamos_cliente` (`id`, `id_cliente`, `interes`, `fecha_entrega`, `fecha_vencimiento`, `num_cuotas`, `valor`, `valorcuota`, `valortotal`, `saldo`, `cuota_saldo`, `utilidad`) VALUES
-(2, 2, 10, '2019-11-07', '2019-12-22', 45, 500000, 12778, 575000, 562222, 44, 75000),
-(3, 1, 10, '2019-11-08', '2020-01-07', 60, 200000, 4000, 240000, 240000, 59, 40000);
+(2, 2, 10, '2019-11-07', '2019-12-22', 45, 500000, 12778, 575000, 536666, 44, 75000),
+(3, 1, 10, '2019-11-08', '2020-01-07', 60, 200000, 4000, 240000, 0, 0, 40000),
+(4, 4, 5, '2019-11-10', '2020-01-09', 60, 1000000, 18333, 1100000, 1000000, 59, 100000);
 
 -- --------------------------------------------------------
 
@@ -368,7 +412,14 @@ CREATE TABLE IF NOT EXISTS `prestamos_entregados` (
   `valor` int(11) NOT NULL,
   `fecha` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `prestamos_entregados`
+--
+
+INSERT INTO `prestamos_entregados` (`id`, `id_cliente`, `valor`, `fecha`) VALUES
+(6, 4, 1000000, '2019-11-10');
 
 -- --------------------------------------------------------
 
@@ -399,9 +450,9 @@ CREATE TABLE IF NOT EXISTS `prestamo_estilista` (
 
 DROP TABLE IF EXISTS `producto`;
 CREATE TABLE IF NOT EXISTS `producto` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_categoria` int(11) NOT NULL,
-  `codigo` int(11) NOT NULL,
+  `codigo` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   `nombre` text COLLATE utf8_spanish_ci NOT NULL,
   `costo` int(11) NOT NULL,
   `cantidad` int(11) NOT NULL,
@@ -409,8 +460,18 @@ CREATE TABLE IF NOT EXISTS `producto` (
   `porcentaje_utilidad` int(11) NOT NULL,
   `utilidad` int(11) NOT NULL,
   `stock_minimo` int(11) NOT NULL,
-  `estado` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `codigo_vendedor` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
+  `id_vendedor` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `producto`
+--
+
+INSERT INTO `producto` (`id`, `id_categoria`, `codigo`, `nombre`, `costo`, `cantidad`, `precio_venta`, `porcentaje_utilidad`, `utilidad`, `stock_minimo`, `codigo_vendedor`, `id_vendedor`) VALUES
+(1, 1, '1000', 'papas de limon 150g ', 900, 30, 1260, 40, 360, 20, '454545', 1),
+(2, 1, '1001', 'gaseosa 250 ml ', 500, 30, 700, 40, 200, 20, '454545', 1);
 
 -- --------------------------------------------------------
 
@@ -431,11 +492,17 @@ CREATE TABLE IF NOT EXISTS `producto_sucursal` (
   `porcentaje_utilidad` int(11) NOT NULL,
   `utilidad` int(11) NOT NULL,
   `stock_minimo` int(11) NOT NULL,
-  `estado` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_categoria` (`id_categoria`),
   KEY `id_sucursal` (`id_sucursal`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `producto_sucursal`
+--
+
+INSERT INTO `producto_sucursal` (`id`, `id_categoria`, `id_sucursal`, `codigo`, `nombre`, `costo`, `cantidad`, `precio_venta`, `porcentaje_utilidad`, `utilidad`, `stock_minimo`) VALUES
+(1, 1, 1, 1000, 'producto ', 500, 10, 1000, 100, 500, 10);
 
 -- --------------------------------------------------------
 
@@ -452,9 +519,16 @@ CREATE TABLE IF NOT EXISTS `proveedor` (
   `telefono` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
   `ciudad` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `departamento` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha_registro` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `proveedor`
+--
+
+INSERT INTO `proveedor` (`id`, `nombre`, `nit`, `direccion`, `telefono`, `ciudad`, `departamento`) VALUES
+(1, 'distribuidora sahagun', '7801645985', 'carrera 11A #21 - 20', '3007412721', 'sahagun', 'cordoba'),
+(5, 'comercializaras del norte ', '7801645985', 'carrera 11A #21 - 20', '3007412721', 'sahagun', 'cordoba');
 
 -- --------------------------------------------------------
 
@@ -496,18 +570,19 @@ CREATE TABLE IF NOT EXISTS `sucursal` (
   `direccion` text COLLATE utf8_spanish_ci NOT NULL,
   `ciudad` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `departamento` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `dias_atencion` text COLLATE utf8_spanish_ci NOT NULL,
-  `hora_atencion` text COLLATE utf8_spanish_ci NOT NULL,
   `fecha_inicio` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `sucursal`
 --
 
-INSERT INTO `sucursal` (`id`, `nombre`, `direccion`, `ciudad`, `departamento`, `dias_atencion`, `hora_atencion`, `fecha_inicio`) VALUES
-(1, 'sucuarsal 1', 'calle 11', 'sahagun', 'cordoba', 'lunes a sabado', '7', '2019-11-04');
+INSERT INTO `sucursal` (`id`, `nombre`, `direccion`, `ciudad`, `departamento`, `fecha_inicio`) VALUES
+(1, 'sucuarsal 1', 'calle 11', 'sahagun', 'cordoba', '2019-11-04'),
+(2, 'sucursal monteria', 'calle 41', 'sahagun', 'cordoba', '2019-11-15'),
+(3, 'sucursal sahagun', 'carrera 11A #21 - 20', 'sahagun', 'cordoba', '2019-11-15'),
+(9, 'prueba', 'carrera 11A #21 - 20', 'sahagun', 'cordoba', '2019-11-15');
 
 -- --------------------------------------------------------
 
@@ -579,11 +654,39 @@ INSERT INTO `usuario_ubicacion` (`id`, `id_usuario`, `id_sucursal`, `estado`) VA
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `vanta_servicio`
+-- Estructura de tabla para la tabla `venta_producto`
 --
 
-DROP TABLE IF EXISTS `vanta_servicio`;
-CREATE TABLE IF NOT EXISTS `vanta_servicio` (
+DROP TABLE IF EXISTS `venta_producto`;
+CREATE TABLE IF NOT EXISTS `venta_producto` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_sucursal` int(11) NOT NULL,
+  `num_factura` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  `detalles` text COLLATE utf8_spanish_ci NOT NULL,
+  `utilidad` int(11) NOT NULL,
+  `totalventa` int(11) NOT NULL,
+  `totalcosto` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_sucursal` (`id_sucursal`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `venta_producto`
+--
+
+INSERT INTO `venta_producto` (`id`, `id_sucursal`, `num_factura`, `fecha`, `detalles`, `utilidad`, `totalventa`, `totalcosto`) VALUES
+(1, 1, 1, '2019-11-15', '10', 10000, 30000, 20000),
+(2, 1, 1, '2019-11-15', '10', 10000, 30000, 20000);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `venta_servicio`
+--
+
+DROP TABLE IF EXISTS `venta_servicio`;
+CREATE TABLE IF NOT EXISTS `venta_servicio` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_sucursal` int(11) NOT NULL,
   `num_venta` int(11) NOT NULL,
@@ -594,28 +697,15 @@ CREATE TABLE IF NOT EXISTS `vanta_servicio` (
   PRIMARY KEY (`id`),
   KEY `id_sucursal` (`id_sucursal`),
   KEY `id_estilista` (`id_estilista`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
--- --------------------------------------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Estructura de tabla para la tabla `venta_producto`
+-- Volcado de datos para la tabla `venta_servicio`
 --
 
-DROP TABLE IF EXISTS `venta_producto`;
-CREATE TABLE IF NOT EXISTS `venta_producto` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_sucursal` int(11) NOT NULL,
-  `num_factura` int(11) NOT NULL,
-  `fecha` int(11) NOT NULL,
-  `detalles` int(11) NOT NULL,
-  `utilidad` int(11) NOT NULL,
-  `subtotal` int(11) NOT NULL,
-  `totalventa` int(11) NOT NULL,
-  `totalcosto` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_sucursal` (`id_sucursal`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+INSERT INTO `venta_servicio` (`id`, `id_sucursal`, `num_venta`, `detalle`, `id_estilista`, `fecha`, `valor`) VALUES
+(1, 1, 1, 'venta', 1, '2019-11-15', 5000),
+(2, 1, 1, 'venta', 1, '2019-11-15', 5000);
 
 --
 -- Restricciones para tablas volcadas
@@ -706,17 +796,17 @@ ALTER TABLE `usuario_ubicacion`
   ADD CONSTRAINT `usuario_ubicacion_ibfk_2` FOREIGN KEY (`id_sucursal`) REFERENCES `sucursal` (`id`);
 
 --
--- Filtros para la tabla `vanta_servicio`
---
-ALTER TABLE `vanta_servicio`
-  ADD CONSTRAINT `vanta_servicio_ibfk_1` FOREIGN KEY (`id_sucursal`) REFERENCES `sucursal` (`id`),
-  ADD CONSTRAINT `vanta_servicio_ibfk_2` FOREIGN KEY (`id_estilista`) REFERENCES `estilista` (`id`);
-
---
 -- Filtros para la tabla `venta_producto`
 --
 ALTER TABLE `venta_producto`
   ADD CONSTRAINT `venta_producto_ibfk_1` FOREIGN KEY (`id_sucursal`) REFERENCES `sucursal` (`id`);
+
+--
+-- Filtros para la tabla `venta_servicio`
+--
+ALTER TABLE `venta_servicio`
+  ADD CONSTRAINT `venta_servicio_ibfk_1` FOREIGN KEY (`id_sucursal`) REFERENCES `sucursal` (`id`),
+  ADD CONSTRAINT `venta_servicio_ibfk_2` FOREIGN KEY (`id_estilista`) REFERENCES `estilista` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

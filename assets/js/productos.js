@@ -89,7 +89,7 @@ $(".tablaprouctos").on("click", ".btnEliminarProducto", function(){
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Si, borrar el producto!'
+        confirmButtonText: 'Si, borrar el producto !'
       }).then(function(result){
         if (result.value) {
           

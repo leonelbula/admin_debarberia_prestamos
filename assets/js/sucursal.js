@@ -8,8 +8,8 @@
 //
 //})
  
-$('.tablaproveedor').DataTable( {
-    "ajax": "../ajax/tablaProveedor.php",
+$('.tablasucursal').DataTable( {
+    "ajax": "../ajax/tablaSucursal.php",
     "deferRender": true,
 	"retrieve": true,
 	"processing": true,
@@ -48,23 +48,23 @@ BORRAR PROVEEDOR
 =============================================*/
 var rutaOculta = $("#rutaOculta").val();
 
-$(".tablaproveedor").on("click", ".btnEliminarProveedor", function(){
+$(".tablasucursal").on("click", ".btnEliminarSucursal", function(){
 
-  var idProveedor = $(this).attr("idproveedor");
+  var idSucursal = $(this).attr("idsucursal");
 
   swal({
-        title: '¿Está seguro de borrar este proveedor?',
+        title: '¿Está seguro de borrar esta Sucursal?',
         text: "¡Si no lo está puede cancelar la accíón!",
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Si, borrar el proveedor !'
+        confirmButtonText: 'Si, borrar el sucursal !'
       }).then(function(result){
         if (result.value) {
           
-            window.location = rutaOculta+"proveedor/eliminar&id="+idProveedor;
+            window.location = rutaOculta+"sucursal/eliminar&id="+idSucursal;
         }
 
   })

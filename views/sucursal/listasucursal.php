@@ -1,77 +1,69 @@
 <div class="content-wrapper">
-    
-  <section class="content-header">
-      
-    <h1>
-      Lista sucrsales
-    </h1>
- 
-    <ol class="breadcrumb">
 
-      <li><a href="<?=URL_BASE?>frontend/principal"><i class="fa fa-dashboard"></i> Inicio</a></li>
+	<section class="content-header">
 
-      <li class="active">Gestor Sucursal</li>
-      
-    </ol>
+		<h1>
+			Lista sucrsales
+		</h1>
 
-  </section>
+		<ol class="breadcrumb">
 
-  <section class="content">
+			<li><a href="<?= URL_BASE ?>frontend/principal"><i class="fa fa-dashboard"></i> Inicio</a></li>
 
-    <div class="box">
+			<li class="active">Gestor Sucursal</li>
 
-      <div class="box-header with-border">
-		 
-      </div>
-		
+		</ol>
 
-      <div class="box-body">
-         
-		  <table id="tablasPedido" class="table table-bordered table-striped dt-responsive " width="100%">
+	</section>
 
-          <thead>
-            
-            <tr>
-              
-              <th style="width:10px">Codigo</th>
-              <th>Razon Social</th>   			 
-			  <th>Telefono</th>
-			  <th>Correo</th>
-			  <th>Vendedor</th>
-			  <th>Tel-Vendedor</th>
-               <th>Acciones</th>
+	<section class="content">
 
-            </tr>
+		<div class="box">
 
-          </thead>
-		   <tbody>
-			  
-		   </tbody>
+			<div class="box-header with-border">
+				<a href="<?= URL_BASE ?>sucursal/registrar">
+					<button class="btn btn-primary">
 
-        </table> 
+						Agregar Sucursal
 
-      </div>
-		
-        
-    </div>
-	  <div class="box-footer">
-          Pedidos
+					</button>
+				</a>
+			</div>
+
+
+			<div class="box-body">
+
+				<table id="tablasucursal" class="table table-bordered table-striped dt-responsive tablasucursal" width="100%">
+
+					<thead>
+
+						<tr>
+
+							<th style="width:10px">Codigo</th>
+							<th>Nombre</th>  			 
+							<th>direccion</th>
+							<th>Ciudad</th>
+							<th>Departamento</th>
+							<th>Fecha Registro</th>
+							<th>Acciones</th>
+
+						</tr>
+
+					</thead>
+					<tbody>
+
+					</tbody>
+
+				</table> 
+
+			</div>
+
+
+		</div>
+		<div class="box-footer">
+			Pedidos
         </div>
 
-  </section>
+	</section>
 
 </div>
-
-<script>
-$(function () {
-    
-    $('#tablasPedido').DataTable({
-      'paging'      : true,
-      'lengthChange': false,
-      'searching'   : false,
-      'ordering'    : true,
-      'info'        : true,
-      'autoWidth'   : false
-    })
-  })
-</script>

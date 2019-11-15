@@ -7,11 +7,9 @@ class Sucursal{
 	private $id;
 	private $id_sucursal;
 	private $nombre;
-	private $direcion;
+	private $direccion;
 	private $ciudad;
-	private $departamento;
-	private $dias_atencion;
-	private $hora_atencion;
+	private $departamento;	
 	private $fecha;
 
 	function getId() {
@@ -26,8 +24,8 @@ class Sucursal{
 		return $this->nombre;
 	}
 
-	function getDirecion() {
-		return $this->direcion;
+	function getDireccion() {
+		return $this->direccion;
 	}
 
 	function getCiudad() {
@@ -36,14 +34,6 @@ class Sucursal{
 
 	function getDepartamento() {
 		return $this->departamento;
-	}
-
-	function getDias_atencion() {
-		return $this->dias_atencion;
-	}
-
-	function getHora_atencion() {
-		return $this->hora_atencion;
 	}
 
 	function getFecha() {
@@ -62,8 +52,8 @@ class Sucursal{
 		$this->nombre = $nombre;
 	}
 
-	function setDirecion($direcion) {
-		$this->direcion = $direcion;
+	function setDireccion($direccion) {
+		$this->direccion = $direccion;
 	}
 
 	function setCiudad($ciudad) {
@@ -74,26 +64,50 @@ class Sucursal{
 		$this->departamento = $departamento;
 	}
 
-	function setDias_atencion($dias_atencion) {
-		$this->dias_atencion = $dias_atencion;
-	}
-
-	function setHora_atencion($hora_atencion) {
-		$this->hora_atencion = $hora_atencion;
-	}
-
 	function setFecha($fecha) {
 		$this->fecha = $fecha;
 	}
 	
-
 	public function __construct() {
 		$this->db = Database::connect();
+	}
+	public function listaSucursal() {
+		$sql = "SELECT * FROM sucursal ";
+		$respt = $this->db->query($sql);
+		return $respt;
 	}
 	public function motrarInformacion() {
 		$sql = "SELECT * FROM sucursal WHERE id = {$this->getId()}";
 		$respt = $this->db->query($sql);
-		return $respt->fetch_object();
+		return $respt;
 	}
+	public function Guardar() {
+		$sql = "INSERT INTO sucursal VALUES (NULL,'{$this->getNombre()}','{$this->getDireccion()}','{$this->getCiudad()}','{$this->getDepartamento()}','{$this->getFecha()}')";
+		$resp = $this->db->query($sql);
+		$result = FALSE;
+		if($resp){
+			$result = TRUE;
+		}
+		return $result;
+	}
+	public function Actulizar() {
+		$sql = "UPDATE sucursal SET nombre='{$this->getNombre()}',direccion='{$this->getDireccion()}',ciudad='{$this->getCiudad()}',departamento='{$this->getDepartamento()}',fecha_inicio='{$this->getFecha()}' WHERE id = {$this->getId()}";
+		$resp = $this->db->query($sql);
+		$result = FALSE;
+		if($resp){
+			$result = TRUE;
+		}
+		return $result;
+	}
+	public function Eliminar() {
+		$sql = "DELETE FROM sucursal WHERE id = {$this->getId()}";
+		$resp = $this->db->query($sql);
+		$result = FALSE;
+		if($resp){
+			$result = TRUE;
+		}
+		return $result;
+	}
+	
 	
 }
