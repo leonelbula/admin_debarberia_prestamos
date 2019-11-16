@@ -118,10 +118,8 @@ if (!isset($_SESSION['identity'])) {
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<?=URL_BASE?>sucursal/"><i class="fa fa-circle-o"></i>LISTA SUCURSALES</a></li>
-			<li><a href="<?=URL_BASE?>sucursal/ventas"><i class="fa fa-circle-o"></i>VENTAS</a></li>
-            <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> REPORTES</a></li>          
-          
+            <li><a href="<?=URL_BASE?>sucursal/"><i class="fa fa-circle-o"></i> LISTA SUCURSALES</a></li>
+			<li><a href="<?=URL_BASE?>sucursal/ventassucursal"><i class="fa fa-circle-o"></i> VENTA ACTUAL</a></li>
           </ul>
         </li>
         <li>
@@ -194,8 +192,9 @@ if (!isset($_SESSION['identity'])) {
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="pages/tables/simple.html"><i class="fa fa-circle-o"></i> Simple tables</a></li>
-            <li><a href="pages/tables/data.html"><i class="fa fa-circle-o"></i> Data tables</a></li>
+            <li><a href="<?=URL_BASE?>ventas/"><i class="fa fa-circle-o"></i> LISTA DE VENTAS</a></li>
+			<li><a href="<?=URL_BASE?>ventas/ventassucursal"><i class="fa fa-circle-o"></i> VENTAS POR SUCURSAL</a></li>
+            <li><a href="<?=URL_BASE?>ventas/resportes"><i class="fa fa-circle-o"></i> REPORTES</a></li>
           </ul>
         </li>        
         <li class="treeview">

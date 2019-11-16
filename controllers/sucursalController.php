@@ -11,11 +11,13 @@ class sucursalController{
 		require_once 'views/sucursal/listasucursal.php';
 		require_once 'views/layout/copy.php';
 	}	
+	
 	public function registrar() {		
 		require_once 'views/layout/menu.php';		
 		require_once 'views/sucursal/registrar.php';
 		require_once 'views/layout/copy.php';
 	}
+	
 	public function guardar() {
 		if(!empty($_POST['nombre'])){
 			$nombre = isset($_POST['nombre']) ? $_POST['nombre'] : FALSE;			
@@ -295,7 +297,7 @@ class sucursalController{
 		require_once 'views/layout/copy.php';
 	}
 	
-	public function ventas() {
+	public function ventassucursal() {
 		require_once 'views/layout/menu.php';
 			
 		$sucursal = new Sucursal();
@@ -304,6 +306,7 @@ class sucursalController{
 		require_once 'views/sucursal/ventas.php';
 		require_once 'views/layout/copy.php';
 	}
+	
 	static public function ventasdiarioproductossucursal($id) {
 		$ventasSucuarsal = new VentasSucursal();
 		$ventasSucuarsal->setId_sucursal($id);
@@ -311,6 +314,7 @@ class sucursalController{
 		$ventaProducto = $ventasSucuarsal->ventasDiariaProcutosSucursal();
 		return $ventaProducto;		
 	}
+	
 	static public function ventasdiarioserviciossucursal($id) {
 		$ventasSucuarsal = new VentasSucursal();
 		$ventasSucuarsal->setId_sucursal($id);
@@ -319,4 +323,39 @@ class sucursalController{
 		return $ventaServicio;		
 	}
 	
+	public function verventas() {
+		require_once 'views/layout/menu.php';
+		if($_GET['id']){
+			$id = $_GET['id'];
+			$sucursal = new Sucursal();
+			$sucursal->setId($id);
+			$detalleSucursal = $sucursal->motrarInformacion();
+		}else{
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Debe seleccionar una sucursal!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "ventas";
+
+							}
+						})
+
+			  	</script>';
+		}	
+				
+		require_once 'views/sucursal/verventas.php';
+		require_once 'views/layout/copy.php';
+	}
+	
+	public function reportes() {
+		require_once 'views/layout/menu.php';
+		require_once 'views/sucursal/reportes.php';
+		require_once 'views/layout/copy.php';
+	}
 }
