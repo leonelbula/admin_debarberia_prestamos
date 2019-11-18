@@ -37,6 +37,8 @@ class Ventas{
 		$this->db = Database::connect();
 	}
 	public function MostrarVentas() {
+		//SELECT s.*, SUM(vp.totalventa) AS ventaproducto FROM venta_producto vp INNER JOIN sucursal s ON s.id =vp.id_sucursal AND fecha BETWEEN '2019-11-11' AND '2019-11-18' GROUP BY s.id
+		
 		$sql = "";
 		$resp = $this->db->query($sql);
 		return $resp;

@@ -2,6 +2,7 @@
 
 require_once 'models/Categoria.php';
 require_once 'models/Productos.php';
+require_once 'models/Insumos.php';
 require_once 'models/Parametros.php';
 
 class productosController {
@@ -18,6 +19,11 @@ class productosController {
 		$listCategoria = $categoria->MostrarCategoria();
 
 		require_once 'views/productos/categoria.php';
+		require_once 'views/layout/copy.php';
+	}
+	public function insumos() {
+		require_once 'views/layout/menu.php';
+		require_once 'views/productos/insumos.php';
 		require_once 'views/layout/copy.php';
 	}
 
@@ -200,6 +206,11 @@ class productosController {
 		require_once 'views/productos/registrar.php';
 		require_once 'views/layout/copy.php';
 	}
+	public function registrarinsumo() {
+		require_once 'views/layout/menu.php';
+		require_once 'views/productos/regitrarinsumos.php';
+		require_once 'views/layout/copy.php';
+	}
 
 	public function GuardarProducto() {
 		if (isset($_POST)) {
@@ -329,6 +340,126 @@ class productosController {
 		}
 	}
 
+	public function guardarinsumo() {
+		if($_POST){
+			$codigoD = isset($_POST['codigo']) ? $_POST['codigo'] : FALSE;
+			$costo = isset($_POST['costo']) ? $_POST['costo'] : FALSE;
+			$nombre = isset($_POST['nombre']) ? $_POST['nombre'] : FALSE;
+			$stock = isset($_POST['cantidamin']) ? $_POST['cantidamin'] : FALSE;
+			$cantidad = isset($_POST['cantidainicial']) ? $_POST['cantidainicial'] : FALSE;
+			$codigo_vendedor = isset($_POST['codigo_vendedor']) ? $_POST['codigo_vendedor'] : FALSE;
+			$id_proveedor = isset($_POST['id_vendedor']) ? $_POST['id_vendedor'] : FALSE;
+			
+			if($nombre && $costo){
+				$par = new Parametros();
+				$listaParra = $par->MostrarParrametro();
+				while ($row = $listaParra->fetch_object()) {
+					$estadoCodigo = $row->generar_codigo;
+					$codigo = (int) $row->codigo_prod;
+				}
+				if ($estadoCodigo == 1) {
+					$insumo = new Insumo();
+					$ultimoInsumo = $insumo->MostrarUltimoInsumos();
+
+					if ($ultimoInsumo->num_rows != 0) {
+						while ($row1 = $ultimoproducto->fetch_object()) {
+							$utilimoCodigo = $row1->codigo;
+						}
+						$codigoInsu = $utilimoCodigo + 1;
+					} else {
+						$codigoInsu = $codigo;
+					}
+				} else {
+					$codigoInsu = $codigoD;
+				}
+				
+				$insumo->setCodigo($codigoInsu);
+				$insumo->setNombre($nombre);
+				$insumo->setCosto($costo);
+				$insumo->setCantidad($cantidad);
+				$insumo->setStock($stock);
+				$insumo->setId_proveedor($id_proveedor);
+				$insumo->setCodigo_vendedor($codigo_vendedor);
+				
+				$resp = $insumo->Guardar();
+				
+				if($resp){
+					echo'<script>
+
+					swal({
+						  type: "success",
+						  title: "Producto Guardado Correctamente",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "insumos";
+
+							}
+						})
+
+					</script>';
+				}else{
+					echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Registro no Guardado !",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "insumos";
+
+							}
+						})
+
+			  	</script>';
+
+				}
+				
+			} else {
+				echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Registro no Guardado !",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "insumos";
+
+							}
+						})
+
+			  	</script>';
+
+			}
+		}else{
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Registro no Guardado !",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "insumos";
+
+							}
+						})
+
+			  	</script>';
+
+		}
+	}
+	
 	public function Editar() {
 		if ($_GET['id']) {
 			require_once 'views/layout/menu.php';
