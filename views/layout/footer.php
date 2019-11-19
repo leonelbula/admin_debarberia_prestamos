@@ -22,6 +22,9 @@
 <script src="<?= URL_BASE ?>assets/js/productos.js"></script>
 <script src="<?= URL_BASE ?>assets/js/proveedor.js"></script>
 <script src="<?= URL_BASE ?>assets/js/sucursal.js"></script>
+<script src="<?= URL_BASE ?>assets/js/insumos.js"></script>
+<script src="<?= URL_BASE ?>assets/js/empleados.js"></script>
+<script src="<?= URL_BASE ?>assets/js/barbero.js"></script>
   
 </body>
 </html>

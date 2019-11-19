@@ -32,7 +32,7 @@
 			  </div>
         </div>
 		   <div class="box-body">
-		  <table class=" table table-bordered table-striped dt-responsive " style="width:100%">
+		  <table class=" table table-bordered table-striped dt-responsive tablainsumos" style="width:100%">
         <thead>
             <tr>
 				<th>#</th>

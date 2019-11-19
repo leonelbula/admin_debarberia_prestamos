@@ -88,6 +88,11 @@ class Insumo {
 		$resul = $this->db->query($sql);
 		return $resul;
 	}
+	public function MostrarInsumosId() {
+		$sql = "SELECT * FROM insumos WHERE id = {$this->getId()}";
+		$resul = $this->db->query($sql);
+		return $resul;
+	}
 	public function Guardar() {
 		$sql = "INSERT INTO insumos VALUES (NULL,'{$this->getCodigo()}','{$this->getNombre()}',{$this->getCosto()},{$this->getCantidad()},{$this->getStock()},{$this->getId_proveedor()},'{$this->getCodigo_vendedor()}')";
 		$resp = $this->db->query($sql);
@@ -96,5 +101,23 @@ class Insumo {
 			$result = TRUE;
 		}
 		return $result;
+	}
+	public function Actualizar() {
+		$sql = "UPDATE insumos SET codigo='{$this->getCodigo()}',nombre='{$this->getNombre()}',costo={$this->getCosto()},cantidad={$this->getCantidad()},stock={$this->getStock()},id_vendedor={$this->getId_proveedor()},codigo_vendedor='{$this->getCodigo_vendedor()}' WHERE id = {$this->getId()}";
+		$resp = $this->db->query($sql);
+		$result = FALSE;
+		if($resp){
+			$result = TRUE;
+		}
+		return $result;
+	}
+	public function Eliminar() {
+		$sql = "DELETE FROM insumos WHERE id = {$this->getId()}";
+		$resp = $this->db->query($sql);
+		$resul = FALSE;
+		if($resp){
+			$resul = TRUE;
+		}
+		return $resul;
 	}
 }

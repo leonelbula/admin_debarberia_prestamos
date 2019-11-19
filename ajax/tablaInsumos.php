@@ -10,7 +10,7 @@ class ListaInsumos {
 		$this->db = Database::connect();
 	}	
 
-	public function MostrarProductos() {
+	public function MostrarInsumos() {
 		$sql = "SELECT * FROM insumos";
 		$resul = $this->db->query($sql);
 		return $resul;
@@ -20,14 +20,14 @@ class ListaInsumos {
 
 class InsumosAjax {
 	public function MostrarInsumos() {
-		$productos = new ListaProducto();
-		$listaproducto = $productos->MostrarProductos();
+		$insumos = new ListaInsumos();
+		$listaInsumos = $insumos->MostrarInsumos();
 		
 		
 		 $datosJson = '{
 		  "data": [';
 		 $i = 1;
-		 while ($row = $listaproducto->fetch_object()) {		
+		 while ($row = $listaInsumos->fetch_object()) {		
 				
 			 
   			if($row->cantidad< $row->stock){
@@ -43,13 +43,13 @@ class InsumosAjax {
 		  	/*=============================================
  	 		TRAEMOS LAS ACCIONES
   			=============================================*/ 
-			$url = URL_BASE.'productos';
+			//$url = URL_BASE.'productos';
   			
 
-  			$botones =  "<div class='btn-group'><a href='editar&id=".$row->id."'><button class='btn btn-warning btnAgregararticulo'><i class='fa fa-pencil'></i></button></a><a><button class='btn btn-danger btnEliminarProducto' idproducto='".$row->id."'><i class='fa fa-times'></i></button></a></div>"; 
+  			$botones =  "<div class='btn-group'><a href='editarinsumo&id=".$row->id."'><button class='btn btn-warning btnAgregararticulo'><i class='fa fa-pencil'></i></button></a><a><button class='btn btn-danger btnEliminarInsumo' idinsumo='".$row->id."'><i class='fa fa-times'></i></button></a></div>"; 
   			
 
-  			$redir = "href='ver&id=".$row->id."'";
+  			$redir = "href='verinsumo&id=".$row->id."'";
 
   		
 
@@ -78,5 +78,5 @@ class InsumosAjax {
 
 	}	
 }
-$productos = new InsumosAjax();
-$productos->MostrarInsumos();
+$insumos = new InsumosAjax();
+$insumos->MostrarInsumos();

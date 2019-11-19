@@ -2,22 +2,24 @@
 
 require_once 'config/DataBase.php';
 
-class Estilista{
+class Empleados {
+	
 	public $db;
+	
 	private $id;
 	private $id_sucursal;
 	private $nombre;
 	private $nit;
 	private $telefono;
 	private $direccion;
-	private $fecha_registro;
+	private $fechaIngreso;
 	
 	function getId() {
 		return $this->id;
 	}
 
 	function getId_sucursal() {
-		return $this->id_sucuarsal;
+		return $this->id_sucursal;
 	}
 
 	function getNombre() {
@@ -36,16 +38,16 @@ class Estilista{
 		return $this->direccion;
 	}
 
-	function getFecha_registro() {
-		return $this->fecha_registro;
+	function getFechaIngreso() {
+		return $this->fechaIngreso;
 	}
 
 	function setId($id) {
 		$this->id = $id;
 	}
 
-	function setId_sucursal($id_sucuarsal) {
-		$this->id_sucuarsal = $id_sucuarsal;
+	function setId_sucursal($id_sucursal) {
+		$this->id_sucursal = $id_sucursal;
 	}
 
 	function setNombre($nombre) {
@@ -64,25 +66,22 @@ class Estilista{
 		$this->direccion = $direccion;
 	}
 
-	function setFecha_registro($fecha_registro) {
-		$this->fecha_registro = $fecha_registro;
+	function setFechaIngreso($fechaIngreso) {
+		$this->fechaIngreso = $fechaIngreso;
 	}
 
-	public function __construct() {
+	
+			
+	function __construct() {
 		$this->db = Database::connect();
 	}
-	public function estilistas() {
-		$sql = "SELECT * FROM estilista WHERE id_sucursal = {$this->getId_sucursal()}";
-		$respt = $this->db->query($sql);
-		return $respt;
-	}
-	public function estilistasId() {
-		$sql = "SELECT * FROM estilista WHERE id = {$this->getId()}";
-		$respt = $this->db->query($sql);
-		return $respt;
+	public function MostraEmpleados() {
+		$sql = "SELECT e.* ,s.nombre AS nombresucursal FROM empleado e INNER JOIN sucursal s ON s.id = e.id_sucursal";
+		$resul = $this->db->query($sql);
+		return $resul;
 	}
 	public function Guardar() {
-		$sql = "INSERT INTO estilista VALUES (NULL,{$this->getId_sucursal()},'{$this->getNombre()}',{$this->getNit()},{$this->getTelefono()},'{$this->getDireccion()}','{$this->getFecha_registro()}')";
+		$sql = "INSERT INTO empleado VALUES (NULL,{$this->getId_sucursal()},'{$this->getNombre()}',{$this->getNit()},{$this->getTelefono()},'{$this->getDireccion()}','{$this->getFechaIngreso()}')";
 		$resul = $this->db->query($sql);
 		$respt=FALSE;
 		if($resul){
@@ -90,4 +89,5 @@ class Estilista{
 		}
 		return $respt;
 	}
+
 }

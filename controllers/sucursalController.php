@@ -11,7 +11,11 @@ class sucursalController{
 		require_once 'views/sucursal/listasucursal.php';
 		require_once 'views/layout/copy.php';
 	}	
-	
+	static public function listaSucursal() {
+		$sucursal = new Sucursal();
+		$listaSucursal = $sucursal->listaSucursal();
+		return $listaSucursal;
+	}
 	public function registrar() {		
 		require_once 'views/layout/menu.php';		
 		require_once 'views/sucursal/registrar.php';

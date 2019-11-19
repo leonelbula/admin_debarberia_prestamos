@@ -105,7 +105,7 @@ if (!isset($_SESSION['identity'])) {
         <li class="header">MAIN NAVIGATION</li>
         <li class="active treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            <i class="fa fa-dashboard"></i> <span>Tablero</span>
             
           </a>         
         </li>
@@ -190,15 +190,13 @@ if (!isset($_SESSION['identity'])) {
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-table"></i> <span>VENTAS</span>
+            <i class="fa fa-table"></i> <span>EMPLEADOS</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<?=URL_BASE?>ventas/"><i class="fa fa-circle-o"></i> LISTA DE VENTAS</a></li>
-			<li><a href="<?=URL_BASE?>ventas/ventassucursal"><i class="fa fa-circle-o"></i> VENTAS POR SUCURSAL</a></li>
-            <li><a href="<?=URL_BASE?>ventas/resportes"><i class="fa fa-circle-o"></i> REPORTES</a></li>
+            <li><a href="<?=URL_BASE?>empleados/"><i class="fa fa-circle-o"></i> LISTA DE EMPLEADO</a></li>	 
           </ul>
         </li>        
         <li class="treeview">

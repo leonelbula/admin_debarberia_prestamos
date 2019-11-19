@@ -31,7 +31,11 @@
 
 			<div class="box-body">
 				<div class="col-md-8">
-					<form class="formularioInsumo" action="<?= URL_BASE ?>productos/guardarinsumo" enctype="multipart/form-data" method="POST">
+					<form class="formularioInsumo" action="<?= URL_BASE ?>productos/actulizarinsumo" enctype="multipart/form-data" method="POST">
+						<?php while ($row = $detallesInsumo->fetch_object()) :
+							
+						 ?>
+						<input type="hidden" name="id" value="<?=$row->id?>" />
 						<div class="row">
 							<div class="col-xs-6">
 								<div class="form-group">
@@ -42,32 +46,32 @@
 											$estado = $row1->generar_codigo;
 										}
 										?>
-									<input type="text" class="form-control" name="codigo" id="codigo" <?=($estado == 1)?'disabled':''?>>
+									<input type="text" class="form-control" name="codigo" id="codigo" <?=($estado == 1)?'disabled':''?> value="<?= $row->codigo?>">
 								</div>	
 							</div>
 							<div class="col-xs-6">
 								<div class="form-group">
 									<label for="costo">Costo:</label>
-									<input type="number" class="form-control costo" name="costo" id="costo" required>
+									<input type="number" class="form-control costo" name="costo" id="costo" value="<?= $row->costo?>" required>
 								</div>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="nombre">Nombre:</label>
-							<input type="text" class="form-control" name="nombre" id="nombre" required>
+							<input type="text" class="form-control" name="nombre" id="nombre" value="<?= $row->nombre?>" required>
 						</div>
 							
 						<div class="row">
 							<div class="col-xs-6">
 								<div class="form-group">
 									<label for="fiestapatronal">Cantidad Inicial:</label>
-									<input type="number" class="form-control" name="cantidainicial" id="fiesta" required>
+									<input type="number" class="form-control" name="cantidainicial" value="<?= $row->cantidad?>"  required>
 								</div>
 							</div>	
 							<div class="col-xs-6">
 								<div class="form-group">
 									<label for="contidadMin">Stop Minimo:</label>
-									<input type="number" class="form-control" name="cantidamin" id="fiesta" required>
+									<input type="number" class="form-control" name="cantidamin" value="<?= $row->stock?>"  required>
 								</div>
 							</div>
 
@@ -77,7 +81,7 @@
 							<div class="col-xs-6">
 								<div class="form-group">
 									<label for="codigo_vendedor">Codigo del Vendeedor:</label>
-									<input type="text" class="form-control" name="codigo_vendedor" id="limites">
+									<input type="text" class="form-control" name="codigo_vendedor" value="<?= $row->codigo_vendedor?>">
 								</div>
 							</div>
 								<div class="col-xs-6">
@@ -91,7 +95,7 @@
 											while ($rowP = $proveedor->fetch_object()):							
 
 										?>
-									  <option value="<?=$rowP->id?>"><?=$rowP->nombre?></option>
+									  <option value="<?=$rowP->id?>"<?= $rowP->id == $row->id_vendedor ? 'selected':''?>><?=$rowP->nombre?></option>
 									  <?php endwhile; ?>                
               
                  
@@ -100,8 +104,8 @@
 							</div>
 
 						</div>					
-						
-						<button type="submit" class="btn btn-primary">Guardar</button>
+						<?php endwhile; ?>
+						<button type="submit" class="btn btn-primary">Editar</button>
 					</form>
 				</div>
 			</div>
