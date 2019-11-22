@@ -176,4 +176,368 @@ class empleadosController{
 			  	</script>';
 		}
 	}
+	
+	public function editarempleado() {
+		require_once 'views/layout/menu.php';
+		if(isset($_GET['id'])){
+			$id = $_GET['id'];
+			$empleado = new Empleados();
+			$empleado->setId($id);
+			$detallesEmpleado = $empleado->MostraEmpleadoId();
+		}else{
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡No a elegido un registro!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "index";
+
+							}
+						})
+
+			  	</script>';
+		}
+		require_once 'views/empleados/editarEmpleados.php';
+		require_once 'views/layout/copy.php';
+	}
+	
+	public function actulizarempleado() {
+		if(isset($_POST['id'])){
+			$id = $_POST['id'];
+			$id_sucursal = $_POST['idsucursal'];
+			$nombre = !empty($_POST['nombre']) ? $_POST['nombre']:FALSE;
+			$identificacion = !empty($_POST['identificacion']) ? $_POST['identificacion']:FALSE;
+			$telefono = !empty($_POST['telefono']) ? $_POST['telefono']:FALSE;
+			$direccion = !empty($_POST['direccion']) ? $_POST['direccion']:FALSE;
+			$fechaIngreso = !empty($_POST['fechaingreso']) ? $_POST['fechaingreso']:FALSE;
+			
+			if($id && $id_sucursal && $nombre){
+				$empleado = new Empleados();
+				$empleado->setId($id);
+				$empleado->setId_sucursal($id_sucursal);
+				$empleado->setNombre($nombre);
+				$empleado->setNit($identificacion);
+				$empleado->setTelefono($telefono);
+				$empleado->setDireccion($direccion);
+				$empleado->setFechaIngreso($fechaIngreso);
+				
+				$resp = $empleado->Actulizar();
+				
+				if($resp){
+					echo'<script>
+
+					swal({
+						  type: "success",
+						  title: "Registro modificado Correctamente",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "index";
+
+							}
+						})
+
+					</script>';
+				} else {
+					echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Registro no Modificado !",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "index";
+
+							}
+						})
+
+			  	</script>';
+				}
+			}
+			
+		}else{
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡En Registro!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "index";
+
+							}
+						})
+
+			  	</script>';
+		}
+	}
+	
+	public function eliminarempleado() {
+		if ($_GET['id']) {
+			$id = $_GET['id'];
+			$empleado = new Empleados();
+			$empleado->setId($id);
+			$resp = $empleado->Eliminar();
+
+			if ($resp) {
+				echo'<script>
+
+					swal({
+						  type: "success",
+						  title: "Registro Eliminado",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "indes";
+
+							}
+						})
+
+					</script>';
+			} else {
+				echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Registro no eliminado !",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "index";
+
+							}
+						})
+
+			  	</script>';
+			}
+		}
+	}
+	
+	public function verempleado() {
+		require_once 'views/layout/menu.php';
+		if(isset($_GET['id'])){
+			$id = $_GET['id'];
+			$empleado = new Empleados();
+			$empleado->setId($id);
+			$detallesEmpleado = $empleado->MostraEmpleadoId();
+		}else{
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡No a elegido un registro!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "index";
+
+							}
+						})
+
+			  	</script>';
+		}
+		require_once 'views/empleados/verEmpleados.php';
+		require_once 'views/layout/copy.php';
+	}
+	
+	public function editarestilista() {
+		require_once 'views/layout/menu.php';
+		if(isset($_GET['id'])){
+			$id = $_GET['id'];
+			$estlista = new Estilista();
+			$estlista->setId($id);
+			$detallesEtilista = $estlista->estilistasId();
+		}else{
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡No a elegido un registro!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "index";
+
+							}
+						})
+
+			  	</script>';
+		}
+		require_once 'views/empleados/editarEstilista.php';
+		require_once 'views/layout/copy.php';
+	}
+	
+	public function actulizarbarbero() {
+		if(isset($_POST['id'])){
+			$id = $_POST['id'];
+			$id_sucursal = $_POST['idsucursal'];
+			$nombre = !empty($_POST['nombre']) ? $_POST['nombre']:FALSE;
+			$identificacion = !empty($_POST['identificacion']) ? $_POST['identificacion']:FALSE;
+			$telefono = !empty($_POST['telefono']) ? $_POST['telefono']:FALSE;
+			$direccion = !empty($_POST['direccion']) ? $_POST['direccion']:FALSE;
+			$fechaIngreso = !empty($_POST['fechaingreso']) ? $_POST['fechaingreso']:FALSE;
+			
+			if($id && $id_sucursal && $nombre){
+				$empleado = new Estilista();
+				$empleado->setId($id);
+				$empleado->setId_sucursal($id_sucursal);
+				$empleado->setNombre($nombre);
+				$empleado->setNit($identificacion);
+				$empleado->setTelefono($telefono);
+				$empleado->setDireccion($direccion);
+				$empleado->setFecha_registro($fechaIngreso);
+				
+				$resp = $empleado->Actulizar();
+				
+				if($resp){
+					echo'<script>
+
+					swal({
+						  type: "success",
+						  title: "Registro modificado Correctamente",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "index";
+
+							}
+						})
+
+					</script>';
+				} else {
+					echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Registro no Modificado !",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "index";
+
+							}
+						})
+
+			  	</script>';
+				}
+			}
+			
+		}else{
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡En Registro!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "index";
+
+							}
+						})
+
+			  	</script>';
+		}
+	}
+	
+	public function eliminarbarbero() {
+		if ($_GET['id']) {
+			$id = $_GET['id'];
+			$empleado = new Estilista();
+			$empleado->setId($id);
+			$resp = $empleado->Eliminar();
+
+			if ($resp) {
+				echo'<script>
+
+					swal({
+						  type: "success",
+						  title: "Registro Eliminado",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "indes";
+
+							}
+						})
+
+					</script>';
+			} else {
+				echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Registro no eliminado !",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "index";
+
+							}
+						})
+
+			  	</script>';
+			}
+		}
+	}
+	
+	public function verbarbero() {
+		require_once 'views/layout/menu.php';
+		if(isset($_GET['id'])){
+			$id = $_GET['id'];
+			$empleado = new Estilista();
+			$empleado->setId($id);
+			$detallesBarbero = $empleado->estilistasId();
+		}else{
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡No a elegido un registro!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "index";
+
+							}
+						})
+
+			  	</script>';
+		}
+		require_once 'views/empleados/verBarbero.php';
+		require_once 'views/layout/copy.php';
+	}
 }

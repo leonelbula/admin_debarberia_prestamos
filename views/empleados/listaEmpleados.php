@@ -49,11 +49,10 @@
 							<tr>
 								<th style="width:10px">Codigo</th>
 								<th>fecha Ingreso</th>  			 
-								<th>Nombre</th>
-								<th>CC</th>
+								<th>Nombre</th>	
 								<th>telefono</th>
-								<th>telefono</th>
-								<th>telefono</th>
+								<th>Sucursal</th>
+								<th>Acciones</th>
 							</tr>
 
 						</thead>
@@ -73,11 +72,10 @@
 
 								<th style="width:10px">Codigo</th>
 								<th>fecha Ingreso</th>  			 
-								<th>Nombre</th>
-								<th>CC</th>
-								<th>telefono</th>
-								<th>telefono</th>
-								<th>telefono</th>
+								<th>Nombre</th>	
+								<th>telefono</th>	
+								<th>Sucursal</th>	
+								<th>Acciones</th>
 							</tr>
 
 						</thead>
@@ -92,7 +90,7 @@
 
 		</div>
 		<div class="box-footer">
-			Pedidos
+			Empleados
         </div>
 
 	</section>

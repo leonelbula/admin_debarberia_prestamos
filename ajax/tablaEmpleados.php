@@ -30,15 +30,15 @@ class AjaxEmpleados {
 		
 		//$url = URL_BASE.'prestamos';
 
-  		$botones = "<div class='btn-group'><a href='editarcliente&id=$row->id'><button class='btn btn-warning'><i class='fa fa-pencil'></i></button></a><a><button class='btn btn-danger btnEliminarEmpleado' idempleado=$row->id><i class='fa fa-times'></i></button></a></div>";
+  		$botones = "<div class='btn-group'><a href='editarempleado&id=$row->id'><button class='btn btn-warning'><i class='fa fa-pencil'></i></button></a><a><button class='btn btn-danger btnEliminarEmpleado' idempleado=$row->id><i class='fa fa-times'></i></button></a></div>";
   		
+		$redir = "href='verempleado&id=".$row->id."'";
 		  		 
 		  	$datosJson .='[
-			      "'.$row->id.'",			      
-			      "'.$row->nombre.'",
-			      "'.$row->nit.'",
-				  "'.$row->direccion.'",
-				  "'.$row->fecha_ingreso.'",				 
+			      "'.$row->id.'",
+				  "'.$row->fecha_ingreso.'",					  
+			      "<a '.$redir.'>'.$row->nombre.'</a>",			     
+				  "'.$row->telefono.'",				 				 
 				  "'.$row->nombresucursal.'",					 		  
 			      "'.$botones.'"
 			    ],';

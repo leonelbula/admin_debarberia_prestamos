@@ -25,6 +25,9 @@
 <script src="<?= URL_BASE ?>assets/js/insumos.js"></script>
 <script src="<?= URL_BASE ?>assets/js/empleados.js"></script>
 <script src="<?= URL_BASE ?>assets/js/barbero.js"></script>
+<script src="<?= URL_BASE ?>assets/js/funcionesCompras.js"></script>
+<script src="<?= URL_BASE ?>assets/js/proveedorCompra.js"></script>
+<script src="<?= URL_BASE ?>assets/js/tablaCompras.js"></script>
   
 </body>
 </html>

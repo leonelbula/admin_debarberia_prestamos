@@ -175,12 +175,12 @@ class Producto {
 		return $resul;
 	}
 	public function VercantidadProducto() {
-		$sql = "SELECT can_inicial FROM producto WHERE id = {$this->getId_producto()}";
+		$sql = "SELECT cantidad FROM producto WHERE id = {$this->getId()}";
 		$resp = $this->db->query($sql);		
 		return $resp;
 	}
 	public function ActulizarStock() {
-		$sql = "UPDATE product SET cantidad={$this->getCantidad_Inicial()}  WHERE id = {$this->getId_producto()}";
+		$sql = "UPDATE product SET cantidad={$this->getCantidad()}  WHERE id = {$this->getId()}";
 		$resp = $this->db->query($sql);
 		$resul = FALSE;
 		if($resp){

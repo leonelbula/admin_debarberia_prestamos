@@ -30,15 +30,15 @@ class AjaxEstilista {
 		
 		//$url = URL_BASE.'prestamos';
 
-  		$botones = "<div class='btn-group'><a href='editarcliente&id=$row->id'><button class='btn btn-warning'><i class='fa fa-pencil'></i></button></a><a><button class='btn btn-danger btnEliminarBarbero' idbarbero=$row->id><i class='fa fa-times'></i></button></a></div>";
+  		$botones = "<div class='btn-group'><a href='editarestilista&id=$row->id'><button class='btn btn-warning'><i class='fa fa-pencil'></i></button></a><a><button class='btn btn-danger btnEliminarBarbero' idbarbero=$row->id><i class='fa fa-times'></i></button></a></div>";
   		
+		$redir = "href='verbarbero&id=".$row->id."'";
 		  		 
 		  	$datosJson .='[
-			      "'.$row->id.'",			      
-			      "'.$row->nombre.'",
-			      "'.$row->nit.'",
-				  "'.$row->direccion.'",
-				  "'.$row->fecha_ingreso.'",				 
+			      "'.$row->id.'",
+				  "'.$row->fecha_registro.'",					  
+			      "<a '.$redir.'>'.$row->nombre.'</a>",			      
+				  "'.$row->telefono.'",				  				 
 				  "'.$row->nombresucursal.'",					 		  
 			      "'.$botones.'"
 			    ],';

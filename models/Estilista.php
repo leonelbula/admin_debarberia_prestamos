@@ -90,4 +90,23 @@ class Estilista{
 		}
 		return $respt;
 	}
+	public function Actulizar() {
+		$sql = "UPDATE estilista SET id_sucursal={$this->getId_sucursal()},nombre='{$this->getNombre()}',nit={$this->getNit()},"
+		. "telefono='{$this->getTelefono()}',direccion='{$this->getDireccion()}',fecha_registro='{$this->getFecha_registro()}' WHERE id = {$this->getId()}";
+		$resul = $this->db->query($sql);
+		$respt=FALSE;
+		if($resul){
+			$respt=TRUE;
+		}
+		return $respt;
+	}
+	public function Eliminar() {
+		$sql = "DELETE FROM estilista WHERE id = {$this->getId()}";
+		$resul = $this->db->query($sql);
+		$respt=FALSE;
+		if($resul){
+			$respt=TRUE;
+		}
+		return $respt;
+	}
 }

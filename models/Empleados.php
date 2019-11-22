@@ -80,8 +80,32 @@ class Empleados {
 		$resul = $this->db->query($sql);
 		return $resul;
 	}
+	public function MostraEmpleadoId() {
+		$sql = "SELECT * FROM empleado WHERE id = {$this->getId()}";
+		$resul = $this->db->query($sql);
+		return $resul;
+	}
 	public function Guardar() {
 		$sql = "INSERT INTO empleado VALUES (NULL,{$this->getId_sucursal()},'{$this->getNombre()}',{$this->getNit()},{$this->getTelefono()},'{$this->getDireccion()}','{$this->getFechaIngreso()}')";
+		$resul = $this->db->query($sql);
+		$respt=FALSE;
+		if($resul){
+			$respt=TRUE;
+		}
+		return $respt;
+	}
+	public function Actulizar() {
+		$sql = "UPDATE empleado SET id_sucursal={$this->getId_sucursal()},nombre='{$this->getNombre()}',nit={$this->getNit()},"
+		. "telefono='{$this->getTelefono()}',direccion='{$this->getDireccion()}',fecha_ingreso='{$this->getFechaIngreso()}' WHERE id = {$this->getId()}";
+		$resul = $this->db->query($sql);
+		$respt=FALSE;
+		if($resul){
+			$respt=TRUE;
+		}
+		return $respt;
+	}
+	public function Eliminar() {
+		$sql = "DELETE FROM empleado WHERE id = {$this->getId()}";
 		$resul = $this->db->query($sql);
 		$respt=FALSE;
 		if($resul){

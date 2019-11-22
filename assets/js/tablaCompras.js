@@ -1,14 +1,15 @@
+
 // $.ajax({
 //
-// 	url: "../ajax/tablaEstilista.php",
+// 	url: "../ajax/tablaCompra.php",
 // 	success:function(respuesta){
-//				console.log("respuesta", respuesta);
+//			console.log("respuesta", respuesta);
 //	}
 //
-// })
-// 
- $('.tablabarbero').DataTable( {
-    "ajax": "../ajax/tablaEstilista.php",
+//})
+ 
+$('.tablasCompra').DataTable( {
+    "ajax": "../ajax/tablaCompra.php",
     "deferRender": true,
 	"retrieve": true,
 	"processing": true,
@@ -41,30 +42,37 @@
 
 } );
 
-/*=============================================
-BORRAR PRODUCTO
-=============================================*/
-var rutaOculta = $("#rutaOculta").val();
+$(".tablasCompra").on("click", ".btnEliminarCompra", function(){
 
-$(".tablabarbero").on("click", ".btnEliminarBarbero", function(){
-
-  var idbarbero= $(this).attr("idbarbero");
+  var idCompra = $(this).attr("idcompra");
 
   swal({
-        title: '¿Está seguro de borrar este empleado?',
+        title: '¿Está seguro de borrar la compra?',
         text: "¡Si no lo está puede cancelar la accíón!",
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Si, borrar !'
+        confirmButtonText: 'Si, borrar Compra!'
       }).then(function(result){
         if (result.value) {
           
-            window.location = rutaOculta+"empleados/eliminarbarbero&id="+idbarbero;
+            window.location = "eliminarCompra&id="+idCompra;
         }
 
   })
+
+})
+
+/*=============================================
+IMPRIMIR FACTURA
+=============================================*/
+
+$(".tablasCompra").on("click", ".btnImprimirFacturaCompra", function(){
+
+	var codigoCompra = $(this).attr("numCompra");
+
+	window.open("../extensiones/tcpdf/pdf/facturacompra.php?codigo="+codigoCompra, " _blank");
 
 })

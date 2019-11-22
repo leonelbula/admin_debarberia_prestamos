@@ -183,9 +183,9 @@ if (!isset($_SESSION['identity'])) {
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="pages/forms/general.html"><i class="fa fa-circle-o"></i> General Elements</a></li>
-            <li><a href="pages/forms/advanced.html"><i class="fa fa-circle-o"></i> Advanced Elements</a></li>
-            <li><a href="pages/forms/editors.html"><i class="fa fa-circle-o"></i> Editors</a></li>
+			<li><a href="<?=URL_BASE?>compras/"><i class="fa fa-circle-o"></i> LISTA DE COMPRAS</a></li>
+            <li><a href="<?=URL_BASE?>compras/"><i class="fa fa-circle-o"></i> TRASLADOS SUCURSAL</a></li>
+            <li><a href="<?=URL_BASE?>compras/"><i class="fa fa-circle-o"></i> REPORTES</a></li>
           </ul>
         </li>
         <li class="treeview">

@@ -16,6 +16,12 @@ class sucursalController{
 		$listaSucursal = $sucursal->listaSucursal();
 		return $listaSucursal;
 	}
+	static public function SucursalId($id) {
+		$sucursal = new Sucursal();
+		$sucursal->setId($id);
+		$listaSucursal = $sucursal->motrarInformacion();
+		return $listaSucursal;
+	}
 	public function registrar() {		
 		require_once 'views/layout/menu.php';		
 		require_once 'views/sucursal/registrar.php';
