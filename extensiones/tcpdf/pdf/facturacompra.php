@@ -16,7 +16,7 @@ $resul = $this->db->query($sql);
 return $resul;
 }
 public function VerCompraCodigo($codigo) {
-$sql = "SELECT * FROM compra WHERE numero_factura = $codigo";
+$sql = "SELECT * FROM compra WHERE num_factura = $codigo";
 $resul = $this->db->query($sql);
 return $resul;
 }
@@ -55,12 +55,11 @@ $telEmpresa = $valueE['telefono'];
 while ($row = $detalles-> fetch_object()) {
 $id_proveedor = $row->id_proveedor;
 $tipoventa = $row->tipo;
-$plazo = $row->plazo;
-$fecha = $row->fecha;
+$fecha = $row->fecha_compra;
 $fechavencimiento = $row->fecha_vencimiento;
-$productos = json_decode($row->detalle_compra, true);
-$subtotal = number_format($row->sub_total);
-$impuesto = number_format($row->iva);
+$productos = json_decode($row->detalles, true);
+//$subtotal = number_format($row->sub_total);
+//$impuesto = number_format($row->iva);
 $total = number_format($row->total);
 }
 
@@ -71,7 +70,6 @@ $nitC = $row1->nit;
 $direccionC = $row1->direccion;
 $departamentoC = $row1->departamento;
 $ciudadC = $row1->ciudad;
-$emailC = $row1->email;
 $telC = $row1->telefono;
 }
 
@@ -150,7 +148,7 @@ $bloque2 = <<<EOF
 		
 			<td style="border: 1px solid #666; background-color:white; width:390px">
 
-				<strong>Cliente:</strong> $nombreC
+				<strong>Proveedor:</strong> $nombreC
 				<br>
 				<strong>CC o NIT:</strong> $nitC
 				<br>
@@ -194,10 +192,9 @@ $bloque3 = <<<EOF
 		<th style="border: 1px solid #666; background-color:white; width:55px; text-align:center; font-weight: bold">Cod.</th>
 		<th style="border: 1px solid #666; background-color:white; width:215px; text-align:center; font-weight: bold">Producto detalle</th>
 		<th style="border: 1px solid #666; background-color:white; width:45px; text-align:center; font-weight: bold">Cant.</th>		
-		<th style="border: 1px solid #666; background-color:white; width:60px; text-align:center; font-weight: bold">Precio</th>							
-		<th style="border: 1px solid #666; background-color:white; width:45px; text-align:center; font-weight: bold">Desc</th>
-		<th style="border: 1px solid #666; background-color:white; width:40px; text-align:center; font-weight: bold">Iva</th>
-		<th style="border: 1px solid #666; background-color:white; width:80px; text-align:center; font-weight: bold">Valor Total</th>		
+		<th style="border: 1px solid #666; background-color:white; width:80px; text-align:center; font-weight: bold">Precio</th>							
+		<th style="border: 1px solid #666; background-color:white; width:45px; text-align:center; font-weight: bold">Desc</th>	
+		<th style="border: 1px solid #666; background-color:white; width:100px; text-align:center; font-weight: bold">Valor Total</th>		
 
 		</tr>
 
@@ -226,19 +223,16 @@ $bloque4 = <<<EOF
 			$item[cantidad]
 			</td>
 		
-			<td style="border: 1px solid #9B9B9B; color:#333; background-color:white; width:60px; text-align:center">
+			<td style="border: 1px solid #9B9B9B; color:#333; background-color:white; width:80px; text-align:center">
 			$precio
 			</td>
 		
 			<td style="border: 1px solid #9B9B9B; color:#333; background-color:white; width:45px; text-align:center">
 			$item[descuento]
-			</td>
-		
-			<td style="border: 1px solid #9B9B9B; color:#333; background-color:white; width:40px; text-align:center">
-			$item[impuesto]	
-			</td>
+			</td>	
+			
 
-			<td style="border: 1px solid #9B9B9B; color:#333; background-color:white; width:80px; text-align:center"> 
+			<td style="border: 1px solid #9B9B9B; color:#333; background-color:white; width:100px; text-align:center"> 
 				$subtotalP
 			</td>
 
@@ -268,35 +262,9 @@ $bloque5 = <<<EOF
 
 		</tr>
 		
-		<tr>
 		
-			<td style="border-right: 1px solid #666; color:#333; background-color:white; width:340px; text-align:left">
-				CODIGO CURE
-			</td>
 
-			<td style="border: 1px solid #666;  background-color:white; width:100px; text-align:right; font-weight: bold">
-				SubTotal:
-			</td>
-
-			<td style="border: 1px solid #666; color:#333; background-color:white; width:100px; text-align:right">
-				 $subtotal
-			</td>
-
-		</tr>
-
-		<tr>
-
-			<td style="border-right: 1px solid #666; color:#333; background-color:white; width:340px; text-align:right"></td>
-
-			<td style="border: 1px solid #666; background-color:white; width:100px; text-align:right; font-weight: bold">
-				Impuesto:
-			</td>
 		
-			<td style="border: 1px solid #666; color:#333; background-color:white; width:100px; text-align:right">
-				 $impuesto
-			</td>
-
-		</tr>
 
 		<tr>
 		
@@ -332,7 +300,7 @@ $bloque6 = <<<EOF
 		</tr>
 		<tr>
 		<td style="border: 1px solid #666; background-color:white; width:540px; text-align:center; font-weight: bold">
-			Resolucion DIAN
+			
 		</td>			
 
 		</tr>

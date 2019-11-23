@@ -180,7 +180,7 @@ class Producto {
 		return $resp;
 	}
 	public function ActulizarStock() {
-		$sql = "UPDATE product SET cantidad={$this->getCantidad()}  WHERE id = {$this->getId()}";
+		$sql = "UPDATE producto SET cantidad={$this->getCantidad()}  WHERE id = {$this->getId()}";
 		$resp = $this->db->query($sql);
 		$resul = FALSE;
 		if($resp){
@@ -194,12 +194,12 @@ class Producto {
 		return $resp;
 	}
 	public function ValorInventario() {
-		$sql = "SELECT SUM(costo*can_inicial) as resultado FROM product";
+		$sql = "SELECT SUM(costo*cantidad) as resultado FROM producto";
 		$resp = $this->db->query($sql);		
 		return $resp;
 	}
 	public function stock() {		
-		$sql = "SELECT COUNT(id) AS total  FROM product WHERE cantidad_min >= can_inicial";
+		$sql = "SELECT COUNT(id) AS total  FROM producto WHERE cantidad_min >= can_inicial";
 		$resp = $this->db->query($sql);		
 		return $resp;
 	}

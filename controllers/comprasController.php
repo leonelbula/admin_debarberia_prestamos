@@ -56,7 +56,7 @@ class comprasController {
 				$productoCompra->setNum_factura($codigo);
 				$productoCompra->setFecha($fechacompra);
 				
-				//$productoCompra->CompraProductoRealizada();
+				$productoCompra->CompraProductoRealizada();
 								
 							
 			}
@@ -105,7 +105,7 @@ class comprasController {
 			$compra->setFecha($fechaActualFact);
 			
 			$compra->setTipo($tipo);
-			$compra->setId_plazo($id_plazo);			
+			$compra->setPlazo($dias);			
 			$compra->setFecha_vencimiento($fecha_vencimiento);
 			$compra->setId_proveedor($id_proveedor);
 			$compra->setDetalle_compra($detalle_compra);
@@ -176,7 +176,300 @@ class comprasController {
 		</script>';
 		}
 	}
-	public function eliminarCompra() {
+	
+	public function editarcompra() {
+		require_once 'views/layout/menu.php';
+		if ($_GET['id']) {
+			
+			$id = $_GET['id'];
+			$compra = new Compra();
+			$compra->setId($id);
+			$detallesCompra = $compra->MostrarComprasId();
+			require_once 'views/compras/editarCompra.php';
+		} else {
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Debe selecionar un registro!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "index";
+
+							}
+						})
+
+			  	</script>';
+		}
+	
+		require_once 'views/layout/copy.php';
+	}
+	
+	public function actulizarcompra() {
 		
+		if($_POST['idCompra']){
+			//var_dump($_POST);
+			
+			
+			$id_compra = $_POST['idCompra'];
+			//ver la venta anterios
+			$compAnt = new Compra();
+			$compAnt->setId($id_compra);
+			$compAn = $compAnt->VerCompra();
+			
+			while ($row =$compAn->fetch_object()) {
+				$listProductos = $row->detalles;
+				$num_factura = $row->num_factura;
+				$id_proveedor = $row->id_proveedor;
+			}
+			//eliminar los productos de la venta a modificar
+			$compraProd = new CompraProduto();
+			$compraProd->setNum_factura($num_factura);
+			$compraProd->EliminarC();
+			
+								
+			$listaProductos = json_decode($listProductos, true);
+			//actulizamos los productos modidicados
+			foreach ($listaProductos as $key => $value) {
+				
+				$producto = new Producto();
+				$id_producto = $value["id"];
+				
+				$producto->setId($id_producto);
+				$respuest = $producto->VercantidadProducto();
+				
+				while ($row = $respuest-> fetch_object()) {
+					$cantidad = $row->cantidad;
+				}				
+				$nuevCantidad = $cantidad - $value['cantidad'];
+				
+				$producto->setCantidad($nuevCantidad);				
+				$producto->ActulizarStock();				
+				
+			}
+			//fin de actulizar productos
+			if($_POST["listaProductos"] == ''){
+				$detalle_compra = $listProductos;
+			}else{
+				$detalle_compra = $_POST["listaProductos"];
+			}
+			$listaProductos = json_decode($detalle_compra, true);
+			//modificando las cantidades de los productos		
+			$UtilidadP = 0;
+			foreach ($listaProductos as $key => $value) {
+			  
+				$costo = $value['precio'];				
+				$cantidadC = $value['cantidad'];
+				$subTotal = $value['subtotal'];				
+				$fechaventa = date('y-m-d');
+				
+				$producto = new Producto();
+				$id_producto = $value["id"];
+				
+				$producto->setId($id_producto);
+				$respuest = $producto->VercantidadProducto();
+				while ($row = $respuest-> fetch_object()) {
+					$cantidad = $row->cantidad;
+				}
+				
+				$nuevCantidad = $cantidad + $cantidadC;
+				
+				$producto->setCantidad($nuevCantidad);
+				$producto->ActulizarStock();
+				
+				$productoCompra = new CompraProduto();
+				$productoCompra->setId_producto($id_producto);
+				$productoCompra->setCantidad($cantidadC);
+				$productoCompra->setNum_factura($num_factura);
+				$productoCompra->setFecha($fechaventa);
+				
+				$productoCompra->CompraProductoRealizada();
+								
+							
+			}
+			
+			
+			$subTotalCompra = (int)0;
+			$impuesto = (int)0;			
+			$valorCompra = (int)$_POST['totalCompra'];		
+			
+			
+			$tipo = (int)$_POST['tipoventa'];
+			
+			if($tipo == 1){
+//				$id_plazo = (int)$_POST['plazos'];
+//				
+//				$plazoinf = new Plazo();
+//				$plazoinf->setId($id_plazo);
+//				$detallesPlazo = $plazoinf->MostrarPlazoId();
+//				
+//				while ($row3 = $detallesPlazo->fetch_object()) {
+//					$dias = $row3->num_dias;
+//				}
+				$dias = (int)$_POST['dias'];
+				
+				$fecha = date('Y-m-d');
+				$fechaActual = strtotime('+'.$dias.' day', strtotime($fecha));
+				$fecha_vencimiento = date('Y-m-d', $fechaActual);
+				
+								
+				$saldo = $valorCompra;
+				
+			} else {
+				$fecha = date('Y-m-d');
+				$fecha_vencimiento = date('Y-m-d');					
+				$id_plazo = 0;
+				$saldo = 0;
+			}
+			
+			date_default_timezone_set('America/Bogota');
+			$fechaActualFact = date('Y-m-d');
+			$horaFactura = date('H:i:s');
+			
+			$compra= new Compra();
+			$compra->setId($id_compra);	
+			$compra->setId_proveedor($id_proveedor);
+			$compra->setCodigo($num_factura);
+			$compra->setFecha($fechaActualFact);			
+			$compra->setTipo($tipo);
+			$compra->setPlazo($dias);			
+			$compra->setFecha_vencimiento($fecha_vencimiento);			
+			$compra->setDetalle_compra($detalle_compra);			
+			$compra->setSub_total($subTotalCompra);
+			$compra->setIva($impuesto);
+			$compra->setTotal($valorCompra);
+			$compra->setSaldo($saldo);
+			
+			$resp = $compra->Actulizar();
+			
+			if($resp){
+				echo'<script>
+
+					swal({
+						  type: "success",
+						  title: "Compra Actulizada Correctamente",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "compras";
+
+							}
+						})
+
+					</script>';
+			}else{
+				echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Registro no Guardado !",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "compras";
+
+							}
+						})
+
+			  	</script>';
+			}
+			
+		}
+	}
+	
+	public function eliminarCompra() {
+		if(isset($_GET['id'])){
+			
+			$id_compra = $_GET['id'];
+			//ver la venta anterios
+			$compraAnt = new Compra();
+			$compraAnt->setId($id_compra);
+			$compraAn = $compraAnt->VerCompra();
+			
+			while ($row =$compraAn->fetch_object()) {
+				$listProductos = $row->detalles;
+				$num_factura = $row->num_factura;
+			}
+			//eliminar los productos de la venta a modificar
+			$compraProd = new CompraProduto();
+			$compraProd->setNum_factura($num_factura);
+			$compraProd->EliminarC();
+			
+					
+			$listaProductos = json_decode($listProductos, true);
+			
+			foreach ($listaProductos as $key => $value) {
+				
+				$producto = new Producto();
+				$id_producto = $value["id"];
+				
+				$producto->setId($id_producto);
+				$respuest = $producto->VercantidadProducto();
+				
+				while ($row = $respuest-> fetch_object()) {
+					$cantidad = (int)$row->cantidad;
+				}				
+				$nuevCantidad = $cantidad - (int)$value['cantidad'];
+				
+				$producto->setCantidad($nuevCantidad);	
+				
+				$producto->ActulizarStock();				
+				
+			}
+			
+			
+			$compra = new Compra();
+			$compra->setId($id_compra);
+			$resp = $compra->EliminarCompra();
+			
+			if($resp){
+				echo'<script>
+
+					swal({
+						  type: "success",
+						  title: "Compras Eliminada Correctamente",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "compras";
+
+							}
+						})
+
+					</script>';
+			}else{
+				echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Registro no Eliminado !",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "compras";
+
+							}
+						})
+
+			  	</script>';
+			}
+		}
+	}
+	
+	public function trasladomercancia() {
+		require_once 'views/layout/menu.php';
+		require_once 'views/compras/trasladoCompra.php';
+		require_once 'views/layout/copy.php';
 	}
 }

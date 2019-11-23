@@ -196,8 +196,8 @@ class productosController {
 	}
 
 	static public function VerProdutoId($id) {
-		$producto = new Inventario();
-		$producto->setId_producto($id);
+		$producto = new Producto();
+		$producto->setId($id);
 		$resp = $producto->MostrarProductosId();
 		return$resp;
 	}
