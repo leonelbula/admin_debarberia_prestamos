@@ -3,12 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp64/www/barberia/views/compras/listaCompras.php</file>
-            <file>file:/C:/wamp64/www/barberia/assets/js/tablaCompras.js</file>
+            <file>file:/C:/wamp64/www/barberia/views/compras/nuevotraslado.php</file>
+            <file>file:/C:/wamp64/www/barberia/assets/js/traslados.js</file>
             <file>file:/C:/wamp64/www/barberia/controllers/comprasController.php</file>
-            <file>file:/C:/wamp64/www/barberia/ajax/tablaCompra.php</file>
+            <file>file:/C:/wamp64/www/barberia/ajax/productosCompra.php</file>
             <file>file:/C:/wamp64/www/barberia/views/layout/footer.php</file>
-            <file>file:/C:/wamp64/www/barberia/views/layout/menu.php</file>
+            <file>file:/C:/wamp64/www/barberia/assets/js/funcionesCompras.js</file>
         </group>
     </open-files>
 </project-private>

@@ -1,8 +1,10 @@
 <?php
 
 require_once 'models/Productos.php';
+require_once 'models/ProductosSucursal.php';
 require_once 'models/CompraProducto.php';
 require_once 'models/Compra.php';
+require_once 'models/Traslado.php';
 
 
 class comprasController {
@@ -471,5 +473,139 @@ class comprasController {
 		require_once 'views/layout/menu.php';
 		require_once 'views/compras/trasladoCompra.php';
 		require_once 'views/layout/copy.php';
+	}
+	
+	public function nuevotraslado() {
+		require_once 'views/layout/menu.php';
+		require_once 'views/compras/nuevotraslado.php';
+		require_once 'views/layout/copy.php';
+	}
+	
+	public function guardartraslado() {
+		if(isset($_POST['idSucursal']) && !empty($_POST['idSucursal'])){
+			$id_sucursal = $_POST['idSucursal'];
+			$listaProducto = $_POST['listaProductos'];
+			$totalTraslado = $_POST['totalTraslado'];
+			if($id_sucursal){
+				
+				$listaProductos = json_decode($_POST["listaProductos"], true);
+				
+				foreach ($listaProductos as $key => $value) {
+
+			   //array_push($totalProductosComprados, $value["cantidad"]);
+				$costo = $value['precio'];				
+				$cantidadT = $value['cantidad'];
+				$id_producto = $value["id"];
+				
+				$productoSucursal = new ProductoSucursal();
+				$productoSucursal->setId_producto($id_producto);
+				$detallesProducto = $productoSucursal->VercantidadProductoSucursal();
+				
+				while ($row1 = $detallesProducto ->fetch_object()) {
+					$prodCantidad = $row1->cantidad;
+				}
+				
+				$nuevCantSucursal = $prodCantidad + $cantidadT;
+				
+				$productoSucursal->setCantidad($nuevCantSucursal);
+				$productoSucursal->ActulizarStockSucursal();
+							
+				$producto = new Producto();
+								
+				$producto->setId($id_producto);
+				$respuest = $producto->VercantidadProducto();
+				while ($row = $respuest-> fetch_object()) {
+					$cantidad = $row->cantidad;
+				}
+				
+				$nuevCantidad = $cantidad - $cantidadT;
+				
+				$producto->setCantidad($nuevCantidad);
+				$producto->ActulizarStock();
+							
+							
+			}
+			
+			$traslado = new Traslado();
+			
+			
+			$fecha = date('Y-m-d');
+			
+			
+			$ultimoTraslado = $traslado->VerUltimaTraslado();
+		
+			while ($row2 = $ultimoTraslado->fetch_object()) {
+				$num_registroAnt = $row2->num_registro;
+			}
+			
+			if($num_registroAnt != 0){
+				$num_registro = $num_registroAnt + 1;
+			}else{
+				$num_registro = 10000;
+			}
+			
+			$traslado->setId_sucursal($id_sucursal);
+			$traslado->setNum_registro($num_registro);
+			$traslado->setFecha($fecha);
+			$traslado->setDetalle($listaProducto);
+			$traslado->setTotal($totalTraslado);
+			
+			$resp = $traslado->Guardar();
+			
+			if($resp){
+				echo'<script>
+
+					swal({
+						  type: "success",
+						  title: "Registro Guardada Correctamente",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "trasladomercancia";
+
+							}
+						})
+
+					</script>';
+			} else {
+				echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Registro no Guardado !",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "trasladomercancia";
+
+							}
+						})
+
+			  	</script>';
+			}
+				
+			}else{
+				echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡No se puede guardar se produjo un Error!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "trasladomercancia";
+
+							}
+						})
+
+		</script>';
+			}
+		}
 	}
 }

@@ -4,6 +4,8 @@ require_once 'models/Categoria.php';
 require_once 'models/Productos.php';
 require_once 'models/Insumos.php';
 require_once 'models/Parametros.php';
+require_once 'models/ProductosSucursal.php';
+require_once 'models/Sucursal.php';
 
 class productosController {
 
@@ -251,8 +253,8 @@ class productosController {
 				$utilidad = $costo * $pocentaje_utilidad / 100;
 
 				$precio_venta = ($costo + ($costo * $pocentaje_utilidad / 100));
-
-
+				
+				
 				$producto = new Producto();
 				$producto->setCodigo($codigoprod);
 				$producto->setCosto($costo);
@@ -265,10 +267,24 @@ class productosController {
 				$producto->setStock_minimo($cantidad_minima);
 				$producto->setCodigo_vendedor($codigo_vendedor);
 				$producto->setId_proveedor($id_proveedor);
-
-
+				
 				$resp = $producto->Guardar();
-
+				
+				$sucursal = new Sucursal();
+				$detallesSucursal = $sucursal->listaSucursal();
+				
+				while ($row2 = $detallesSucursal->fetch_object()) {
+					
+					$ProductoSucursal = new ProductoSucursal();
+					$ProductoSucursal->setId_producto($resp);
+					$ProductoSucursal->setId_sucursal($row2->id);
+					$ProductoSucursal->setCantidad(0);					
+					$ProductoSucursal->setStock_minimo($cantidad_minima);
+					$ProductoSucursal->Guardar();
+				}
+				
+				
+				
 				if ($resp) {
 					echo'<script>
 

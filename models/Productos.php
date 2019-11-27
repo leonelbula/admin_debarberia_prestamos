@@ -147,10 +147,11 @@ class Producto {
 		. "{$this->getStock_minimo()},'{$this->getCodigo_vendedor()}',{$this->getId_proveedor()}"
 		. ")";
 		$resp = $this->db->query($sql);
-		$resul = FALSE;
-		if($resp){
-			$resul = TRUE;
-		}
+		$link = $this->db;
+		$resul = mysqli_insert_id($link);
+//		if($resp){
+//			$resul = TRUE;
+//		}
 		return $resul;
 	}
 	public function Actulizar() {
