@@ -321,7 +321,7 @@ function listarProductosTraslado(){
 	var descripcion = $(".nombreProduc");
 	var cantidad = $(".CantidadProd");
 	var precio = $(".costoProducto");	
-	var subTotal = $(".nuevototalC");
+	var subTotal = $(".nuevototalT");
 	
 	for(var i = 0; i < descripcion.length; i++){
 

@@ -29,6 +29,7 @@
 <script src="<?= URL_BASE ?>assets/js/proveedorCompra.js"></script>
 <script src="<?= URL_BASE ?>assets/js/tablaCompras.js"></script>
 <script src="<?= URL_BASE ?>assets/js/traslados.js"></script>
-  
+<script src="<?= URL_BASE ?>assets/js/tablaTraslado.js"></script>
+
 </body>
 </html>

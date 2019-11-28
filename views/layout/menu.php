@@ -185,7 +185,7 @@ if (!isset($_SESSION['identity'])) {
           <ul class="treeview-menu">
 			<li><a href="<?=URL_BASE?>compras/"><i class="fa fa-circle-o"></i> LISTA DE COMPRAS</a></li>
             <li><a href="<?=URL_BASE?>compras/trasladomercancia"><i class="fa fa-circle-o"></i> TRASLADOS SUCURSAL</a></li>
-            <li><a href="<?=URL_BASE?>compras/"><i class="fa fa-circle-o"></i> REPORTES</a></li>
+            <li><a href="<?=URL_BASE?>compras/reportescompra"><i class="fa fa-circle-o"></i> REPORTES</a></li>
           </ul>
         </li>
         <li class="treeview">
