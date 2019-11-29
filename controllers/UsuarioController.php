@@ -157,8 +157,9 @@ class UsuarioController {
 							$id_sucursal = $detalles->id_sucursal;
 							$sucuarsal = new Sucursal();
 							$sucuarsal->setId($id_sucursal);
-							$infSucursal = $sucuarsal->motrarInformacion();
+							$infSucursal = $sucuarsal->motrarUbicacionUsuario();
 							$_SESSION['sucursal'] = $infSucursal;
+							
 							
 							echo'<script>
 

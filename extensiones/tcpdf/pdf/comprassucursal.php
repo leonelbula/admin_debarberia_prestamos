@@ -20,7 +20,7 @@ public function ReportesCompras($fechaInicial,$fechaFinal) {
 
 		
 if($fechaInicial == $fechaFinal){
-$sql = "SELECT v.nombre,v.nit, c.*, SUM(c.total) AS compra FROM compra c INNER JOIN proveedor v ON c.id_proveedor=v.id AND fecha_compra  LIKE '%$fechaFinal%' GROUP BY  c.id_proveedor";
+$sql = "SELECT s.nombre, t.*, SUM(t.total) AS total FROM traslado_mercancia t INNER JOIN sucursal s ON t.id_sucursal=s.id AND fecha  LIKE '%$fechaFinal%' GROUP BY  t.id_sucursal";
 			
 } else {
 			
@@ -34,9 +34,9 @@ $fechaFinalMasUno = $fechaFinal2->format("Y-m-d");
 
 if ($fechaFinalMasUno == $fechaActualMasUno) {
 
-$sql = "SELECT v.nombre,v.nit, c.*, SUM(c.total) AS compra FROM compra c INNER JOIN proveedor v ON c.id_proveedor=v.id AND fecha_compra BETWEEN  '$fechaInicial' AND '$fechaFinalMasUno' GROUP BY  c.id_proveedor";
+$sql = "SELECT s.nombre, t.*, SUM(t.total) AS total FROM traslado_mercancia t INNER JOIN sucursal s ON t.id_sucursal=s.id AND fecha BETWEEN  '$fechaInicial' AND '$fechaFinalMasUno' GROUP BY  t.id_sucursal";
 } else {
-$sql = "SELECT v.nombre,v.nit, c.*, SUM(c.total) AS compra FROM compra c INNER JOIN proveedor v ON c.id_proveedor=v.id AND fecha_compra BETWEEN  '$fechaInicial' AND '$fechaFinal'GROUP BY  c.id_proveedor";
+$sql = "SELECT s.nombre, t.*, SUM(t.total) AS total FROM traslado_mercancia t INNER JOIN sucursal s ON t.id_sucursal=s.id AND fecha BETWEEN  '$fechaInicial' AND '$fechaFinal'GROUP BY  t.id_sucursal";
 }
 }
 		
@@ -82,14 +82,14 @@ $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8',
 //$pdf->setPrintFooter(false);
 $pdf->startPageGroup();
 
-$pdf->AddPage('L', 'A4');
+$pdf->AddPage();
 
 $bloque1 = <<<EOF
 <table>
 		
 		<tr>
 			
-			<td style="width:200px">
+			<td style="width:170px">
 				
 				<div style="font-size:8.5px; text-align:right; line-height:15px;">
 									
@@ -98,7 +98,7 @@ $bloque1 = <<<EOF
 				</div>
 			</td>
 
-			<td style="background-color:white; width:140px">
+			<td style="background-color:white; width:120px">
 				
 				<div style="font-size:8.5px; text-align:right; line-height:15px;">
 					
@@ -112,7 +112,7 @@ $bloque1 = <<<EOF
 
 			</td>
 
-			<td style="background-color:white; width:140px">
+			<td style="background-color:white; width:120px">
 
 				<div style="font-size:8.5px; text-align:right; line-height:15px;">
 					
@@ -126,7 +126,7 @@ $bloque1 = <<<EOF
 				
 			</td>
 
-			<td style="background-color:white; width:210px; text-align:center; color:red">
+			<td style="background-color:white; width:120px; text-align:center; color:red">
 				<br><br>
 					Reporte de compras por proveedor
 					<div style="font-size:8.5px; text-align:right; line-height:15px;">
@@ -162,7 +162,7 @@ $bloque3 = <<<EOF
 		<tr>
 		<th style="border: 1px solid #666; background-color:white; width:60px; text-align:center; font-weight: bold">Codigo</th>
 		<th style="border: 1px solid #666; background-color:white; width:240px; text-align:center; font-weight: bold">Nombre proveedor</th>
-		<th style="border: 1px solid #666; background-color:white; width:85px; text-align:center; font-weight: bold">Nit o Cedula</th>
+		<th style="border: 1px solid #666; background-color:white; width:85px; text-align:center; font-weight: bold">-------</th>
 		<th style="border: 1px solid #666; background-color:white; width:75px; text-align:center; font-weight: bold">-------</th>
 		<th style="border: 1px solid #666; background-color:white; width:75px; text-align:center; font-weight: bold">Valor</th>						
 	
@@ -178,10 +178,9 @@ $pdf->writeHTML($bloque3, false, false, false, false, '');
 
 foreach ($detalles as $key => $value) {
 
-$id = $value['id_proveedor'];
-$nit = $value['nit'];
+$id = $value['id_sucursal'];
 $nombre = $value['nombre'];
-$venta = number_format($value['compra']);
+$venta = number_format($value['total']);
 
 
 $bloque4 = <<<EOF
@@ -198,7 +197,7 @@ $bloque4 = <<<EOF
 			</td>
 		
 			<td style=" color:#333; background-color:white; width:85px; text-align:center">
-			$nit
+			
 			</td>
 			<td style=" color:#333; background-color:white; width:75px; text-align:center">
 			
@@ -227,11 +226,11 @@ $bloque5 = <<<EOF
 	<table style="font-size:10px; padding:5px 10px;">
 		<tr>
 		
-			<td style=" color:#333; background-color:white; width:760px; text-align:left"></td>
+			<td style=" color:#333; background-color:white; width:535px; text-align:left"></td>
 		</tr>
 		<tr>
-		<td style="border: 1px solid #666; background-color:white; width:760px; text-align:center; font-weight: bold">
-			reporte compras por proveedor
+		<td style="border: 1px solid #666; background-color:white; width:535px; text-align:center; font-weight: bold">
+			reporte compras por sucursal
 		</td>			
 
 		</tr>

@@ -81,6 +81,12 @@ class Sucursal{
 		$respt = $this->db->query($sql);
 		return $respt;
 	}
+	public function motrarUbicacionUsuario() {
+		$sql = "SELECT * FROM sucursal WHERE id = {$this->getId()}";
+		$respt = $this->db->query($sql);
+		return $respt->fetch_object();
+	}
+	
 	public function Guardar() {
 		$sql = "INSERT INTO sucursal VALUES (NULL,'{$this->getNombre()}','{$this->getDireccion()}','{$this->getCiudad()}','{$this->getDepartamento()}','{$this->getFecha()}')";
 		$resp = $this->db->query($sql);

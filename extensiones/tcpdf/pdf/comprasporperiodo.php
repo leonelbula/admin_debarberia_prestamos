@@ -11,11 +11,11 @@ public function __construct() {
 $this->db = Database::connect();
 }	
 
-public function ReportesVentas($fechaInicial,$fechaFinal) {
+public function ReportesCompras($fechaInicial,$fechaFinal) {
 
 		
 if($fechaInicial == $fechaFinal){
-$sql = "SELECT * FROM compra WHERE fecha LIKE '%$fechaFinal%'";
+$sql = "SELECT * FROM compra WHERE fecha_compra LIKE '%$fechaFinal%'";
 			
 } else {
 			
@@ -29,9 +29,9 @@ $fechaFinalMasUno = $fechaFinal2->format("Y-m-d");
 
 if ($fechaFinalMasUno == $fechaActualMasUno) {
 
-$sql = "SELECT * FROM compra WHERE fecha BETWEEN '$fechaInicial' AND '$fechaFinalMasUno'";
+$sql = "SELECT * FROM compra WHERE fecha_compra BETWEEN '$fechaInicial' AND '$fechaFinalMasUno'";
 } else {
-$sql = "SELECT * FROM compra WHERE fecha BETWEEN '$fechaInicial' AND '$fechaFinal'";
+$sql = "SELECT * FROM compra WHERE fecha_compra BETWEEN '$fechaInicial' AND '$fechaFinal'";
 }
 }
 		
@@ -56,17 +56,16 @@ return $resul;
 //require_once '../../../controllers/InventarioController.php';
 class imprimirReporte{
 
-public $fechaInicio;
+public $fechaInicial;
 public $fechaFinal;
 
 public function traerImpresionReporte(){
-$fechaInicial = $this->fechaInicio;
+$fechaInicial = $this->fechaInicial;
 $fechaFinal = $this->fechaFinal;
 
 $reporte = new Reportes();
-$detalles = $reporte->ReportesVentas($fechaInicial,$fechaFinal);
+$detalles = $reporte->ReportesCompras($fechaInicial,$fechaFinal);
 $fechaI = $_GET['fechaInicial'];
-
 
 $datosEmpresa = $reporte->MostrarInformacionEmpresa();
 
@@ -79,23 +78,17 @@ $depEmpresa = $valueE['departamento'];
 $telEmpresa = $valueE['telefono'];
 }
 
+
 while ($row = $detalles-> fetch_object()) {
 $id_proveedor = $row->id_proveedor;
-$subtotal = $row->sub_total;
-$impuesto = $row->iva;
+
+
 $total = $row->total;
 
 
-$arraysubtotal[] = array('valor' => (int)$subtotal);
-$arrayimpuesto[] = array('valor' => (int)$impuesto);
 $arraytotal[] = array('valor' => (int)$total);
 
 }
-$valorSubtotal =  array_column($arraysubtotal, 'valor');
-$TotalSubtotal = number_format(array_sum($valorSubtotal));
-
-$valorImpuesto =  array_column($arrayimpuesto, 'valor');
-$TotalImpuesto = number_format(array_sum($valorImpuesto));
 
 $valorTotal =  array_column($arraytotal, 'valor');
 $TotalT = number_format(array_sum($valorTotal));
@@ -193,8 +186,8 @@ $bloque3 = <<<EOF
 		<th style="border: 1px solid #666; background-color:white; width:240px; text-align:center; font-weight: bold">Proveedor</th>
 		<th style="border: 1px solid #666; background-color:white; width:85px; text-align:center; font-weight: bold">Nit o CC</th>
 		<th style="border: 1px solid #666; background-color:white; width:75px; text-align:center; font-weight: bold">fecha</th>
-		<th style="border: 1px solid #666; background-color:white; width:75px; text-align:center; font-weight: bold">SubTotal</th>							
-		<th style="border: 1px solid #666; background-color:white; width:75px; text-align:center; font-weight: bold">Iva</th>
+		<th style="border: 1px solid #666; background-color:white; width:75px; text-align:center; font-weight: bold">----</th>							
+		<th style="border: 1px solid #666; background-color:white; width:75px; text-align:center; font-weight: bold">---</th>
 		<th style="border: 1px solid #666; background-color:white; width:75px; text-align:center; font-weight: bold">Total</th>
 		<th style="border: 1px solid #666; background-color:white; width:45px; text-align:center; font-weight: bold"></th>		
 
@@ -215,10 +208,9 @@ $nombreC = $row1->nombre;
 $nit = $row1->nit;
 }
 
-$factura = $value['numero_factura'];
-$fecha = $value['fecha'];
-$subtotal = number_format($value['sub_total']);
-$impuesto = number_format($value['iva']);
+$factura = $value['num_factura'];
+$fecha = $value['fecha_compra'];
+$subtotal = number_format($value['subtotal']);
 $total = number_format($value['total']);
 
 
@@ -248,7 +240,7 @@ $bloque4 = <<<EOF
 			</td>
 		
 			<td style=" color:#333; background-color:white; width:75px; text-align:center">
-			$impuesto
+			---
 			</td>
 		
 			<td style=" color:#333; background-color:white; width:75px; text-align:center">
@@ -277,12 +269,12 @@ $bloque5 = <<<EOF
 
 		
 		<tr>
-		<th style=" background-color:white; width:60px; text-align:center; font-weight: bold"></th>
-		<th style=" background-color:white; width:250px; text-align:center; font-weight: bold"></th>
-		<th style=" background-color:white; width:75px; text-align:center; font-weight: bold"></th>
+		<th style=" background-color:white; width:90px; text-align:center; font-weight: bold"></th>
+		<th style=" background-color:white; width:240px; text-align:center; font-weight: bold"></th>
+		<th style=" background-color:white; width:85px; text-align:center; font-weight: bold"></th>
 		<th style=" background-color:white; width:75px; text-align:center; font-weight: bold"></th>		
-		<th style=" background-color:white; width:75px; text-align:center; font-weight: bold">$TotalSubtotal</th>							
-		<th style=" background-color:white; width:75px; text-align:center; font-weight: bold">$TotalImpuesto </th>
+		<th style=" background-color:white; width:75px; text-align:center; font-weight: bold"></th>							
+		<th style=" background-color:white; width:75px; text-align:center; font-weight: bold"></th>
 		<th style=" background-color:white; width:75px; text-align:center; font-weight: bold">$TotalT</th>
 		<th style=" background-color:white; width:75px; text-align:center; font-weight: bold"></th>		
 
@@ -325,6 +317,7 @@ $pdf->Output('factura.pdf');
 $reporte = new imprimirReporte();
 $reporte-> fechaInicial = $_GET["fechaInicial"];
 $reporte-> fechaFinal = $_GET["fechaFinal"];
+
 
 $reporte ->traerImpresionReporte();
 

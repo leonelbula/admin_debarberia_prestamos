@@ -22,85 +22,84 @@
 
 			<div class="box-header with-border">
 
-<!--				<div class="input-group">
-
-					<button type="button" class="btn btn-default" id="daterange-btn1">
-
-						<span>
-							<i class="fa fa-calendar"></i> Rango de fecha
-						</span>
-
-						<i class="fa fa-caret-down"></i>
-
-					</button>
-
-				</div>-->
-
+				<!--				<div class="input-group">
 				
+									<button type="button" class="btn btn-default" id="daterange-btn1">
+				
+										<span>
+											<i class="fa fa-calendar"></i> Rango de fecha
+										</span>
+				
+										<i class="fa fa-caret-down"></i>
+				
+									</button>
+				
+								</div>-->
+
+
 			</div>
 			<div class="box-body">
-        
-        <div class="row">
 
-          <div class="col-xs-12">           
-            
+				<div class="row">
 
-          </div>
+					<div class="col-xs-12">           
 
-           <div class="col-md-6 col-xs-12">
-             
-            
-			
-			<button class="btn  btn-primary  btn-lg " data-toggle="modal" data-target="#modalPagosPeriodo">
 
-				Compras por Periodo
+					</div>
 
-			</button>
-			   &nbsp;&nbsp;&nbsp;
-			   <button class="btn  btn-primary  btn-lg " data-toggle="modal" data-target="#modalProdventas">
+					<div class="col-md-6 col-xs-12">
 
-				Compras  por Proveedor 
 
-			</button>
-			             
 
-           </div>
+						<button class="btn  btn-primary  btn-lg " data-toggle="modal" data-target="#modalcomprasPeriodo">
 
-            <div class="col-md-6 col-xs-12">
-             
-            <button class="btn  btn-primary  btn-lg " data-toggle="modal" data-target="#modalVentasClientes">
+							Compras por Periodo
 
-				Compras por Sucursal
+						</button>
+						&nbsp;&nbsp;&nbsp;
+						<button class="btn  btn-primary  btn-lg " data-toggle="modal" data-target="#modalcomprasproveedor">
 
-			</button>
-				&nbsp;&nbsp;&nbsp;
-			<button class="btn  btn-primary  btn-lg " data-toggle="modal" data-target="#modalVentasClientes">
+							Compras  por Proveedor 
 
-				r Sucursal
+						</button>
 
-			</button>					
 
-           </div>
-			<br>
-			<br>
-			
-           <div class="col-md-6 col-xs-12">
-             
-            
-			             
+					</div>
 
-           </div>
-			<div class="col-md-6 col-xs-12">
-             
-            
+					<div class="col-md-6 col-xs-12">
 
-           </div>
-          
-        </div>
+						<button class="btn  btn-primary  btn-lg " data-toggle="modal" data-target="#modalcomprassucursal">
 
-      </div>
+							Compras por Sucursal
 
-			
+						</button>
+						&nbsp;&nbsp;&nbsp;
+						<!--			<button class="btn  btn-primary  btn-lg " data-toggle="modal" data-target="#modalVentasClientes">
+						
+										r Sucursal
+						
+									</button>					-->
+
+					</div>
+					<br>
+					<br>
+
+					<div class="col-md-6 col-xs-12">
+
+
+
+
+					</div>
+					<div class="col-md-6 col-xs-12">
+
+
+
+					</div>
+
+				</div>
+
+			</div>
+
 
 		</div>
 
@@ -112,13 +111,13 @@
 
 
 
-<div id="modalPagosPeriodo" class="modal fade" role="dialog">
+<div id="modalcomprasPeriodo" class="modal fade" role="dialog">
 
 	<div class="modal-dialog">
 
 		<div class="modal-content">
 
-			<form role="form" action="<?= URL_BASE ?>extensiones/tcpdf/pdf/pagosporperiodo.php" method="GET" target="_blank" >
+			<form role="form" action="<?= URL_BASE ?>extensiones/tcpdf/pdf/comprasporperiodo.php" method="GET" target="_blank" >
 
 				<!--=====================================
 				CABEZA DEL MODAL
@@ -128,7 +127,7 @@
 
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 
-					<h4 class="modal-title">Ventas por periodo</h4>
+					<h4 class="modal-title">Compras por Periodo</h4>
 
 				</div>
 
@@ -188,13 +187,13 @@
 
 </div>
 
-<div id="modalProdventas" class="modal fade" role="dialog">
+<div id="modalcomprasproveedor" class="modal fade" role="dialog">
 
 	<div class="modal-dialog">
 
 		<div class="modal-content">
 
-			<form role="form" action="<?= URL_BASE ?>extensiones/tcpdf/pdf/prestamosentregados.php" method="GET" target="_blank" >
+			<form role="form" action="<?= URL_BASE ?>extensiones/tcpdf/pdf/comprasproveedor.php" method="GET" target="_blank" >
 
 				<!--=====================================
 				CABEZA DEL MODAL
@@ -204,7 +203,7 @@
 
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 
-					<h4 class="modal-title">Ventas por Productos</h4>
+					<h4 class="modal-title">Compras  por Proveedor </h4>
 
 				</div>
 
@@ -264,13 +263,13 @@
 
 </div>
 
-<div id="modalVentasClientes" class="modal fade" role="dialog">
+<div id="modalcomprassucursal" class="modal fade" role="dialog">
 
 	<div class="modal-dialog">
 
 		<div class="modal-content">
 
-			<form role="form" action="<?= URL_BASE ?>extensiones/tcpdf/pdf/prestamosclientes.php" method="GET" target="_blank" >
+			<form role="form" action="<?= URL_BASE ?>extensiones/tcpdf/pdf/comprassucursal.php" method="GET" target="_blank" >
 
 				<!--=====================================
 				CABEZA DEL MODAL
@@ -280,7 +279,7 @@
 
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 
-					<h4 class="modal-title">Ventas por Clientes</h4>
+					<h4 class="modal-title">Compras por Sucursal</h4>
 
 				</div>
 
