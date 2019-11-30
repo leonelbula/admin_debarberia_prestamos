@@ -148,7 +148,20 @@ if (!isset($_SESSION['identity'])) {
             <li><a href="<?=URL_BASE?>productos/categoria"><i class="fa fa-circle-o"></i> CATEGORIA</a></li>
             <li><a href="<?=URL_BASE?>productos/insumos"><i class="fa fa-circle-o"></i> LISTA INSUMOS</a></li>            
           </ul>
-        </li>		 
+        </li>
+		<li class="treeview">
+          <a href="#">
+            <i class="fa fa-pie-chart"></i>
+            <span>SERVICIOS</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="<?=URL_BASE?>servicios/"><i class="fa fa-circle-o"></i> SERVICIOS</a></li>
+			<li><a href="<?=URL_BASE?>servicios/reporte"><i class="fa fa-circle-o"></i> REPORTES</a></li>                      
+          </ul>
+        </li>		
         <li class="treeview">
           <a href="#">
             <i class="fa fa-laptop"></i>

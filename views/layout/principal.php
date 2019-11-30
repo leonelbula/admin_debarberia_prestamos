@@ -28,7 +28,7 @@
 
 						<div class="col-xs-6">
 							<div class="box-header with-border">
-									<a href="<?= URL_BASE ?>compras/nuevotraslado">
+									<a href="<?= URL_BASE ?>sucursal/ventaservicio">
 										<button class="btn btn-primary">
 
 											Cobrar Servicio
