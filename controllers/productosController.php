@@ -5,6 +5,7 @@ require_once 'models/Productos.php';
 require_once 'models/Insumos.php';
 require_once 'models/Parametros.php';
 require_once 'models/ProductosSucursal.php';
+require_once 'models/InsumoSucursal.php';
 require_once 'models/Sucursal.php';
 
 class productosController {
@@ -400,8 +401,22 @@ class productosController {
 				$insumo->setCodigo_vendedor($codigo_vendedor);
 
 				$resp = $insumo->Guardar();
-
-				if ($resp) {
+				
+				$sucursal = new Sucursal();
+				$detallesSucursal = $sucursal->listaSucursal();
+				
+				while ($row2 = $detallesSucursal->fetch_object()) {
+					
+					$InsumoSucursal = new InsumoSucursal();
+					$InsumoSucursal->setId_producto($resp);
+					$InsumoSucursal->setId_sucursal($row2->id);
+					$InsumoSucursal->setCantidad(0);					
+					$InsumoSucursal->setStock_minimo($stock);
+					$InsumoSucursal->Guardar();
+				}
+				
+				
+				 if ($resp) {
 					echo'<script>
 
 					swal({

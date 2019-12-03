@@ -4,6 +4,7 @@ require_once 'models/Sucursal.php';
 require_once 'models/ProductosSucursal.php';
 require_once 'models/VentasSucursal.php';
 require_once 'models/VentaServicio.php';
+require_once 'models/ComponenteServicio.php';
 require_once 'models/Parametros.php';
 
 class sucursalController {

@@ -63,7 +63,7 @@ class Servicio{
 		return $result;
 	}
 	public function Actulizar() {
-		$sql = "";
+		$sql = "UPDATE servicios SET nombre='{$this->getNombre()}',valor={$this->getValor()},img='{$this->getImg()}' WHERE id = {$this->getId()}";
 		$resp = $this->db->query($sql);
 		$result = FALSE;
 		if($resp){

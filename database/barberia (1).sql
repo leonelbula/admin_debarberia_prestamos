@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 15-11-2019 a las 12:45:46
+-- Tiempo de generación: 03-12-2019 a las 12:37:30
 -- Versión del servidor: 5.7.26
 -- Versión de PHP: 7.2.18
 
@@ -196,17 +196,26 @@ INSERT INTO `cliente_prestamo` (`id`, `nombre`, `nit`, `telefono`, `direccion`, 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `componetes_servicio`
+-- Estructura de tabla para la tabla `componentes_servicio`
 --
 
-DROP TABLE IF EXISTS `componetes_servicio`;
-CREATE TABLE IF NOT EXISTS `componetes_servicio` (
+DROP TABLE IF EXISTS `componentes_servicio`;
+CREATE TABLE IF NOT EXISTS `componentes_servicio` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_servicio` int(11) NOT NULL,
   `detalle` text COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_servicio` (`id_servicio`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `componentes_servicio`
+--
+
+INSERT INTO `componentes_servicio` (`id`, `id_servicio`, `detalle`) VALUES
+(2, 6, '[{\"id\":\"2\",\"codigo\":\"1001\",\"descripcion\":\"displey de cuchichas\",\"cantidad\":\"1\"}]'),
+(4, 7, '[{\"id\":\"2\",\"codigo\":\"1001\",\"descripcion\":\"displey de cuchichas\",\"cantidad\":\"5\"}]'),
+(6, 1, '[{\"id\":\"2\",\"codigo\":\"1001\",\"descripcion\":\"displey de cuchichas\",\"cantidad\":\"1\"}]');
 
 -- --------------------------------------------------------
 
@@ -220,8 +229,9 @@ CREATE TABLE IF NOT EXISTS `compra` (
   `id_proveedor` int(11) NOT NULL,
   `num_factura` int(11) NOT NULL,
   `tipo` int(11) NOT NULL,
-  `fecha_compra` int(11) NOT NULL,
-  `fecha_vencimiento` int(11) NOT NULL,
+  `plazo` int(11) NOT NULL,
+  `fecha_compra` date NOT NULL,
+  `fecha_vencimiento` date NOT NULL,
   `detalles` text COLLATE utf8_spanish_ci NOT NULL,
   `subtotal` int(11) NOT NULL,
   `iva` int(11) NOT NULL,
@@ -229,7 +239,40 @@ CREATE TABLE IF NOT EXISTS `compra` (
   `saldo` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_proveedor` (`id_proveedor`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `compra`
+--
+
+INSERT INTO `compra` (`id`, `id_proveedor`, `num_factura`, `tipo`, `plazo`, `fecha_compra`, `fecha_vencimiento`, `detalles`, `subtotal`, `iva`, `total`, `saldo`) VALUES
+(4, 5, 10150, 1, 10, '2019-11-23', '2019-12-23', '[{\"id\":\"1\",\"codigo\":\"1000\",\"descripcion\":\"papas de limon 150g \",\"cantidad\":\"10\",\"precio\":\"900\",\"descuento\":\"0\",\"subtotal\":\"9000\"},{\"id\":\"2\",\"codigo\":\"1001\",\"descripcion\":\"gaseosa 250 ml \",\"cantidad\":\"10\",\"precio\":\"500\",\"descuento\":\"0\",\"subtotal\":\"5000\"}]', 0, 0, 14000, 14000),
+(5, 5, 10151, 1, 15, '2019-11-23', '2019-12-23', '[{\"id\":\"1\",\"codigo\":\"1000\",\"descripcion\":\"papas de limon 150g \",\"cantidad\":\"10\",\"precio\":\"900\",\"descuento\":\"0\",\"subtotal\":\"9000\"},{\"id\":\"2\",\"codigo\":\"1001\",\"descripcion\":\"gaseosa 250 ml \",\"cantidad\":\"10\",\"precio\":\"500\",\"descuento\":\"0\",\"subtotal\":\"5000\"}]', 0, 0, 14000, 14000),
+(6, 5, 10153, 1, 30, '2019-11-23', '2019-12-23', '[{\"id\":\"1\",\"codigo\":\"1000\",\"descripcion\":\"papas de limon 150g \",\"cantidad\":\"10\",\"precio\":\"900\",\"descuento\":\"0\",\"subtotal\":\"9000\"},{\"id\":\"2\",\"codigo\":\"1001\",\"descripcion\":\"gaseosa 250 ml \",\"cantidad\":\"10\",\"precio\":\"500\",\"descuento\":\"0\",\"subtotal\":\"5000\"}]', 0, 0, 14000, 14000);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `compra_producto`
+--
+
+DROP TABLE IF EXISTS `compra_producto`;
+CREATE TABLE IF NOT EXISTS `compra_producto` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_producto` int(11) NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `num_factura` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=60 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `compra_producto`
+--
+
+INSERT INTO `compra_producto` (`id`, `id_producto`, `cantidad`, `num_factura`, `fecha`) VALUES
+(59, 2, 10, 10153, '2019-11-23'),
+(58, 1, 10, 10153, '2019-11-23');
 
 -- --------------------------------------------------------
 
@@ -288,6 +331,32 @@ INSERT INTO `datos_empresa` (`id`, `nombre`, `nit`, `direccion`, `ciudad`, `depa
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `empleado`
+--
+
+DROP TABLE IF EXISTS `empleado`;
+CREATE TABLE IF NOT EXISTS `empleado` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_sucursal` int(11) NOT NULL,
+  `nombre` text COLLATE utf8_spanish_ci NOT NULL,
+  `nit` int(11) NOT NULL,
+  `telefono` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
+  `direccion` text COLLATE utf8_spanish_ci NOT NULL,
+  `fecha_ingreso` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `empleado`
+--
+
+INSERT INTO `empleado` (`id`, `id_sucursal`, `nombre`, `nit`, `telefono`, `direccion`, `fecha_ingreso`) VALUES
+(1, 1, 'carlor macea lopez', 7854545, '7777777', 'calle 4 ', '2017-07-15'),
+(2, 2, 'pedro peres', 15047854, '7770000', 'calle 15 N 21 -48', '2014-05-01');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `estilista`
 --
 
@@ -312,7 +381,7 @@ INSERT INTO `estilista` (`id`, `id_sucursal`, `nombre`, `nit`, `telefono`, `dire
 (1, 1, 'PEDRO PEREZ', '45454545', '777777', 'CALLE 2', '2019-11-04'),
 (2, 1, 'CALOR MARIO', '45454545', '777777', 'CALLE 2', '2019-11-04'),
 (3, 1, 'JUAN CARLOS', '45454545', '777777', 'CALLE 2', '2019-11-04'),
-(4, 1, 'VICTOR DIAZ', '45454545', '777777', 'CALLE 2', '2019-11-04');
+(4, 2, 'VICTOR DIAZ', '45454545', '777777', 'CALLE 2', '2019-11-04');
 
 -- --------------------------------------------------------
 
@@ -329,6 +398,60 @@ CREATE TABLE IF NOT EXISTS `gastos` (
   `valor` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `insumos`
+--
+
+DROP TABLE IF EXISTS `insumos`;
+CREATE TABLE IF NOT EXISTS `insumos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `codigo` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `nombre` text COLLATE utf8_spanish_ci NOT NULL,
+  `costo` int(11) NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `stock` int(11) NOT NULL,
+  `id_vendedor` int(11) NOT NULL,
+  `codigo_vendedor` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `insumos`
+--
+
+INSERT INTO `insumos` (`id`, `codigo`, `nombre`, `costo`, `cantidad`, `stock`, `id_vendedor`, `codigo_vendedor`) VALUES
+(1, '1', 'pulvo para afeitar', 4500, 10, 2, 1, '5454'),
+(2, '2', 'cuchillas en hojas', 150, 200, 50, 1, 'chi1002'),
+(3, '3', 'cuchillas en hojas', 150, 200, 50, 1, 'chi1002');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `insumos_sucursal`
+--
+
+DROP TABLE IF EXISTS `insumos_sucursal`;
+CREATE TABLE IF NOT EXISTS `insumos_sucursal` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_insumo` int(11) NOT NULL,
+  `id_sucursal` int(11) NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `stock_minimo` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `insumos_sucursal`
+--
+
+INSERT INTO `insumos_sucursal` (`id`, `id_insumo`, `id_sucursal`, `cantidad`, `stock_minimo`) VALUES
+(1, 3, 1, 0, 50),
+(2, 3, 2, 0, 50),
+(3, 3, 3, 0, 50),
+(4, 3, 9, 0, 50);
 
 -- --------------------------------------------------------
 
@@ -463,15 +586,16 @@ CREATE TABLE IF NOT EXISTS `producto` (
   `codigo_vendedor` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   `id_vendedor` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `producto`
 --
 
 INSERT INTO `producto` (`id`, `id_categoria`, `codigo`, `nombre`, `costo`, `cantidad`, `precio_venta`, `porcentaje_utilidad`, `utilidad`, `stock_minimo`, `codigo_vendedor`, `id_vendedor`) VALUES
-(1, 1, '1000', 'papas de limon 150g ', 900, 30, 1260, 40, 360, 20, '454545', 1),
-(2, 1, '1001', 'gaseosa 250 ml ', 500, 30, 700, 40, 200, 20, '454545', 1);
+(1, 1, '1000', 'papas de limon 150g ', 900, 210, 1260, 40, 360, 20, '454545', 1),
+(2, 1, '1001', 'gaseosa 250 ml ', 500, 196, 700, 40, 200, 20, '454545', 1),
+(6, 1, '1005', 'producto prueba', 500, 11, 750, 50, 250, 5, 'cre1450', 1);
 
 -- --------------------------------------------------------
 
@@ -482,27 +606,25 @@ INSERT INTO `producto` (`id`, `id_categoria`, `codigo`, `nombre`, `costo`, `cant
 DROP TABLE IF EXISTS `producto_sucursal`;
 CREATE TABLE IF NOT EXISTS `producto_sucursal` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_categoria` int(11) NOT NULL,
+  `id_producto` int(11) NOT NULL,
   `id_sucursal` int(11) NOT NULL,
-  `codigo` int(11) NOT NULL,
-  `nombre` text COLLATE utf8_spanish_ci NOT NULL,
-  `costo` int(11) NOT NULL,
   `cantidad` int(11) NOT NULL,
-  `precio_venta` int(11) NOT NULL,
-  `porcentaje_utilidad` int(11) NOT NULL,
-  `utilidad` int(11) NOT NULL,
   `stock_minimo` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `id_categoria` (`id_categoria`),
+  KEY `id_categoria` (`id_producto`),
   KEY `id_sucursal` (`id_sucursal`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `producto_sucursal`
 --
 
-INSERT INTO `producto_sucursal` (`id`, `id_categoria`, `id_sucursal`, `codigo`, `nombre`, `costo`, `cantidad`, `precio_venta`, `porcentaje_utilidad`, `utilidad`, `stock_minimo`) VALUES
-(1, 1, 1, 1000, 'producto ', 500, 10, 1000, 100, 500, 10);
+INSERT INTO `producto_sucursal` (`id`, `id_producto`, `id_sucursal`, `cantidad`, `stock_minimo`) VALUES
+(1, 1, 1, 10, 10),
+(2, 2, 1, 24, 5),
+(3, 6, 2, 0, 5),
+(4, 6, 3, 0, 5),
+(5, 6, 9, 0, 5);
 
 -- --------------------------------------------------------
 
@@ -543,7 +665,7 @@ CREATE TABLE IF NOT EXISTS `servicios` (
   `valor` int(11) NOT NULL,
   `img` text COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `servicios`
@@ -555,7 +677,8 @@ INSERT INTO `servicios` (`id`, `nombre`, `valor`, `img`) VALUES
 (3, 'CORTE EXPERTO', 10000, '3.jpg'),
 (4, 'CORTE BASICO 2', 7000, '4.jpg'),
 (5, 'CORTE BASICO 3', 6000, '5.jpg'),
-(6, 'CORTE BASICO 4', 8000, '6.jpg');
+(6, 'CORTE BASICO 4', 8000, '6.jpg'),
+(7, 'corte de cabello ', 15000, '1575287568descarga.jpg');
 
 -- --------------------------------------------------------
 
@@ -572,7 +695,7 @@ CREATE TABLE IF NOT EXISTS `sucursal` (
   `departamento` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `fecha_inicio` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `sucursal`
@@ -600,7 +723,15 @@ CREATE TABLE IF NOT EXISTS `traslado_mercancia` (
   `total` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_sucursal` (`id_sucursal`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `traslado_mercancia`
+--
+
+INSERT INTO `traslado_mercancia` (`id`, `id_sucursal`, `num_registro`, `fecha`, `detalles`, `total`) VALUES
+(3, 1, 10002, '2019-11-27', '[{\"id\":\"1\",\"codigo\":\"1000\",\"descripcion\":\"papas de limon 150g \",\"cantidad\":\"10\",\"precio\":\"900\"},{\"id\":\"2\",\"codigo\":\"1001\",\"descripcion\":\"gaseosa 250 ml \",\"cantidad\":\"10\",\"precio\":\"500\"}]', 14000),
+(4, 1, 10003, '2019-11-28', '[{\"id\":\"1\",\"codigo\":\"1000\",\"descripcion\":\"papas de limon 150g \",\"cantidad\":\"10\",\"precio\":\"900\",\"subtotal\":\"9000\"},{\"id\":\"2\",\"codigo\":\"1001\",\"descripcion\":\"gaseosa 250 ml \",\"cantidad\":\"20\",\"precio\":\"500\",\"subtotal\":\"10000\"},{\"id\":\"6\",\"codigo\":\"1005\",\"descripcion\":\"producto prueba\",\"cantidad\":\"1\",\"precio\":\"500\",\"subtotal\":\"500\"}]', 19500);
 
 -- --------------------------------------------------------
 
@@ -669,7 +800,7 @@ CREATE TABLE IF NOT EXISTS `venta_producto` (
   `totalcosto` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_sucursal` (`id_sucursal`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `venta_producto`
@@ -677,7 +808,12 @@ CREATE TABLE IF NOT EXISTS `venta_producto` (
 
 INSERT INTO `venta_producto` (`id`, `id_sucursal`, `num_factura`, `fecha`, `detalles`, `utilidad`, `totalventa`, `totalcosto`) VALUES
 (1, 1, 1, '2019-11-15', '10', 10000, 30000, 20000),
-(2, 1, 1, '2019-11-15', '10', 10000, 30000, 20000);
+(2, 1, 1, '2019-11-16', '10', 10000, 30000, 20000),
+(3, 2, 1, '2019-11-16', 'venta', 40000, 80000, 40000),
+(4, 2, 1, '2019-11-16', 'venta', 40000, 80000, 40000),
+(5, 3, 1, '2019-11-16', 'venta', 40000, 80000, 40000),
+(6, 3, 1, '2019-11-16', 'venta', 40000, 80000, 40000),
+(7, 1, 1, '2019-11-17', 'venta', 40000, 80000, 40000);
 
 -- --------------------------------------------------------
 
@@ -697,15 +833,16 @@ CREATE TABLE IF NOT EXISTS `venta_servicio` (
   PRIMARY KEY (`id`),
   KEY `id_sucursal` (`id_sucursal`),
   KEY `id_estilista` (`id_estilista`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `venta_servicio`
 --
 
 INSERT INTO `venta_servicio` (`id`, `id_sucursal`, `num_venta`, `detalle`, `id_estilista`, `fecha`, `valor`) VALUES
-(1, 1, 1, 'venta', 1, '2019-11-15', 5000),
-(2, 1, 1, 'venta', 1, '2019-11-15', 5000);
+(1, 1, 1, 'venta', 1, '2019-11-16', 5000),
+(2, 1, 2, 'venta', 1, '2019-11-16', 5000),
+(3, 1, 3, '[{\"id\":\"5\",\"codigo\":\"5\",\"descripcion\":\"CORTE BASICO 3\",\"cantidad\":\"1\",\"precio\":\"6000\",\"descuento\":\"0\",\"subtotal\":\"6000\"}]', 3, '2019-11-30', 6000);
 
 --
 -- Restricciones para tablas volcadas
@@ -745,10 +882,10 @@ ALTER TABLE `cierre_caja`
   ADD CONSTRAINT `cierre_caja_ibfk_1` FOREIGN KEY (`id_sucursal`) REFERENCES `sucursal` (`id`);
 
 --
--- Filtros para la tabla `componetes_servicio`
+-- Filtros para la tabla `componentes_servicio`
 --
-ALTER TABLE `componetes_servicio`
-  ADD CONSTRAINT `componetes_servicio_ibfk_1` FOREIGN KEY (`id_servicio`) REFERENCES `servicios` (`id`);
+ALTER TABLE `componentes_servicio`
+  ADD CONSTRAINT `componentes_servicio_ibfk_1` FOREIGN KEY (`id_servicio`) REFERENCES `servicios` (`id`);
 
 --
 -- Filtros para la tabla `compra`
@@ -779,7 +916,7 @@ ALTER TABLE `prestamo_estilista`
 -- Filtros para la tabla `producto_sucursal`
 --
 ALTER TABLE `producto_sucursal`
-  ADD CONSTRAINT `producto_sucursal_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categoria_producto` (`id`),
+  ADD CONSTRAINT `producto_sucursal_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id`),
   ADD CONSTRAINT `producto_sucursal_ibfk_2` FOREIGN KEY (`id_sucursal`) REFERENCES `sucursal` (`id`);
 
 --

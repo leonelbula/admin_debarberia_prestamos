@@ -97,10 +97,10 @@ class Insumo {
 		$sql = "INSERT INTO insumos VALUES (NULL,'{$this->getCodigo()}','{$this->getNombre()}',{$this->getCosto()},{$this->getCantidad()},{$this->getStock()},{$this->getId_proveedor()},'{$this->getCodigo_vendedor()}')";
 		$resp = $this->db->query($sql);
 		$result = FALSE;
-		if($resp){
-			$result = TRUE;
-		}
-		return $result;
+		$link = $this->db;
+		$resul = mysqli_insert_id($link);
+		
+		return $resul;
 	}
 	public function Actualizar() {
 		$sql = "UPDATE insumos SET codigo='{$this->getCodigo()}',nombre='{$this->getNombre()}',costo={$this->getCosto()},cantidad={$this->getCantidad()},stock={$this->getStock()},id_vendedor={$this->getId_proveedor()},codigo_vendedor='{$this->getCodigo_vendedor()}' WHERE id = {$this->getId()}";

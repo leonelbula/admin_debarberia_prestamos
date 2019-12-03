@@ -32,6 +32,7 @@
 <script src="<?= URL_BASE ?>assets/js/tablaTraslado.js"></script>
 <script src="<?= URL_BASE ?>assets/js/tablaServicios.js"></script>
 <script src="<?= URL_BASE ?>assets/js/funcionesServicios.js"></script>
+<script src="<?= URL_BASE ?>assets/js/funcionesComponentes.js"></script>
 
 </body>
 </html>

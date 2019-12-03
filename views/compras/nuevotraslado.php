@@ -6,7 +6,7 @@
 				<div class="box">
                     
                     <div class="panel-body" style="height: 400px;" id="formularioregistros">
-                        <form name="formulario" class="formularioTraslado" id="formulario" method="POST" action="guardartraslado">
+                        <form name="formulario" class="formularioComponente" id="formulario" method="POST" action="guardartraslado">
 							<div class="form-group col-lg-8 col-md-8 col-sm-8 col-xs-12">
 								<label>Sucursal(*):</label>								
 								<select id="idcliente" name="idSucursal" class="form-control selectpicker" data-live-search="true" required>
@@ -22,7 +22,7 @@
 							<div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
 								<label>Fecha(*):</label>
 								<input type="date" class="form-control" name="fecha_hora" id="fecha_hora" value="<?= date('Y-m-d')?>">
-							</div>
+							</div>						
 							
 							<div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
 								<a data-toggle="modal" href="#myModal">           
