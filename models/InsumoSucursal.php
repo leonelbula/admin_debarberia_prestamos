@@ -62,8 +62,14 @@ class InsumoSucursal {
 		$resul = $this->db->query($sql);
 		return $resul;
 	}
+	public function verInsumosId() {
+		$sql = "SELECT * FROM insumos_sucursal WHERE id_insumo = {$this->getId_producto()} AND id_sucursal = {$this->getId_sucursal()}";
+		$resul = $this->db->query($sql);
+		return $resul;
+	}
+	
 	public function MostrarProductosSucursal() {
-		$sql = "SELECT * FROM insumos_sucursal WHERE id = {$this->getId()} && id_sucursal = {$this->getId_sucursal()}";
+		$sql = "SELECT * FROM insumos_sucursal WHERE id = {$this->getId()} AND id_sucursal = {$this->getId_sucursal()}";
 		$resul = $this->db->query($sql);
 		return $resul;
 	}
@@ -77,7 +83,7 @@ class InsumoSucursal {
 		return $resul;
 	}
 	public function Actulizar() {
-		$sql = "UPDATE insumos_sucursal SET id_producto={$this->getId_producto()},id_sucursal={$this->getId_sucursal()},cantidad={$this->getCantidad()},stock_minimo={$this->getStock_minimo()} WHERE id = {$this->getId()}";
+		$sql = "UPDATE insumos_sucursal SET id_insumo={$this->getId_producto()},id_sucursal={$this->getId_sucursal()},cantidad={$this->getCantidad()},stock_minimo={$this->getStock_minimo()} WHERE id = {$this->getId()}";
 		$resp = $this->db->query($sql);
 		$resul = FALSE;
 		if($resp){
@@ -87,7 +93,16 @@ class InsumoSucursal {
 
 	}
 	public function Eliminar() {
-		$sql = "DELETE FROM insumos_sucursal WHERE id = {$this->getId()}";
+		$sql = "DELETE FROM insumos_sucursal WHERE id_insumo = {$this->getId_producto()}";
+		$resp = $this->db->query($sql);
+		$resul = FALSE;
+		if($resp){
+			$resul = TRUE;
+		}
+		return $resul;
+	}
+	public function ActulizarStock() {
+		$sql = "UPDATE insumos_sucursal SET cantidad = {$this->getCantidad()} WHERE id_insumo = {$this->getId_producto()} AND id_sucursal = {$this->getId_sucursal()}";
 		$resp = $this->db->query($sql);
 		$resul = FALSE;
 		if($resp){

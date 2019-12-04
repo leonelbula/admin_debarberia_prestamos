@@ -33,6 +33,9 @@
 <script src="<?= URL_BASE ?>assets/js/tablaServicios.js"></script>
 <script src="<?= URL_BASE ?>assets/js/funcionesServicios.js"></script>
 <script src="<?= URL_BASE ?>assets/js/funcionesComponentes.js"></script>
+<script src="<?= URL_BASE ?>assets/js/cobrosServicio.js"></script>
+<script src="<?= URL_BASE ?>assets/js/ventaProductos.js"></script>
+
 
 </body>
 </html>

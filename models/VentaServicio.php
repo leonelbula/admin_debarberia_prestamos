@@ -12,7 +12,8 @@ class VentaServicio{
 	private $id_estilista; 
 	private $fecha; 
 	private $valor;
-		
+	private $saldo;
+			
 
 	function getId() {
 		return $this->id;
@@ -41,7 +42,10 @@ class VentaServicio{
 	function getValor() {
 		return $this->valor;
 	}
-	
+	function getSaldo() {
+		return $this->saldo;
+	}
+
 	function setId($id) {
 		$this->id = $id;
 	}
@@ -69,12 +73,15 @@ class VentaServicio{
 	function setValor($valor) {
 		$this->valor = $valor;
 	}
+	function setSaldo($saldo) {
+		$this->saldo = $saldo;
+	}
 
 	public function __construct() {
 		$this->db = Database::connect();
 	}
 	public function Guardar() {
-		$sql = "INSERT INTO venta_servicio VALUES (NULL,{$this->getId_sucursal()},{$this->getNum_venta()},'{$this->getDetalle()}',{$this->getId_estilista()},'{$this->getFecha()}',{$this->getValor()})";
+		$sql = "INSERT INTO venta_servicio VALUES (NULL,{$this->getId_sucursal()},{$this->getNum_venta()},'{$this->getDetalle()}',{$this->getId_estilista()},'{$this->getFecha()}',{$this->getValor()},{$this->getSaldo()})";
 		$resp = $this->db->query($sql);
 		$result = FALSE;
 		if($resp){
@@ -83,9 +90,23 @@ class VentaServicio{
 		return $result;
 	}
 	public function VerUltimaVentaServicio() {
-		$sql = "SELECT * FROM venta_servicio ORDER BY id DESC LIMIT 1";
+		$sql = "SELECT * FROM venta_servicio WHERE id_sucursal = {$this->getId_sucursal()} ORDER BY id DESC LIMIT 1";
 		$resp = $this->db->query($sql);
 		return $resp;
+	}
+	public function verDetallesId() {
+		$sql = "SELECT * FROM venta_servicio WHERE id = {$this->getId()}";
+		$resp = $this->db->query($sql);
+		return $resp;
+	}
+	public function Cobrar() {
+		$sql = "UPDATE venta_servicio SET saldo = {$this->getSaldo()} WHERE id = {$this->getId()}";
+		$resp = $this->db->query($sql);
+		$result = FALSE;
+		if($resp){
+			$result = TRUE;
+		}
+		return $result;
 	}
 	
 }

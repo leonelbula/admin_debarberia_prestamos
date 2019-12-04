@@ -810,7 +810,11 @@ class productosController {
 			$id_producto = $_GET['id'];
 			$producto = new Producto();
 			$producto->setId($id_producto);
-
+			
+			$productoSuc = new ProductoSucursal();
+			$productoSuc->setId_producto($id_producto);
+			$productoSuc->Eliminar();
+			
 			$resp = $producto->Eliminar();
 
 			if ($resp) {
@@ -856,7 +860,11 @@ class productosController {
 			$id = $_GET['id'];
 			$insumo = new Insumo();
 			$insumo->setId($id);
-
+			
+			$insumo = new InsumoSucursal();
+			$insumo->setId_producto($id_producto);
+			$insumo->Eliminar();
+			
 			$resp = $insumo->Eliminar();
 
 			if ($resp) {

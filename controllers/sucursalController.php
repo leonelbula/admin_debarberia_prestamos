@@ -5,6 +5,8 @@ require_once 'models/ProductosSucursal.php';
 require_once 'models/VentasSucursal.php';
 require_once 'models/VentaServicio.php';
 require_once 'models/ComponenteServicio.php';
+require_once 'models/InsumoSucursal.php';
+require_once 'models/ClienteVenta.php';
 require_once 'models/Parametros.php';
 
 class sucursalController {
@@ -395,7 +397,7 @@ class sucursalController {
 				}
 
 				$ventaServicio = new VentaServicio();
-
+				$ventaServicio->setId_sucursal($id_sucursal);
 				$ultimaventa = $ventaServicio->VerUltimaVentaServicio();
 				
 				if ($ultimaventa->num_rows != 0) {
@@ -406,8 +408,44 @@ class sucursalController {
 				}else{
 					$numVenta = $numRegistro;
 				}
-
-				$productos = new ProductoSucursal();
+				
+				$detallesInsumo = json_decode($listaServicio,TRUE);
+				
+				foreach ($detallesInsumo as $key => $value) {
+					$id_servicio = $value['id'];
+					
+					$insumo = new InsumoSucursal();
+					$componente = new ComponenteServicio();
+					
+					$componente->setId_servicio($id_servicio);
+					$detalles = $componente->verDetalles();
+					
+					while ($row2 = $detalles->fetch_object()) {
+						$listaDetalles = $row2->detalle;
+					}
+					$listaInsumo = json_decode($listaDetalles,TRUE);
+					
+					foreach ($listaInsumo as $key => $value) {
+																								
+						$insumo->setId_producto($value['id']);
+						$insumo->setId_sucursal($id_sucursal);
+						$insumoSer = $insumo->verInsumosId();
+						
+						while ($row3 = $insumoSer->fetch_object()) {
+							$cantidadInsumo = (int)$row3->cantidad;
+						}
+						$nuevaCantidad = $cantidadInsumo - (int)$value['cantidad'];
+						
+							
+						
+						$insumo->setCantidad($nuevaCantidad);						
+						$insumo->ActulizarStock();
+						
+					}
+					
+				}
+						
+										
 				
 				
 				$ventaServicio->setId_sucursal($id_sucursal);
@@ -416,12 +454,133 @@ class sucursalController {
 				$ventaServicio->setDetalle($listaServicio);
 				$ventaServicio->setFecha($fecha);
 				$ventaServicio->setValor($total);
+				$ventaServicio->setSaldo($total);
 				$resp = $ventaServicio->Guardar();
-				var_dump($resp);
+				
+				$IdUltimaventa = $ventaServicio->VerUltimaVentaServicio();
+				
+				while ($row4 = $IdUltimaventa->fetch_object()) {
+					$idVenta = $row4->id;
+				}
+				
+				if ($resp){
+					echo'<script>
+
+					swal({
+						  type: "success",
+						  title: "Sucuarsal guardado Correctamente",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "cobrarservico&id='.$idVenta.'";
+
+							}
+						})
+
+					</script>';
+				}else{
+					echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Registro no Guardado!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "ventaservicio";
+
+							}
+						})
+
+			  	</script>';
+				}
 			}
 		} else {
 			
 		}
 	}
+	static public function verventaservicio($id) {
+		$ventaservicio = new VentaServicio();
+		$ventaservicio->setId($id);
+		$detalles = $ventaservicio->verDetallesId();
+		return $detalles;
+	}
+	public function cobrarservico() {
+		require_once 'views/layout/menu.php';
+		require_once 'views/sucursal/pagoservicio.php';
+		require_once 'views/layout/copy.php';
+	}
+	public function pagarservicio() {
+		if(isset($_POST['id'])){
+			
+			$id = $_POST['id'];
+			$valor = $_POST['valor'];
+			
+			$servicio = new VentaServicio();
+			$servicio->setId($id);
+			$detalles = $servicio->verDetallesId();
+			
+			while ($row = $detalles->fetch_object()) {
+				$valorfactura = (int)$row->valor;
+			}
+			if($valor >= $valorfactura){
+				$nuevoSaldo = 0;
+			}else{
+				$nuevoSaldo = $valorfactura - (int)$valor;
+			}
+			
+			$servicio->setSaldo($nuevoSaldo);
+			$resp = $servicio-> Cobrar();
+			if ($resp) {
+				echo'<script>
 
+					swal({
+						  type: "success",
+						  title: "Venta cobrada Correctamente",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "ventaservicio";
+
+							}
+						})
+
+					</script>';
+			} else {
+				echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Registro no Guardado !",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "listarventas";
+
+							}
+						})
+
+			  	</script>';
+			}
+		}
+	}
+	
+	public function nuevaventa() {
+		require_once 'views/layout/menu.php';
+		require_once 'views/sucursal/nuevaVenta.php';
+		require_once 'views/layout/copy.php';
+	}
+	static public function listaclientes() {
+		$cliente = new ClienteVenta();
+		$detalles = $cliente->listarClientes();
+		return $detalles;
+	}
 }

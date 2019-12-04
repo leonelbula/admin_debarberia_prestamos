@@ -60,7 +60,7 @@
 						</div>
 						<div class="col-xs-6">
 							<div class="box-header with-border">
-									<a href="<?= URL_BASE ?>sucursal/nuevotraslado">
+									<a href="<?= URL_BASE ?>sucursal/nuevaventa">
 										<button class="btn btn-primary">
 
 											Nueva Venta

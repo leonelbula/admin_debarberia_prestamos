@@ -94,7 +94,7 @@ class ProductoSucursal {
 
 	}
 	public function Eliminar() {
-		$sql = "DELETE FROM producto_sucursal WHERE id = {$this->getId()}";
+		$sql = "DELETE FROM producto_sucursal WHERE id_producto = {$this->getId_producto()}";
 		$resp = $this->db->query($sql);
 		$resul = FALSE;
 		if($resp){
