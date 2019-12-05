@@ -8,7 +8,7 @@ $.ajax({
  })
  
  var idsucursal = $("#idsucursal").val();
-// console.log("idsucursal", idsucursal);
+ console.log("idsucursal", idsucursal);
  $('.tablaproductoventa').DataTable( {
     "ajax": "../ajax/productoVenta.php?idsucursal="+idsucursal,
     "deferRender": true,
@@ -43,7 +43,7 @@ $.ajax({
 
 } );
 
-//console.log("estdo iva",precio);
+
 	 
 $(".tablaproductoventa tbody").on("click", "button.agregarProducto", function(){
 	

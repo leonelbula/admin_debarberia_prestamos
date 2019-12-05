@@ -4,6 +4,7 @@ require_once 'models/Sucursal.php';
 require_once 'models/ProductosSucursal.php';
 require_once 'models/VentasSucursal.php';
 require_once 'models/VentaServicio.php';
+require_once 'models/VentaProducto.php';
 require_once 'models/ComponenteServicio.php';
 require_once 'models/InsumoSucursal.php';
 require_once 'models/ClienteVenta.php';
@@ -500,7 +501,22 @@ class sucursalController {
 				}
 			}
 		} else {
-			
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Registro no Guardado!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "ventaservicio";
+
+							}
+						})
+
+			  	</script>';
 		}
 	}
 	static public function verventaservicio($id) {
@@ -582,5 +598,124 @@ class sucursalController {
 		$cliente = new ClienteVenta();
 		$detalles = $cliente->listarClientes();
 		return $detalles;
+	}
+	static public function listaproductosucursal($id_sucursal) {
+		$producto = new ProductoSucursal();
+		$producto->setId_sucursal($id_sucursal);
+		$detalles = $producto->ListaProductos();
+		return $detalles;
+		
+	}
+	public function guardarventasproducto() {
+		if (isset($_POST['idSucursal'])) {
+
+			$id_sucursal = $_POST['idSucursal'];			
+			$fecha = isset($_POST['fecha']) ? $_POST['fecha'] : FALSE;
+			$listaPorducto = isset($_POST['listaProductos']) ? $_POST['listaProductos'] : FALSE;
+			$total = isset($_POST['nuevoTotalServicio']) ? $_POST['nuevoTotalServicio'] : FALSE;
+
+			if ($id_sucursal && $fecha && $listaPorducto) {
+
+				$parametros = new Parametros();
+				$detallesParrametro = $parametros->MostrarParrametro();
+
+				while ($row = $detallesParrametro->fetch_object()) {
+					$numRegistro = $row->num_inicio_factura;
+				}
+
+				$ventaProducto = new VentaProducto();
+				$ventaProducto->setId_sucursal($id_sucursal);
+				$ultimaventa = $ventaProducto->VerUltimaVenta();
+				
+				if ($ultimaventa->num_rows != 0) {
+					while ($row1 = $ultimaventa->fetch_object()) {
+						$ultimoRegistro = $row1->num_factura;
+					}
+					$numVenta = $ultimoRegistro + 1;
+				}else{
+					$numVenta = $numRegistro;
+				}
+				
+				$detallesPorducto = json_decode($listaPorducto,TRUE);
+				
+				foreach ($detallesPorducto as $key => $value) {
+					$id_producto = $value['id'];
+					$costo = $value['costo'];
+					$cantidaV = $value['cantidad'];
+					$precio = $value['precio'];
+										
+					
+					$productoSucursal = new ProductoSucursal();
+					$productoSucursal->setId_producto($id_producto);
+					$productoSucursal->setId_sucursal($id_sucursal);
+					$detalles = $productoSucursal->MostrarProductosSucursal();
+					
+					var_dump($detalles);			
+					
+					
+					
+					
+					}
+					
+				}
+						
+				
+				die();
+				
+				
+				$ventaServicio->setId_sucursal($id_sucursal);
+				$ventaServicio->setId_estilista($id_estilista);
+				$ventaServicio->setNum_venta($numVenta);
+				$ventaServicio->setDetalle($listaServicio);
+				$ventaServicio->setFecha($fecha);
+				$ventaServicio->setValor($total);
+				$ventaServicio->setSaldo($total);
+				$resp = $ventaServicio->Guardar();
+				
+				$IdUltimaventa = $ventaServicio->VerUltimaVentaServicio();
+				
+				while ($row4 = $IdUltimaventa->fetch_object()) {
+					$idVenta = $row4->id;
+				}
+				
+				if ($resp){
+					echo'<script>
+
+					swal({
+						  type: "success",
+						  title: "Sucuarsal guardado Correctamente",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "cobrarservico&id='.$idVenta.'";
+
+							}
+						})
+
+					</script>';
+				}else{
+					echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Registro no Guardado!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "ventaservicio";
+
+							}
+						})
+
+			  	</script>';
+				}
+			
+		} else {
+			
+		}
 	}
 }

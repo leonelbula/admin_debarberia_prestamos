@@ -53,9 +53,6 @@ class ProductoSucursal {
 		$this->stock_minimo = $stock_minimo;
 	}
 
-	
-	
-	
 	public function __construct() {
 		$this->db = Database::connect();
 	}
@@ -65,7 +62,7 @@ class ProductoSucursal {
 		return $resul;
 	}
 	public function MostrarProductosSucursal() {
-		$sql = "SELECT * FROM producto_sucursal WHERE id = {$this->getId()} && id_sucursal = {$this->getId_sucursal()}";
+		$sql = "SELECT * FROM producto_sucursal WHERE id_producto = {$this->getId_producto()} && id_sucursal = {$this->getId_sucursal()}";
 		$resul = $this->db->query($sql);
 		return $resul;
 	}
@@ -108,7 +105,7 @@ class ProductoSucursal {
 		return $resp;
 	}
 	public function ActulizarStockSucursal() {
-		$sql = "UPDATE producto_sucursal SET cantidad={$this->getCantidad()}  WHERE id = {$this->getId_producto()}";
+		$sql = "UPDATE producto_sucursal SET cantidad={$this->getCantidad()}  WHERE id = {$this->getId_producto()} AND id_sucursal = {$this->getId_sucursal()}";
 		$resp = $this->db->query($sql);
 		$resul = FALSE;
 		if($resp){
@@ -131,4 +128,9 @@ class ProductoSucursal {
 		$resp = $this->db->query($sql);		
 		return $resp;
 	}
+	public function ListaProductos() {
+		$sql = "SELECT p,id,p.codigo,p.costo,p.nombre,p.precio_venta ,s.cantidad, s.stock_minimo FROM producto p , producto_sucursal s WHERE p.id = s.id_producto AND s.id_sucursal = {$this->getId_sucursal()} GROUP BY p.id";
+		$resul = $this->db->query($sql);
+		return $resul;
+	}	
 }

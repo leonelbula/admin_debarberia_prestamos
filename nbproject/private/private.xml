@@ -7,11 +7,11 @@
             <file>file:/C:/wamp64/www/barberia/models/VentaServicio.php</file>
             <file>file:/C:/wamp64/www/barberia/assets/js/ventaProductos.js</file>
             <file>file:/C:/wamp64/www/barberia/controllers/sucursalController.php</file>
-            <file>file:/C:/wamp64/www/barberia/models/ComponenteServicio.php</file>
             <file>file:/C:/wamp64/www/barberia/views/sucursal/nuevaVenta.php</file>
             <file>file:/C:/wamp64/www/barberia/views/layout/principal.php</file>
+            <file>file:/C:/wamp64/www/barberia/models/ProductosSucursal.php</file>
             <file>file:/C:/wamp64/www/barberia/views/layout/footer.php</file>
-            <file>file:/C:/wamp64/www/barberia/ajax/productoVenta.php</file>
+            <file>file:/C:/wamp64/www/barberia/models/VentaProducto.php</file>
         </group>
     </open-files>
 </project-private>

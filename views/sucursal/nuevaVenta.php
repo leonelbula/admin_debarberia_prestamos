@@ -4,28 +4,30 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box">
-                    
+					<div class="box-header with-border">
+						<h3>VENTAS DE PRODUCTOS</h3>
+					</div>
+					
+
                     <div class="panel-body" style="height: 400px;" id="formularioregistros">
-                        <form name="formulario" class="formularioVenta" id="formulario" method="POST" action="guardarventasservicio">
+                        <form name="formulario" class="formularioVenta" id="formulario" method="POST" action="guardarventasproducto">
 							<div class="form-group col-lg-8 col-md-8 col-sm-8 col-xs-12">
-								<label>Cliente(*):</label>								
-								<select id="idcliente" name="idCliente" class="form-control selectpicker" data-live-search="true" required>
-<!--									<option value="">Seleccionar Client</option>-->
-									<?php 
-										$id = $_SESSION['sucursal']->id;
-										$listaSucursal = sucursalController::listaclientes();
-										while ($row = $listaSucursal->fetch_object()) {
-											echo '<option value="'.$row->id.'">'.$row->nombre.'</option>';
-										}
-									 ?>
-								</select>
+								<label>Sucursal(*):</label>	
+								<input type="text" class="form-control" name="sucursal" id="sucursal" value="<?= $_SESSION['sucursal']->nombre ?>" readonly="">
+								
+									<!--									<option value="">Seleccionar Client</option>-->
+									<?php
+									$id = $_SESSION['sucursal']->id;
+									
+									?>
+				
 							</div>
-							<input type="hidden" name="idSucursal" id="idsucursal" value="<?=$id?>" />
+							<input type="hidden" name="idSucursal" id="idsucursal" value="<?= $id ?>" />
 							<div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
 								<label>Fecha(*):</label>
-								<input type="date" class="form-control" name="fecha" id="fecha" value="<?= date('Y-m-d')?>">
+								<input type="date" class="form-control" name="fecha" id="fecha" value="<?= date('Y-m-d') ?>">
 							</div>
-							
+
 							<div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
 								<a data-toggle="modal" href="#myModal">           
 									<button id="btnAgregarArt" type="button" class="btn btn-primary"> <span class="fa fa-plus"></span> Agregar Artículos</button>
@@ -41,20 +43,20 @@
                                     <th>Precio</th>
 									<th>Descuento</th> 
                                     <th>Subtotal</th>
-									 <th>Accion</th>
+									<th>Accion</th>
 									</thead>
 									<tbody class="nuevoProducto">
-										
+
 									</tbody>              
 									<input type="hidden" id="listaProductos" name="listaProductos">
-					              
+
 									<tfoot>
                                     <th></th>                                  
                                     <th></th>
                                     <th></th>									
                                     <th>TOTAL</th>
                                     <th><h4 id="total"></h4><input type="hidden" name="totalVenta" id="totalVenta">
-									<input type="text" class="form-control input-lg nuevoTotalProducto" id="nuevoTotalVenta" name="nuevoTotalProducto" value="0" readonly/></th> 
+										<input type="text" class="form-control input-lg nuevoTotalProducto" id="nuevoTotalVenta" name="nuevoTotalProducto" value="0" readonly/></th> 
 									</tfoot>
 									<tbody>
 
@@ -65,7 +67,7 @@
 							<div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
 								<button class="btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i> Guardar</button>
 								<a href="<?= URL_BASE ?>frontend/principal">
-								<button id="btnCancelar" class="btn btn-danger" type="button"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>
+									<button id="btnCancelar" class="btn btn-danger" type="button"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>
 								</a>
 							</div>
                         </form>
@@ -96,7 +98,7 @@
 					<th>Accion</th>		
 					</thead>
 					<tbody>
-
+						
 					</tbody>
 
 				</table>

@@ -9,8 +9,8 @@ class ListaProducto {
 		$this->db = Database::connect();
 	}	
 
-	public function MostrarProductos($idSucursal) {
-		$sql = "SELECT p.codigo,p.costo,p.nombre,p.precio_venta ,s.cantidad FROM producto p , producto_sucursal s WHERE p.id = s.id_producto AND s.id_sucursal = $idSucursal GROUP BY p.id";
+	public function ListaProductos($idSucursal) {
+		$sql = "SELECT p.id,p.codigo,p.costo,p.nombre,p.precio_venta ,s.cantidad, s.stock_minimo FROM producto p , producto_sucursal s WHERE p.id = s.id_producto AND s.id_sucursal = $idSucursal GROUP BY p.id";
 		$resul = $this->db->query($sql);
 		return $resul;
 	}	
@@ -18,14 +18,20 @@ class ListaProducto {
 
 class ProductosAjax {
 	public function MostrarProdcutos() {
-		$inventario = new ListaProducto();
-		$idSucursal = $_GET['idsucursal'];
-		$listaproducto = $inventario->MostrarProductos($idSucursal);
 		
+		$inventario = new ListaProducto();
+		
+		$idSucursal = $_GET['idsucursal'];
+		
+		
+		$listaproducto = $inventario->ListaProductos($idSucursal);
+		
+		//$datosJson = json_encode($listaproducto);
 		
 		 $datosJson = '{
 		  "data": [';
 		 $i = 1;
+		 
 		 while ($row = $listaproducto->fetch_object()) {		
 					 
 			 
