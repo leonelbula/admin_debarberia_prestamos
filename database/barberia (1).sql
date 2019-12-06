@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 03-12-2019 a las 12:37:30
+-- Tiempo de generación: 06-12-2019 a las 12:43:16
 -- Versión del servidor: 5.7.26
 -- Versión de PHP: 7.2.18
 
@@ -196,6 +196,28 @@ INSERT INTO `cliente_prestamo` (`id`, `nombre`, `nit`, `telefono`, `direccion`, 
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `cliente_venta`
+--
+
+DROP TABLE IF EXISTS `cliente_venta`;
+CREATE TABLE IF NOT EXISTS `cliente_venta` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` text COLLATE utf8_spanish_ci NOT NULL,
+  `nit` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
+  `direcion` text COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `cliente_venta`
+--
+
+INSERT INTO `cliente_venta` (`id`, `nombre`, `nit`, `direcion`) VALUES
+(1, 'CLIENTE GENÉRICO', '9999999', 'CLIENTE GENÉRICO');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `componentes_servicio`
 --
 
@@ -213,7 +235,7 @@ CREATE TABLE IF NOT EXISTS `componentes_servicio` (
 --
 
 INSERT INTO `componentes_servicio` (`id`, `id_servicio`, `detalle`) VALUES
-(2, 6, '[{\"id\":\"2\",\"codigo\":\"1001\",\"descripcion\":\"displey de cuchichas\",\"cantidad\":\"1\"}]'),
+(2, 6, '[{\"id\":\"2\",\"codigo\":\"1001\",\"descripcion\":\"displey de cuchichas\",\"cantidad\":\"2\"}]'),
 (4, 7, '[{\"id\":\"2\",\"codigo\":\"1001\",\"descripcion\":\"displey de cuchichas\",\"cantidad\":\"5\"}]'),
 (6, 1, '[{\"id\":\"2\",\"codigo\":\"1001\",\"descripcion\":\"displey de cuchichas\",\"cantidad\":\"1\"}]');
 
@@ -448,10 +470,10 @@ CREATE TABLE IF NOT EXISTS `insumos_sucursal` (
 --
 
 INSERT INTO `insumos_sucursal` (`id`, `id_insumo`, `id_sucursal`, `cantidad`, `stock_minimo`) VALUES
-(1, 3, 1, 0, 50),
-(2, 3, 2, 0, 50),
-(3, 3, 3, 0, 50),
-(4, 3, 9, 0, 50);
+(1, 2, 1, 92, 50),
+(2, 2, 2, 100, 50),
+(3, 2, 3, 50, 50),
+(4, 2, 9, 50, 50);
 
 -- --------------------------------------------------------
 
@@ -547,6 +569,22 @@ INSERT INTO `prestamos_entregados` (`id`, `id_cliente`, `valor`, `fecha`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `prestamos_entregados_sucursal`
+--
+
+DROP TABLE IF EXISTS `prestamos_entregados_sucursal`;
+CREATE TABLE IF NOT EXISTS `prestamos_entregados_sucursal` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_estilista` int(11) NOT NULL,
+  `id_sucursal` int(11) NOT NULL,
+  `valor` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `prestamo_estilista`
 --
 
@@ -555,11 +593,16 @@ CREATE TABLE IF NOT EXISTS `prestamo_estilista` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_estilista` int(11) NOT NULL,
   `id_sucursal` int(11) NOT NULL,
-  `fecha` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  `fecha_vencimiento` date NOT NULL,
   `descripcion` int(11) NOT NULL,
+  `interes` int(11) NOT NULL,
   `valor` int(11) NOT NULL,
+  `saldo` int(11) NOT NULL,
   `plazo` int(11) NOT NULL,
   `cuotas` int(11) NOT NULL,
+  `utilidad` int(11) NOT NULL,
+  `valorcuota` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_estilista` (`id_estilista`),
   KEY `id_sucursal` (`id_sucursal`)
@@ -620,11 +663,11 @@ CREATE TABLE IF NOT EXISTS `producto_sucursal` (
 --
 
 INSERT INTO `producto_sucursal` (`id`, `id_producto`, `id_sucursal`, `cantidad`, `stock_minimo`) VALUES
-(1, 1, 1, 10, 10),
-(2, 2, 1, 24, 5),
-(3, 6, 2, 0, 5),
-(4, 6, 3, 0, 5),
-(5, 6, 9, 0, 5);
+(1, 1, 1, 7, 10),
+(2, 2, 1, 21, 5),
+(3, 6, 2, 20, 5),
+(4, 6, 3, 20, 5),
+(5, 6, 9, 30, 5);
 
 -- --------------------------------------------------------
 
@@ -702,7 +745,7 @@ CREATE TABLE IF NOT EXISTS `sucursal` (
 --
 
 INSERT INTO `sucursal` (`id`, `nombre`, `direccion`, `ciudad`, `departamento`, `fecha_inicio`) VALUES
-(1, 'sucuarsal 1', 'calle 11', 'sahagun', 'cordoba', '2019-11-04'),
+(1, 'sucursal 1', 'calle 11', 'sahagun', 'cordoba', '2019-11-04'),
 (2, 'sucursal monteria', 'calle 41', 'sahagun', 'cordoba', '2019-11-15'),
 (3, 'sucursal sahagun', 'carrera 11A #21 - 20', 'sahagun', 'cordoba', '2019-11-15'),
 (9, 'prueba', 'carrera 11A #21 - 20', 'sahagun', 'cordoba', '2019-11-15');
@@ -798,22 +841,24 @@ CREATE TABLE IF NOT EXISTS `venta_producto` (
   `utilidad` int(11) NOT NULL,
   `totalventa` int(11) NOT NULL,
   `totalcosto` int(11) NOT NULL,
+  `saldo` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_sucursal` (`id_sucursal`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `venta_producto`
 --
 
-INSERT INTO `venta_producto` (`id`, `id_sucursal`, `num_factura`, `fecha`, `detalles`, `utilidad`, `totalventa`, `totalcosto`) VALUES
-(1, 1, 1, '2019-11-15', '10', 10000, 30000, 20000),
-(2, 1, 1, '2019-11-16', '10', 10000, 30000, 20000),
-(3, 2, 1, '2019-11-16', 'venta', 40000, 80000, 40000),
-(4, 2, 1, '2019-11-16', 'venta', 40000, 80000, 40000),
-(5, 3, 1, '2019-11-16', 'venta', 40000, 80000, 40000),
-(6, 3, 1, '2019-11-16', 'venta', 40000, 80000, 40000),
-(7, 1, 1, '2019-11-17', 'venta', 40000, 80000, 40000);
+INSERT INTO `venta_producto` (`id`, `id_sucursal`, `num_factura`, `fecha`, `detalles`, `utilidad`, `totalventa`, `totalcosto`, `saldo`) VALUES
+(1, 1, 1, '2019-11-15', '10', 10000, 30000, 20000, 0),
+(2, 1, 2, '2019-11-16', '10', 10000, 30000, 20000, 0),
+(3, 2, 1, '2019-11-16', 'venta', 40000, 80000, 40000, 0),
+(4, 2, 3, '2019-11-16', 'venta', 40000, 80000, 40000, 0),
+(5, 3, 1, '2019-11-16', 'venta', 40000, 80000, 40000, 0),
+(6, 3, 2, '2019-11-16', 'venta', 40000, 80000, 40000, 0),
+(7, 1, 3, '2019-11-17', 'venta', 40000, 80000, 40000, 0),
+(8, 1, 4, '2019-12-06', '[{\"id\":\"1\",\"codigo\":\"1000\",\"descripcion\":\"papas de limon 150g \",\"cantidad\":\"3\",\"costo\":\"900\",\"precio\":\"1260\",\"descuento\":\"0\",\"subtotal\":\"3780\"},{\"id\":\"2\",\"codigo\":\"1001\",\"descripcion\":\"gaseosa 250 ml \",\"cantidad\":\"3\",\"costo\":\"500\",\"precio\":\"700\",\"descuento\":\"0\",\"subtotal\":\"2100\"}]', 1680, 5880, 4200, 0);
 
 -- --------------------------------------------------------
 
@@ -830,19 +875,26 @@ CREATE TABLE IF NOT EXISTS `venta_servicio` (
   `id_estilista` int(11) NOT NULL,
   `fecha` date NOT NULL,
   `valor` int(11) NOT NULL,
+  `saldo` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_sucursal` (`id_sucursal`),
   KEY `id_estilista` (`id_estilista`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `venta_servicio`
 --
 
-INSERT INTO `venta_servicio` (`id`, `id_sucursal`, `num_venta`, `detalle`, `id_estilista`, `fecha`, `valor`) VALUES
-(1, 1, 1, 'venta', 1, '2019-11-16', 5000),
-(2, 1, 2, 'venta', 1, '2019-11-16', 5000),
-(3, 1, 3, '[{\"id\":\"5\",\"codigo\":\"5\",\"descripcion\":\"CORTE BASICO 3\",\"cantidad\":\"1\",\"precio\":\"6000\",\"descuento\":\"0\",\"subtotal\":\"6000\"}]', 3, '2019-11-30', 6000);
+INSERT INTO `venta_servicio` (`id`, `id_sucursal`, `num_venta`, `detalle`, `id_estilista`, `fecha`, `valor`, `saldo`) VALUES
+(1, 1, 1, 'venta', 1, '2019-11-16', 5000, 0),
+(2, 1, 2, 'venta', 1, '2019-11-16', 5000, 0),
+(3, 1, 3, '[{\"id\":\"5\",\"codigo\":\"5\",\"descripcion\":\"CORTE BASICO 3\",\"cantidad\":\"1\",\"precio\":\"6000\",\"descuento\":\"0\",\"subtotal\":\"6000\"}]', 3, '2019-11-30', 6000, 0),
+(4, 1, 4, '[{\"id\":\"6\",\"codigo\":\"6\",\"descripcion\":\"CORTE BASICO 4\",\"cantidad\":\"1\",\"precio\":\"8000\",\"descuento\":\"0\",\"subtotal\":\"8000\"}]', 2, '2019-12-04', 8000, 0),
+(5, 1, 5, '[{\"id\":\"6\",\"codigo\":\"6\",\"descripcion\":\"CORTE BASICO 4\",\"cantidad\":\"1\",\"precio\":\"8000\",\"descuento\":\"0\",\"subtotal\":\"8000\"}]', 2, '2019-12-04', 8000, 0),
+(6, 1, 6, '[{\"id\":\"1\",\"codigo\":\"1\",\"descripcion\":\"CORTE BASICO\",\"cantidad\":\"1\",\"precio\":\"5000\",\"descuento\":\"0\",\"subtotal\":\"5000\"}]', 1, '2019-12-04', 5000, 0),
+(7, 1, 7, '[{\"id\":\"3\",\"codigo\":\"3\",\"descripcion\":\"CORTE EXPERTO\",\"cantidad\":\"1\",\"precio\":\"10000\",\"descuento\":\"0\",\"subtotal\":\"10000\"}]', 1, '2019-12-06', 10000, 0),
+(8, 1, 8, '[{\"id\":\"3\",\"codigo\":\"3\",\"descripcion\":\"CORTE EXPERTO\",\"cantidad\":\"1\",\"precio\":\"10000\",\"descuento\":\"0\",\"subtotal\":\"10000\"}]', 1, '2019-12-06', 10000, 0),
+(9, 1, 9, '[{\"id\":\"1\",\"codigo\":\"1\",\"descripcion\":\"CORTE BASICO\",\"cantidad\":\"1\",\"precio\":\"5000\",\"descuento\":\"0\",\"subtotal\":\"5000\"}]', 2, '2019-12-06', 5000, 0);
 
 --
 -- Restricciones para tablas volcadas

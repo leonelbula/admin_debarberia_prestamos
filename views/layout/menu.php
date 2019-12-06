@@ -4,7 +4,7 @@ if (!isset($_SESSION['identity'])) {
 
 					swal({
 						  type: "success",
-						  title: "Cerrado sistema",
+						  title: "Cerrado el sistema",
 						  showConfirmButton: true,
 						  confirmButtonText: "Cerrar"
 						  }).then(function(result){
@@ -103,12 +103,71 @@ if (!isset($_SESSION['identity'])) {
      
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
-        <li class="active treeview">
-          <a href="#">
+        <li class="treeview">
+          <a href="<?=URL_BASE?>frontend/principal">
             <i class="fa fa-dashboard"></i> <span>Tablero</span>
             
           </a>         
+        </li>	
+        
+		<?php
+		if (isset($_SESSION['sucursal'])) { ?>
+			 <li class="treeview">
+          <a href="#">
+            <i class="fa fa-files-o"></i>
+            <span>PRESTAMOS</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="<?=URL_BASE?>sucursal/prestamossucursal"><i class="fa fa-circle-o"></i> LISTA PRESTAMOS</a></li>
+			<li><a href="<?=URL_BASE?>sucursal/ventassucursal"><i class="fa fa-circle-o"></i> REALIZAR PAGO</a></li>
+			<li><a href="<?=URL_BASE?>sucursal/ventassucursal"><i class="fa fa-circle-o"></i> ESTADO DE CUENTA</a></li>
+	
+          </ul>
+        </li>        
+		<li class="treeview">
+          <a href="#">
+            <i class="fa fa fa-th"></i> <span>REALIZAR AVANCES</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">           
+			<li><a href="<?=URL_BASE?>ventas/ventassucursal"><i class="fa fa-circle-o"></i> LISTA AVANCES ACTUAL</a></li>
+			<li><a href="<?=URL_BASE?>ventas/ventassucursal"><i class="fa fa-circle-o"></i> AVANCES REALIZADOS</a></li>
+           
+          </ul>
         </li>
+		<li class="treeview">
+          <a href="#">
+            <i class="fa fa-laptop"></i>
+            <span>LIQUIDAR PAGO</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="<?=URL_BASE?>proveedor/"><i class="fa fa-circle-o"></i> NUEVO PAGO</a></li>
+            <li><a href="<?=URL_BASE?>proveedor/estadocuenta"><i class="fa fa-circle-o"></i> PAGOS REALIZADOS</a></li>                   
+          </ul>
+        </li>
+		<li class="treeview">
+          <a href="#">
+            <i class="fa fa-pie-chart"></i>
+            <span>PRODUCTOS</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="<?=URL_BASE?>productos/"><i class="fa fa-circle-o"></i> PRODUCTOS</a></li>           
+            <li><a href="<?=URL_BASE?>productos/insumos"><i class="fa fa-circle-o"></i> LISTA INSUMOS</a></li>            
+          </ul>
+        </li>
+		<?php } else { ?>
+					
         <li class="treeview">
           <a href="#">
             <i class="fa fa-files-o"></i>
@@ -129,8 +188,7 @@ if (!isset($_SESSION['identity'])) {
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
-          <ul class="treeview-menu">
-            <li><a href="<?=URL_BASE?>servicios/"><i class="fa fa-circle-o"></i> LISTA DE SERVICIOS</a></li>
+          <ul class="treeview-menu">           
 			<li><a href="<?=URL_BASE?>ventas/ventassucursal"><i class="fa fa-circle-o"></i> VENTAS POR SUCURSAL</a></li>
             <li><a href="<?=URL_BASE?>ventas/resportes"><i class="fa fa-circle-o"></i> REPORTES</a></li>
           </ul>
@@ -253,7 +311,11 @@ if (!isset($_SESSION['identity'])) {
         <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
         <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
         <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
-      </ul>
+      <?php
+		
+		}
+		?>
+	  </ul>
     </section>
     <!-- /.sidebar -->
   </aside>

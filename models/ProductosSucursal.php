@@ -100,12 +100,12 @@ class ProductoSucursal {
 		return $resul;
 	}
 	public function VercantidadProductoSucursal() {
-		$sql = "SELECT cantidad FROM producto_sucursal WHERE id = {$this->getId_producto()}";
+		$sql = "SELECT cantidad FROM producto_sucursal WHERE id_producto = {$this->getId_producto()}";
 		$resp = $this->db->query($sql);		
 		return $resp;
 	}
 	public function ActulizarStockSucursal() {
-		$sql = "UPDATE producto_sucursal SET cantidad={$this->getCantidad()}  WHERE id = {$this->getId_producto()} AND id_sucursal = {$this->getId_sucursal()}";
+		$sql = "UPDATE producto_sucursal SET cantidad={$this->getCantidad()}  WHERE id_producto = {$this->getId_producto()} AND id_sucursal = {$this->getId_sucursal()}";
 		$resp = $this->db->query($sql);
 		$resul = FALSE;
 		if($resp){

@@ -21,7 +21,7 @@
     <div class="box">
 
       <div class="box-header with-border">
-		  <a href="<?= URL_BASE ?>prestamos/relizarprestamo">
+		  <a href="<?= URL_BASE ?>sucursal/relizarprestamo">
 					<button class="btn btn-primary">
 						Nuevo Prestamo
 					</button>
@@ -32,7 +32,7 @@
 
       <div class="box-body">
          
-		  <table id="tablasPrestamos" class="table table-bordered table-striped dt-responsive tablasPrestamos" width="100%">
+		  <table id="tablasPrestamos" class="table table-bordered table-striped dt-responsive tablasPrestamosSucursal" width="100%">
 
           <thead>
             

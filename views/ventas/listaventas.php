@@ -21,13 +21,7 @@
 		<div class="box">
 
 			<div class="box-header with-border">
-				<a href="<?= URL_BASE ?>sucursal/registrar">
-					<button class="btn btn-primary">
-
-						Agregar Sucursal
-
-					</button>
-				</a>
+				
 			</div>
 
 

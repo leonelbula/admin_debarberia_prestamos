@@ -18,14 +18,7 @@
 					<h3 class="box-title">VENTAS DE SERVICIOS</h3>
 				</div>
 				<div class="box-body">
-	<?php
-	$id_sucursal = $_SESSION['sucursal']->id;
-
-	$estilista = estilistaController::estilistas($id_sucursal);
 	
-		?>
-
-
 						<div class="col-xs-6">
 							<div class="box-header with-border">
 									<a href="<?= URL_BASE ?>sucursal/ventaservicio">

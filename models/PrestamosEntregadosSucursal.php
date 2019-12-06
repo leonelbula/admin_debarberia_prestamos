@@ -2,11 +2,13 @@
 
 require_once 'config/DataBase.php';
 
-class PrestamosEntregado{
+class PrestamosEntregadosSucursal{
 	
 	public $db;
+	
 	private $id;
-	private $id_cliente;
+	private $id_estilista;
+	private $id_sucursal;
 	private $valor;
 	private $fecha;
 	
@@ -14,8 +16,12 @@ class PrestamosEntregado{
 		return $this->id;
 	}
 
-	function getId_cliente() {
-		return $this->id_cliente;
+	function getId_estilista() {
+		return $this->id_estilista;
+	}
+	
+	function getId_sucursal() {
+		return $this->id_sucursal;
 	}
 
 	function getValor() {
@@ -30,8 +36,12 @@ class PrestamosEntregado{
 		$this->id = $id;
 	}
 
-	function setId_cliente($id_cliente) {
-		$this->id_cliente = $id_cliente;
+	function setId_estilista($id_estilista) {
+		$this->id_estilista = $id_estilista;
+	}
+	
+	function setId_sucursal($id_sucursal) {
+		$this->id_sucursal = $id_sucursal;
 	}
 
 	function setValor($valor) {
@@ -42,17 +52,16 @@ class PrestamosEntregado{
 		$this->fecha = $fecha;
 	}
 
-	
 	public function __construct() {
 		$this->db = Database::connect();
 	}
-	public function MostrarPrestamoEntregadoIdCliente() {
-		$sql = "SELECT * FROM prestamos_entregados WHERE id_cliente = {$this->getId_cliente()}";
+	public function MostrarPrestamoEntregadoIdEstilista() {
+		$sql = "SELECT * FROM prestamos_entregados_sucursal WHERE id_estilista = {$this->getId_estilista()}";
 		$resp = $this->db->query($sql);
 		return $resp;
 	}
 	public function Guardar() {
-		$sql = "INSERT INTO prestamos_entregados VALUES (NULL,{$this->getId_cliente()},{$this->getValor()},'{$this->getFecha()}')";
+		$sql = "INSERT INTO prestamos_entregados_sucursal VALUES (NULL,{$this->getId_estilista()},{$this->getId_sucursal()},{$this->getValor()},'{$this->getFecha()}')";
 		$resp = $this->db->query($sql);
 		$result = FALSE;
 		if($resp){
@@ -61,7 +70,7 @@ class PrestamosEntregado{
 		return $result;
 	}
 	public function Actulizar() {
-		$sql = "UPDATE prestamos_entregados SET id_cliente={$this->getId_cliente()},valor={$this->getValor()},fecha='{$this->getFecha()}' WHERE id = {$this->getId()}";
+		$sql = "UPDATE prestamos_entregados_sucursal SET id_estilista={$this->getId_estilista()},valor={$this->getValor()},fecha='{$this->getFecha()}' WHERE id = {$this->getId()}";
 		$resp = $this->db->query($sql);
 		$result = FALSE;
 		if($resp){
@@ -70,7 +79,7 @@ class PrestamosEntregado{
 		return $result;
 	}
 	public function Eliminar() {
-		$sql = "DELETE FROM prestamos_entregados WHERE id = {$this->getId()}";
+		$sql = "DELETE FROM prestamos_entregados_sucursal WHERE id = {$this->getId()}";
 		$resp = $this->db->query($sql);
 		$result = FALSE;
 		if($resp){
