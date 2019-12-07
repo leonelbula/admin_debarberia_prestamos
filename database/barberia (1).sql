@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 06-12-2019 a las 12:43:16
+-- Tiempo de generación: 07-12-2019 a las 12:32:19
 -- Versión del servidor: 5.7.26
 -- Versión de PHP: 7.2.18
 
@@ -78,15 +78,22 @@ CREATE TABLE IF NOT EXISTS `abono_compra` (
 DROP TABLE IF EXISTS `abono_prestamos_estilista`;
 CREATE TABLE IF NOT EXISTS `abono_prestamos_estilista` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_prestamo` int(11) NOT NULL,
   `id_sucursal` int(11) NOT NULL,
   `id_estilista` int(11) NOT NULL,
-  `fecha` int(11) NOT NULL,
-  `descripcion` int(11) NOT NULL,
+  `fecha` date NOT NULL,
   `valor` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_sucursal` (`id_sucursal`),
   KEY `id_estilista` (`id_estilista`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `abono_prestamos_estilista`
+--
+
+INSERT INTO `abono_prestamos_estilista` (`id`, `id_prestamo`, `id_sucursal`, `id_estilista`, `fecha`, `valor`) VALUES
+(1, 1, 1, 1, '2019-12-07', 3833);
 
 -- --------------------------------------------------------
 
@@ -113,13 +120,19 @@ CREATE TABLE IF NOT EXISTS `avances` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_sucursal` int(11) NOT NULL,
   `id_estilista` int(11) NOT NULL,
-  `fecha` int(11) NOT NULL,
-  `detalle` text COLLATE utf8_spanish_ci NOT NULL,
   `valor` int(11) NOT NULL,
+  `fecha` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_sucursal` (`id_sucursal`),
   KEY `id_estilista` (`id_estilista`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `avances`
+--
+
+INSERT INTO `avances` (`id`, `id_sucursal`, `id_estilista`, `valor`, `fecha`) VALUES
+(1, 1, 1, 10000, '2019-12-07');
 
 -- --------------------------------------------------------
 
@@ -374,7 +387,7 @@ CREATE TABLE IF NOT EXISTS `empleado` (
 
 INSERT INTO `empleado` (`id`, `id_sucursal`, `nombre`, `nit`, `telefono`, `direccion`, `fecha_ingreso`) VALUES
 (1, 1, 'carlor macea lopez', 7854545, '7777777', 'calle 4 ', '2017-07-15'),
-(2, 2, 'pedro peres', 15047854, '7770000', 'calle 15 N 21 -48', '2014-05-01');
+(2, 1, 'pedro peres', 15047854, '7770000', 'calle 15 N 21 -48', '2014-05-01');
 
 -- --------------------------------------------------------
 
@@ -580,7 +593,14 @@ CREATE TABLE IF NOT EXISTS `prestamos_entregados_sucursal` (
   `valor` int(11) NOT NULL,
   `fecha` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `prestamos_entregados_sucursal`
+--
+
+INSERT INTO `prestamos_entregados_sucursal` (`id`, `id_estilista`, `id_sucursal`, `valor`, `fecha`) VALUES
+(1, 1, 1, 100000, '2019-12-07');
 
 -- --------------------------------------------------------
 
@@ -595,18 +615,26 @@ CREATE TABLE IF NOT EXISTS `prestamo_estilista` (
   `id_sucursal` int(11) NOT NULL,
   `fecha` date NOT NULL,
   `fecha_vencimiento` date NOT NULL,
-  `descripcion` int(11) NOT NULL,
   `interes` int(11) NOT NULL,
   `valor` int(11) NOT NULL,
+  `valortotal` int(11) NOT NULL,
   `saldo` int(11) NOT NULL,
-  `plazo` int(11) NOT NULL,
   `cuotas` int(11) NOT NULL,
+  `saldocuota` int(11) NOT NULL,
   `utilidad` int(11) NOT NULL,
   `valorcuota` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_estilista` (`id_estilista`),
   KEY `id_sucursal` (`id_sucursal`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `prestamo_estilista`
+--
+
+INSERT INTO `prestamo_estilista` (`id`, `id_estilista`, `id_sucursal`, `fecha`, `fecha_vencimiento`, `interes`, `valor`, `valortotal`, `saldo`, `cuotas`, `saldocuota`, `utilidad`, `valorcuota`) VALUES
+(1, 1, 1, '2019-12-07', '2020-01-06', 15, 100000, 115000, 111167, 30, 29, 30, 3833),
+(2, 3, 1, '2019-12-07', '2020-01-06', 10, 150000, 165000, 165000, 30, 30, 15000, 5500);
 
 -- --------------------------------------------------------
 

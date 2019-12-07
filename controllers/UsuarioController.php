@@ -182,7 +182,7 @@ class UsuarioController {
 
 						swal({
 							  type: "success",
-							  title: "Acces exitoso",
+							  title: "Acceso exitoso",
 							  showConfirmButton: true,
 							  confirmButtonText: "Cerrar"
 							  }).then(function(result){

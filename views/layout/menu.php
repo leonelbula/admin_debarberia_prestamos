@@ -121,9 +121,7 @@ if (!isset($_SESSION['identity'])) {
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<?=URL_BASE?>sucursal/prestamossucursal"><i class="fa fa-circle-o"></i> LISTA PRESTAMOS</a></li>
-			<li><a href="<?=URL_BASE?>sucursal/ventassucursal"><i class="fa fa-circle-o"></i> REALIZAR PAGO</a></li>
-			<li><a href="<?=URL_BASE?>sucursal/ventassucursal"><i class="fa fa-circle-o"></i> ESTADO DE CUENTA</a></li>
+            <li><a href="<?=URL_BASE?>sucursal/prestamossucursal"><i class="fa fa-circle-o"></i> LISTA PRESTAMOS</a></li>			
 	
           </ul>
         </li>        
@@ -135,8 +133,8 @@ if (!isset($_SESSION['identity'])) {
             </span>
           </a>
           <ul class="treeview-menu">           
-			<li><a href="<?=URL_BASE?>ventas/ventassucursal"><i class="fa fa-circle-o"></i> LISTA AVANCES ACTUAL</a></li>
-			<li><a href="<?=URL_BASE?>ventas/ventassucursal"><i class="fa fa-circle-o"></i> AVANCES REALIZADOS</a></li>
+			<li><a href="<?=URL_BASE?>sucursal/listaavences"><i class="fa fa-circle-o"></i> LISTA AVANCES ACTUAL</a></li>
+			<li><a href="<?=URL_BASE?>sucursal/avancerealizado"><i class="fa fa-circle-o"></i> AVANCES REALIZADOS</a></li>
            
           </ul>
         </li>

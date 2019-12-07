@@ -1,12 +1,12 @@
-$.ajax({
-
- 	url: "../ajax/productoVenta.php?idsucursal="+idsucursal,
- 	success:function(respuesta){
-				console.log("respuesta", respuesta);
-	}
-
- })
- 
+//$.ajax({
+//
+// 	url: "../ajax/productoVenta.php?idsucursal="+idsucursal,
+// 	success:function(respuesta){
+//				console.log("respuesta", respuesta);
+//	}
+//
+// })
+// 
  var idsucursal = $("#idsucursal").val();
  console.log("idsucursal", idsucursal);
  $('.tablaproductoventa').DataTable( {

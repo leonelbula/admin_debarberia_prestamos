@@ -921,7 +921,7 @@ class prestamosController {
 				$detallesPrestamo = $prestamo->MostrarPrestamosId();
 
 				while ($row = $detallesPrestamo->fetch_object()) {
-					$numCuotas = (int) $row->num_cuotas;
+					$numCuotas = (int) $row->cuotas_saldo;
 					$saldoPrendiente = (int) $row->saldo;
 				}
 				$nuevosaldoPrendiete = $saldoPrendiente + (int) $abonoAnterio;
@@ -929,7 +929,7 @@ class prestamosController {
 				if ($nuevoSaldo == 0) {
 					$saldoCuota = 0;
 				} else {
-					$saldoCuota = $numCuotas - 1;
+					$saldoCuota = $numCuotas;
 				}
 				$abonoCliente = new AbonoCliente();
 

@@ -8,8 +8,8 @@
 		</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=URL_BASE?>principal"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=URL_BASE?>sucursal">Prestamos</a></li>
-			<li class="active">Realizar Prestamos</li>
+			<li><a href="<?=URL_BASE?>prestamos">Prestamos</a></li>
+			<li class="active">Editar Prestamos</li>
 		</ol>
     </section>
 
@@ -25,7 +25,7 @@
 			</div>
 			<div class="box-body">
 				<div class="box-header with-border">
-					<a href="<?= URL_BASE ?>sucursal/prestamossucursal">
+					<a href="<?= URL_BASE ?>prestamos/">
 						<button class="btn btn-primary">
 
 							Cancelar
@@ -36,8 +36,13 @@
 				<div class="box box-default">				
 
 					<div class="col-md-6">
-						<form method="POST" class="formularioPrestamo" action="<?= URL_BASE ?>sucursal/guardarprestamos">						
+						<form method="POST" class="formularioPrestamo" action="<?= URL_BASE ?>sucursal/actuizarprestamos">						
+							<?php
+							while ($row1 = $detalles->fetch_object()):
+																					
+							?>
 							<div class="form-group">
+								<input type="hidden" name="id" value="<?= $row1->id?>" />
 								<label>SELECIONE EL CLIENTE</label>
 								<select class="form-control select2" style="width: 100%;" name="idCliente" required>
 									<option value="0">Seleccione un cliente</option>
@@ -47,7 +52,7 @@
 
 									while ($row = $listaCliente->fetch_object()) :
 										?>
-										<option value="<?= $row->id ?>"><?= $row->nombre ?></option>
+										<option value="<?= $row->id ?>" <?= $row1->id_estilista == $row->id ? 'selected':''?>><?= $row->nombre ?></option>
 									<?php endwhile; ?>
 								</select>
 								<input type="hidden" name="id_sucursal" value="<?=$id?>" />
@@ -59,7 +64,7 @@
 									<div class="input-group-addon">
 										<i class="fa fa-calendar"></i>
 									</div>
-									<input type="date" class="form-control" name="fechaEntrega" value="<?= date('Y-m-d') ?>">
+									<input type="date" class="form-control" name="fechaEntrega" value="<?= $row1->fecha ?>">
 								</div>
 								<!-- /.input group -->
 							</div>
@@ -70,7 +75,7 @@
 									<div class="input-group-addon">
 										<i class="fa fa-balance-scale"></i>
 									</div>
-									<input type="number" class="form-control interes" name="interes" required>
+									<input type="number" class="form-control interes" name="interes"  value="<?= $row1->interes ?>"required>
 								</div>
 								<!-- /.input group -->
 							</div>  						
@@ -81,7 +86,7 @@
 									<div class="input-group-addon">
 										<i class="fa fa-calculator"></i>
 									</div>
-									<input type="number" class="form-control numCuotas" name="numCuotas" required>
+									<input type="number" class="form-control numCuotas" name="numCuotas" value="<?= $row1->cuotas ?>" required>
 								</div>
 								<!-- /.input group -->
 							</div>  							
@@ -92,7 +97,7 @@
 									<div class="input-group-addon">
 										<i class="fa fa-dollar"></i>
 									</div>
-									<input type="text" class="form-control valorPrestamo" name="valorPrestamo" style="height:50px;font-size: 30px;" required>
+									<input type="text" class="form-control valorPrestamo" name="valorPrestamo" style="height:50px;font-size: 30px;" value="<?= $row1->valor ?>" required>
 								</div>
 								<!-- /.input group -->
 							</div> 
@@ -103,7 +108,7 @@
 									<div class="input-group-addon">
 										<i class="fa fa-dollar"></i>
 									</div>
-									<input type="text" class="form-control nuevoTotal" id="nuevoTotal" value="0" style="height:60px;font-size: 40px;" readonly>
+									<input type="text" class="form-control nuevoTotal" id="nuevoTotal" style="height:60px;font-size: 40px;" value="<?= $row1->valortotal ?>" readonly>
 								</div>
 								<!-- /.input group -->
 							</div> 
@@ -114,10 +119,11 @@
 									<div class="input-group-addon">
 										<i class="fa fa-dollar"></i>
 									</div>
-									<input type="text" class="form-control cuotaDiaria" id="cuotaDiaria" value="0" style="height:60px;font-size: 40px;" readonly>
+									<input type="text" class="form-control cuotaDiaria" id="cuotaDiaria"  style="height:60px;font-size: 40px;" value="<?= $row1->valorcuota ?>" readonly>
 								</div>
 								<!-- /.input group -->
 							</div> 
+							<?php endwhile; ?>
 							<button type="submit" class="btn btn-primary">Guardar</button>
 						</form>
 					</div>			
