@@ -1633,7 +1633,7 @@ class sucursalController {
 			$id_sucursal = $_POST['id_sucursal'];
 			$fecha = $_POST['fechaEntrega'];
 			$valor = isset($_POST['valor']) ? $_POST ['valor']: FALSE;
-
+			$estado = 1;
 			if ($id_empleado && $valor) {
 				$nuevoAvance = new Avance();
 
@@ -1641,6 +1641,7 @@ class sucursalController {
 				$nuevoAvance->setId_sucursal($id_sucursal);
 				$nuevoAvance->setValor($valor);
 				$nuevoAvance->setFecha($fecha);
+				$nuevoAvance->setEstado($estado);
 
 				$resp = $nuevoAvance->Guardar();
 				
@@ -1699,5 +1700,35 @@ class sucursalController {
 		</script>';
 		}
 	}
+	
+	public function veravance() {
+		require_once 'views/layout/menu.php';
+		if ($_GET['id']) {
+			$id_estilista = $_GET['id'];
+			
+			$avance = new Avance();
+			$avance->setId_estilista($id_estilista);
+			$detalles = $avance->MostrarAvancesId();
+			
+		}else{
+			echo'<script>
 
+					swal({
+						  type: "error",
+						  title: "¡No a seleccionado un Empleado!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "prestamos";
+
+							}
+						})
+
+		</script>';
+		}
+		require_once 'views/sucursal/veravance.php';
+		require_once 'views/layout/copy.php';
+	}
 }

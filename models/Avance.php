@@ -11,7 +11,8 @@ class Avance{
 	private $id_sucursal;
 	private $valor;
 	private $fecha;
-	
+	private $estado;
+			
 	function getId() {
 		return $this->id;
 	}
@@ -31,7 +32,11 @@ class Avance{
 	function getFecha() {
 		return $this->fecha;
 	}
-		
+	
+	function getEstado() {
+		return $this->estado;
+	}
+	
 	function setId($id) {
 		$this->id = $id;
 	}
@@ -51,13 +56,20 @@ class Avance{
 	function setFecha($fecha) {
 		$this->fecha = $fecha;
 	}
-	
+	function setEstado($estado) {
+		$this->estado = $estado;
+	}
+
 	public function __construct() {
 		$this->db = Database::connect();
 	}
-	
+	public function MostrarAvancesId() {
+		$sql = "SELECT *, SUM(valor) AS total  FROM avances WHERE id_estilista = {$this->getId_estilista()} AND estado = 1 ";
+		$resul = $this->db->query($sql);
+		return $resul;
+	}
 	public function Guardar() {
-		$sql = "INSERT INTO avances VALUES (NULL,{$this->getId_sucursal()},{$this->getId_estilista()},{$this->getValor()},'{$this->getFecha()}')";
+		$sql = "INSERT INTO avances VALUES (NULL,{$this->getId_sucursal()},{$this->getId_estilista()},{$this->getValor()},'{$this->getFecha()}',{$this->getEstado()})";
 		$resp = $this->db->query($sql);
 		$result = FALSE;
 		if($resp){

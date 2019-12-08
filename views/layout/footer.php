@@ -12,8 +12,11 @@
   })
 </script>
 <input type="hidden" value="<?php echo URL_BASE; ?>" id="rutaOculta">
-<!-- Select2 -->
-
+<?php if(isset($_SESSION['sucursal'])){ ?>
+<input type="hidden" name="idSucursal" id="idsucursal" value="<?=  $_SESSION['sucursal']->id ?>" />
+<?php }else{?>
+<input type="hidden" name="idSucursal" id="idsucursal" value="0" />
+<?php } ?>
 
 <script src="<?= URL_BASE ?>assets/js/ventaServicios.js"></script>
 <script src="<?= URL_BASE ?>assets/js/tablaclientes.js"></script>
@@ -36,6 +39,7 @@
 <script src="<?= URL_BASE ?>assets/js/cobrosServicio.js"></script>
 <script src="<?= URL_BASE ?>assets/js/ventaProductos.js"></script>
 <script src="<?= URL_BASE ?>assets/js/tablaPrestamosSucursal.js"></script>
+<script src="<?= URL_BASE ?>assets/js/avancesSucursal.js"></script>
 
 
 </body>

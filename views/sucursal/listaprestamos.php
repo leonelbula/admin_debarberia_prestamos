@@ -1,5 +1,5 @@
 <div class="content-wrapper">
-    <input type="hidden" name="idSucursal" id="idsucursal" value="<?=  $_SESSION['sucursal']->id ?>" />
+    
   <section class="content-header">
       
     <h1>
