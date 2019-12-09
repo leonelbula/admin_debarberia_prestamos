@@ -139,6 +139,12 @@ class PrestamosSucursal{
 		$resp = $this->db->query($sql);
 		return $resp;
 	}
+	public function MostrarValorApagarDiario() {
+		$sql = "SELECT SUM(valorcuota) as totalcuota FROM prestamo_estilista WHERE id_estilista = {$this->getId_estilista()} AND saldo > 0
+";
+		$resp = $this->db->query($sql);
+		return $resp;
+	}
 	public function Guardar() {
 		$sql = "INSERT INTO prestamo_estilista VALUES (NULL,{$this->getId_estilista()},{$this->getId_sucursal()},"
 		. "'{$this->getFecha()}','{$this->getFecha_vencimiento()}',{$this->getInteres()},"

@@ -24,8 +24,14 @@
 		
 			while ($row = $detalles->fetch_object()):
 					$valorAvance = $row->total;
-										
-					 $nombre = $row->nombre;
+					
+					$id = $row->id_estilista;
+			
+					$datosCliente = empleadosController::estilistasId($id);
+					
+					 foreach ($datosCliente as $key => $value) {
+						 $nombre = $value['nombre'];
+					 }
 					
 			
 			?>
@@ -45,7 +51,7 @@
 										
 				  <address>
 					  <h4><strong>Fecha de Entrega: </strong> <?= $row->fecha?> <br></h4>								 
-					  <h4><strong>Total: </strong> <?= number_format($row->valortotal) ?> <br></h4>	
+					  <h4><strong>Total: </strong> <?= number_format($valorAvance) ?> <br></h4>	
 					 
 				  </address>
 				</div>
@@ -60,15 +66,15 @@
 
       <div class="box-body">
          
-        <table class="table table-bordered table-striped dt-responsive tablaestadocuentaprestamosucursal" width="100%">
+        <table class="table table-bordered table-striped dt-responsive tablasAvancesDetallesSucursal" width="100%">
 
           <thead>
             
             <tr>
               
               <th style="width:10px">N°</th>			 
-              <th>Fecha abono</th>
-			  <th>Valor abono</th> 			  		
+              <th>Fecha </th>
+			  <th>Valor </th> 			  		
 			 		  
               <th>Acciones</th>
 
@@ -90,13 +96,13 @@
 				    	  
                   <td>
 					  <div class="btn-group">
-						  <a href="<?=URL_BASE?>sucursal/editarabono&id=<?= $value['id']?>">
+						  <a href="<?=URL_BASE?>sucursal/editaravance&id=<?= $value['id']?>">
 							  <button class="btn btn-warning ">
 								  <i class="fa fa-pencil"></i> Editar
 							  </button>
 						  </a>	
 						  <a>
-							  <button class="btn btn-danger btnEliminarAbono" idabono="<?= $value['id']?>">
+							  <button class="btn btn-danger btnEliminarAvence" idabono="<?= $value['id']?>">
 								  <i class="fa fa-times"></i> Eliminar
 							  </button>
 						  </a>	

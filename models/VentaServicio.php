@@ -81,7 +81,7 @@ class VentaServicio{
 		$this->db = Database::connect();
 	}
 	public function Guardar() {
-		$sql = "INSERT INTO venta_servicio VALUES (NULL,{$this->getId_sucursal()},{$this->getNum_venta()},'{$this->getDetalle()}',{$this->getId_estilista()},'{$this->getFecha()}',{$this->getValor()},{$this->getSaldo()})";
+		$sql = "INSERT INTO venta_servicio VALUES (NULL,{$this->getId_sucursal()},{$this->getNum_venta()},'{$this->getDetalle()}',{$this->getId_estilista()},'{$this->getFecha()}',{$this->getValor()},{$this->getSaldo()},1)";
 		$resp = $this->db->query($sql);
 		$result = FALSE;
 		if($resp){
@@ -96,6 +96,16 @@ class VentaServicio{
 	}
 	public function verDetallesId() {
 		$sql = "SELECT * FROM venta_servicio WHERE id = {$this->getId()}";
+		$resp = $this->db->query($sql);
+		return $resp;
+	}
+	public function MostrarServiciosRealizados() {
+		$sql = "SELECT *, SUM(valor) AS total FROM venta_servicio WHERE id_estilista = {$this->getId_estilista()} AND estado = 1 ";
+		$resul = $this->db->query($sql);
+		return $resul;
+	}
+	public function verServicioPrestado() {
+		$sql = "SELECT * FROM venta_servicio WHERE id_estilista = {$this->getId_estilista()} AND estado = 1";
 		$resp = $this->db->query($sql);
 		return $resp;
 	}

@@ -147,7 +147,7 @@ if (!isset($_SESSION['identity'])) {
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<?=URL_BASE?>proveedor/"><i class="fa fa-circle-o"></i> NUEVO PAGO</a></li>
+            <li><a href="<?=URL_BASE?>sucursal/liquidarpago"><i class="fa fa-circle-o"></i> NUEVO PAGO</a></li>
             <li><a href="<?=URL_BASE?>proveedor/estadocuenta"><i class="fa fa-circle-o"></i> PAGOS REALIZADOS</a></li>                   
           </ul>
         </li>

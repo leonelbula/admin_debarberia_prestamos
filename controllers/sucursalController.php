@@ -1632,7 +1632,7 @@ class sucursalController {
 			$id_empleado = $_POST['idEmpleado'];
 			$id_sucursal = $_POST['id_sucursal'];
 			$fecha = $_POST['fechaEntrega'];
-			$valor = isset($_POST['valor']) ? $_POST ['valor']: FALSE;
+			$valor = isset($_POST['valor']) ? $_POST ['valor'] : FALSE;
 			$estado = 1;
 			if ($id_empleado && $valor) {
 				$nuevoAvance = new Avance();
@@ -1644,7 +1644,7 @@ class sucursalController {
 				$nuevoAvance->setEstado($estado);
 
 				$resp = $nuevoAvance->Guardar();
-				
+
 				if ($resp) {
 					echo'<script>
 
@@ -1700,17 +1700,17 @@ class sucursalController {
 		</script>';
 		}
 	}
-	
+
 	public function veravance() {
 		require_once 'views/layout/menu.php';
 		if ($_GET['id']) {
 			$id_estilista = $_GET['id'];
-			
+
 			$avance = new Avance();
 			$avance->setId_estilista($id_estilista);
 			$detalles = $avance->MostrarAvancesId();
-			
-		}else{
+			$listaAvances = $avance->MostrarAvancesEstilista();
+		} else {
 			echo'<script>
 
 					swal({
@@ -1721,7 +1721,7 @@ class sucursalController {
 						  }).then(function(result){
 							if (result.value) {
 
-							window.location = "prestamos";
+							window.location = "relizaravance";
 
 							}
 						})
@@ -1730,5 +1730,141 @@ class sucursalController {
 		}
 		require_once 'views/sucursal/veravance.php';
 		require_once 'views/layout/copy.php';
+	}
+
+	public function editaravance() {
+		require_once 'views/layout/menu.php';
+		if ($_GET['id']) {
+			$id = $_GET['id'];
+			$avance = new Avance();
+			$avance->setId($id);
+			$detalles = $avance->MostrarAvancesDetalles();
+			require_once 'views/sucursal/editaravance.php';
+		} else {
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡No a seleccionado un Empleado!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "relizaravance";
+
+							}
+						})
+
+		</script>';
+		}
+		require_once 'views/layout/copy.php';
+	}
+
+	public function actulizaravance() {
+		if ($_POST['id']) {
+
+			$id = $_POST['id'];
+			$id_empleado = $_POST['idEmpleado'];
+			$id_sucursal = $_POST['id_sucursal'];
+			$fecha = $_POST['fechaEntrega'];
+			$valor = isset($_POST['valor']) ? $_POST ['valor'] : FALSE;
+			$estado = 1;
+			if ($id_empleado && $valor) {
+				$nuevoAvance = new Avance();
+				
+				$nuevoAvance->setId($id);
+				$nuevoAvance->setId_estilista($id_empleado);
+				$nuevoAvance->setId_sucursal($id_sucursal);
+				$nuevoAvance->setValor($valor);
+				$nuevoAvance->setFecha($fecha);
+				$nuevoAvance->setEstado($estado);
+
+				$resp = $nuevoAvance->Actulizar();
+
+				if ($resp) {
+					echo'<script>
+
+					swal({
+						  type: "success",
+						  title: "Registro Editado Correctamente",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "veravance&id='.$id_empleado.'";
+
+							}
+						})
+
+					</script>';
+				} else {
+					echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡No se logro guardar el abono!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "relizaravance";
+
+							}
+						})
+
+		</script>';
+				}
+			}
+		}
+	}
+	public function liquidarpago() {
+		require_once 'views/layout/menu.php';
+		require_once 'views/sucursal/liquidarpago.php';
+		require_once 'views/layout/copy.php';
+	}
+	public function pagoservicio() {
+		require_once 'views/layout/menu.php';
+		if($_GET['id']){
+			$id = $_GET['id'];
+			$servicios = new VentaServicio();
+			$servicios->setId_estilista($id);
+			$detalles = $servicios->MostrarServiciosRealizados();
+			$listaServicio = $servicios->verServicioPrestado();
+			require_once 'views/sucursal/pagos.php';
+		}else{
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡No a seleccionado un registro!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "liquidarpago";
+
+							}
+						})
+
+		</script>';
+		}
+		require_once 'views/layout/copy.php';
+	}
+	
+	static public function consultaPrestamo($id_estilista) {
+		$prestamo = new PrestamosSucursal();
+		$prestamo->setId_estilista($id_estilista);
+		$valorApagar = $prestamo->MostrarValorApagarDiario();
+		return $valorApagar;
+	}
+	static public function consulataAvances($id_estilista) {
+		$avance = new Avance();
+		$avance->setId_estilista($id_estilista);
+		$valorAvance = $avance->MostrarAvancesId();
+		return $valorAvance;
 	}
 }

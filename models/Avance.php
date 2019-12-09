@@ -68,6 +68,16 @@ class Avance{
 		$resul = $this->db->query($sql);
 		return $resul;
 	}
+	public function MostrarAvancesEstilista() {
+		$sql = "SELECT * FROM avances WHERE id_estilista = {$this->getId_estilista()} AND estado = 1 ";
+		$resul = $this->db->query($sql);
+		return $resul;
+	}
+	public function MostrarAvancesDetalles() {
+		$sql = "SELECT * FROM avances WHERE id = {$this->getId()} AND estado = 1 ";
+		$resul = $this->db->query($sql);
+		return $resul;
+	}
 	public function Guardar() {
 		$sql = "INSERT INTO avances VALUES (NULL,{$this->getId_sucursal()},{$this->getId_estilista()},{$this->getValor()},'{$this->getFecha()}',{$this->getEstado()})";
 		$resp = $this->db->query($sql);
@@ -78,7 +88,7 @@ class Avance{
 		return $result;
 	}
 	public function Actulizar() {
-		$sql = "UPDATE avances SET id_estilista={$this->getId_estilista()},valor={$this->getValor()},fecha='{$this->getFecha()}' WHERE id = {$this->getId()}";
+		$sql = "UPDATE avances SET id_estilista={$this->getId_estilista()},valor={$this->getValor()},fecha='{$this->getFecha()}' WHERE id = {$this->getId()} AND id_sucursal = {$this->getId_sucursal()}";
 		$resp = $this->db->query($sql);
 		$result = FALSE;
 		if($resp){

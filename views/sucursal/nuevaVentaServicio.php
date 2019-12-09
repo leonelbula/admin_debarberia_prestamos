@@ -28,7 +28,7 @@
 							
 							<div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
 								<a data-toggle="modal" href="#myModal">           
-									<button id="btnAgregarArt" type="button" class="btn btn-primary"> <span class="fa fa-plus"></span> Agregar Artículos</button>
+									<button id="btnAgregarArt" type="button" class="btn btn-primary"> <span class="fa fa-plus"></span> Agregar Servicio</button>
 								</a>
 							</div>
 
