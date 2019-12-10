@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 07-12-2019 a las 12:32:19
+-- Tiempo de generación: 10-12-2019 a las 12:48:36
 -- Versión del servidor: 5.7.26
 -- Versión de PHP: 7.2.18
 
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `abono_prestamos_estilista` (
   PRIMARY KEY (`id`),
   KEY `id_sucursal` (`id_sucursal`),
   KEY `id_estilista` (`id_estilista`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `abono_prestamos_estilista`
@@ -122,17 +122,23 @@ CREATE TABLE IF NOT EXISTS `avances` (
   `id_estilista` int(11) NOT NULL,
   `valor` int(11) NOT NULL,
   `fecha` date NOT NULL,
+  `estado` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_sucursal` (`id_sucursal`),
   KEY `id_estilista` (`id_estilista`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `avances`
 --
 
-INSERT INTO `avances` (`id`, `id_sucursal`, `id_estilista`, `valor`, `fecha`) VALUES
-(1, 1, 1, 10000, '2019-12-07');
+INSERT INTO `avances` (`id`, `id_sucursal`, `id_estilista`, `valor`, `fecha`, `estado`) VALUES
+(1, 1, 1, 10000, '2019-12-07', 0),
+(2, 1, 3, 10000, '2019-12-08', 0),
+(3, 1, 3, 5000, '2019-12-08', 1),
+(4, 1, 2, 1000, '2019-12-08', 1),
+(5, 1, 2, 8000, '2019-12-08', 1),
+(6, 1, 1, 20000, '2019-12-08', 0);
 
 -- --------------------------------------------------------
 
@@ -182,6 +188,31 @@ CREATE TABLE IF NOT EXISTS `cierre_caja` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `cierre_pago_estilista`
+--
+
+DROP TABLE IF EXISTS `cierre_pago_estilista`;
+CREATE TABLE IF NOT EXISTS `cierre_pago_estilista` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_estilista` int(11) NOT NULL,
+  `id_sucursal` int(11) NOT NULL,
+  `valor` int(11) NOT NULL,
+  `valortotal` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  `valorcomision` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `cierre_pago_estilista`
+--
+
+INSERT INTO `cierre_pago_estilista` (`id`, `id_estilista`, `id_sucursal`, `valor`, `valortotal`, `fecha`, `valorcomision`) VALUES
+(1, 1, 1, 21000, 30000, '2019-12-10', 9000);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `cliente_prestamo`
 --
 
@@ -227,6 +258,27 @@ CREATE TABLE IF NOT EXISTS `cliente_venta` (
 
 INSERT INTO `cliente_venta` (`id`, `nombre`, `nit`, `direcion`) VALUES
 (1, 'CLIENTE GENÉRICO', '9999999', 'CLIENTE GENÉRICO');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `comisiones`
+--
+
+DROP TABLE IF EXISTS `comisiones`;
+CREATE TABLE IF NOT EXISTS `comisiones` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `valor` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `comisiones`
+--
+
+INSERT INTO `comisiones` (`id`, `valor`, `fecha`) VALUES
+(1, 30, '2019-12-01');
 
 -- --------------------------------------------------------
 
@@ -483,7 +535,7 @@ CREATE TABLE IF NOT EXISTS `insumos_sucursal` (
 --
 
 INSERT INTO `insumos_sucursal` (`id`, `id_insumo`, `id_sucursal`, `cantidad`, `stock_minimo`) VALUES
-(1, 2, 1, 92, 50),
+(1, 2, 1, 91, 50),
 (2, 2, 2, 100, 50),
 (3, 2, 3, 50, 50),
 (4, 2, 9, 50, 50);
@@ -626,15 +678,15 @@ CREATE TABLE IF NOT EXISTS `prestamo_estilista` (
   PRIMARY KEY (`id`),
   KEY `id_estilista` (`id_estilista`),
   KEY `id_sucursal` (`id_sucursal`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `prestamo_estilista`
 --
 
 INSERT INTO `prestamo_estilista` (`id`, `id_estilista`, `id_sucursal`, `fecha`, `fecha_vencimiento`, `interes`, `valor`, `valortotal`, `saldo`, `cuotas`, `saldocuota`, `utilidad`, `valorcuota`) VALUES
-(1, 1, 1, '2019-12-07', '2020-01-06', 15, 100000, 115000, 111167, 30, 29, 30, 3833),
-(2, 3, 1, '2019-12-07', '2020-01-06', 10, 150000, 165000, 165000, 30, 30, 15000, 5500);
+(1, 1, 1, '2019-12-07', '2020-01-06', 15, 100000, 115000, 107334, 30, 28, 30, 3833),
+(2, 2, 1, '2019-12-07', '2020-01-06', 10, 150000, 165000, 165000, 30, 30, 15000, 5500);
 
 -- --------------------------------------------------------
 
@@ -722,6 +774,29 @@ CREATE TABLE IF NOT EXISTS `proveedor` (
 INSERT INTO `proveedor` (`id`, `nombre`, `nit`, `direccion`, `telefono`, `ciudad`, `departamento`) VALUES
 (1, 'distribuidora sahagun', '7801645985', 'carrera 11A #21 - 20', '3007412721', 'sahagun', 'cordoba'),
 (5, 'comercializaras del norte ', '7801645985', 'carrera 11A #21 - 20', '3007412721', 'sahagun', 'cordoba');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `saldo_pendiente`
+--
+
+DROP TABLE IF EXISTS `saldo_pendiente`;
+CREATE TABLE IF NOT EXISTS `saldo_pendiente` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_estilista` int(11) NOT NULL,
+  `id_sucursal` int(11) NOT NULL,
+  `valor` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `saldo_pendiente`
+--
+
+INSERT INTO `saldo_pendiente` (`id`, `id_estilista`, `id_sucursal`, `valor`, `fecha`) VALUES
+(2, 1, 1, 12833, '2019-12-10');
 
 -- --------------------------------------------------------
 
@@ -904,25 +979,27 @@ CREATE TABLE IF NOT EXISTS `venta_servicio` (
   `fecha` date NOT NULL,
   `valor` int(11) NOT NULL,
   `saldo` int(11) NOT NULL,
+  `estado` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_sucursal` (`id_sucursal`),
   KEY `id_estilista` (`id_estilista`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `venta_servicio`
 --
 
-INSERT INTO `venta_servicio` (`id`, `id_sucursal`, `num_venta`, `detalle`, `id_estilista`, `fecha`, `valor`, `saldo`) VALUES
-(1, 1, 1, 'venta', 1, '2019-11-16', 5000, 0),
-(2, 1, 2, 'venta', 1, '2019-11-16', 5000, 0),
-(3, 1, 3, '[{\"id\":\"5\",\"codigo\":\"5\",\"descripcion\":\"CORTE BASICO 3\",\"cantidad\":\"1\",\"precio\":\"6000\",\"descuento\":\"0\",\"subtotal\":\"6000\"}]', 3, '2019-11-30', 6000, 0),
-(4, 1, 4, '[{\"id\":\"6\",\"codigo\":\"6\",\"descripcion\":\"CORTE BASICO 4\",\"cantidad\":\"1\",\"precio\":\"8000\",\"descuento\":\"0\",\"subtotal\":\"8000\"}]', 2, '2019-12-04', 8000, 0),
-(5, 1, 5, '[{\"id\":\"6\",\"codigo\":\"6\",\"descripcion\":\"CORTE BASICO 4\",\"cantidad\":\"1\",\"precio\":\"8000\",\"descuento\":\"0\",\"subtotal\":\"8000\"}]', 2, '2019-12-04', 8000, 0),
-(6, 1, 6, '[{\"id\":\"1\",\"codigo\":\"1\",\"descripcion\":\"CORTE BASICO\",\"cantidad\":\"1\",\"precio\":\"5000\",\"descuento\":\"0\",\"subtotal\":\"5000\"}]', 1, '2019-12-04', 5000, 0),
-(7, 1, 7, '[{\"id\":\"3\",\"codigo\":\"3\",\"descripcion\":\"CORTE EXPERTO\",\"cantidad\":\"1\",\"precio\":\"10000\",\"descuento\":\"0\",\"subtotal\":\"10000\"}]', 1, '2019-12-06', 10000, 0),
-(8, 1, 8, '[{\"id\":\"3\",\"codigo\":\"3\",\"descripcion\":\"CORTE EXPERTO\",\"cantidad\":\"1\",\"precio\":\"10000\",\"descuento\":\"0\",\"subtotal\":\"10000\"}]', 1, '2019-12-06', 10000, 0),
-(9, 1, 9, '[{\"id\":\"1\",\"codigo\":\"1\",\"descripcion\":\"CORTE BASICO\",\"cantidad\":\"1\",\"precio\":\"5000\",\"descuento\":\"0\",\"subtotal\":\"5000\"}]', 2, '2019-12-06', 5000, 0);
+INSERT INTO `venta_servicio` (`id`, `id_sucursal`, `num_venta`, `detalle`, `id_estilista`, `fecha`, `valor`, `saldo`, `estado`) VALUES
+(1, 1, 1, 'venta', 1, '2019-11-16', 5000, 0, 0),
+(2, 1, 2, 'venta', 1, '2019-11-16', 5000, 0, 0),
+(3, 1, 3, '[{\"id\":\"5\",\"codigo\":\"5\",\"descripcion\":\"CORTE BASICO 3\",\"cantidad\":\"1\",\"precio\":\"6000\",\"descuento\":\"0\",\"subtotal\":\"6000\"}]', 3, '2019-11-30', 6000, 0, 0),
+(4, 1, 4, '[{\"id\":\"6\",\"codigo\":\"6\",\"descripcion\":\"CORTE BASICO 4\",\"cantidad\":\"1\",\"precio\":\"8000\",\"descuento\":\"0\",\"subtotal\":\"8000\"}]', 2, '2019-12-04', 8000, 0, 0),
+(5, 1, 5, '[{\"id\":\"6\",\"codigo\":\"6\",\"descripcion\":\"CORTE BASICO 4\",\"cantidad\":\"1\",\"precio\":\"8000\",\"descuento\":\"0\",\"subtotal\":\"8000\"}]', 2, '2019-12-04', 8000, 0, 0),
+(6, 1, 6, '[{\"id\":\"1\",\"codigo\":\"1\",\"descripcion\":\"CORTE BASICO\",\"cantidad\":\"1\",\"precio\":\"5000\",\"descuento\":\"0\",\"subtotal\":\"5000\"}]', 1, '2019-12-04', 5000, 0, 0),
+(7, 1, 7, '[{\"id\":\"3\",\"codigo\":\"3\",\"descripcion\":\"CORTE EXPERTO\",\"cantidad\":\"1\",\"precio\":\"10000\",\"descuento\":\"0\",\"subtotal\":\"10000\"}]', 1, '2019-12-06', 10000, 0, 0),
+(8, 1, 8, '[{\"id\":\"3\",\"codigo\":\"3\",\"descripcion\":\"CORTE EXPERTO\",\"cantidad\":\"1\",\"precio\":\"10000\",\"descuento\":\"0\",\"subtotal\":\"10000\"}]', 1, '2019-12-06', 10000, 0, 0),
+(9, 1, 9, '[{\"id\":\"1\",\"codigo\":\"1\",\"descripcion\":\"CORTE BASICO\",\"cantidad\":\"1\",\"precio\":\"5000\",\"descuento\":\"0\",\"subtotal\":\"5000\"}]', 2, '2019-12-06', 5000, 0, 1),
+(10, 1, 10, '[{\"id\":\"1\",\"codigo\":\"1\",\"descripcion\":\"CORTE BASICO\",\"cantidad\":\"1\",\"precio\":\"5000\",\"descuento\":\"0\",\"subtotal\":\"5000\"}]', 1, '2019-12-09', 5000, 0, 0);
 
 --
 -- Restricciones para tablas volcadas

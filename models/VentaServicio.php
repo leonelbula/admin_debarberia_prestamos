@@ -118,5 +118,14 @@ class VentaServicio{
 		}
 		return $result;
 	}
+	public function PagoEstilista() {
+		$sql = "UPDATE venta_servicio SET estado = 0 WHERE id_estilista = {$this->getId_estilista()}";
+		$resp = $this->db->query($sql);
+		$result = FALSE;
+		if($resp){
+			$result = TRUE;
+		}
+		return $result;
+	}
 	
 }

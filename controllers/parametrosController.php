@@ -2,6 +2,7 @@
 
 require_once 'models/DatosEmpresa.php';
 require_once 'models/Parametros.php';
+require_once 'models/Comisiones.php';
 
 class ParametrosController{
 	
@@ -26,6 +27,11 @@ class ParametrosController{
 		$informacion = new Parametros();
 		$detallesEmpresa = $informacion ->MostrarParrametro();
 		return $detallesEmpresa;
+	}
+	static public function Comisiones() {
+		$com = new Comisiones();
+		$listaCom = $com->MostrarDetalles();
+		return $listaCom;
 	}
 	public function Guardar() {
 		if($_POST){

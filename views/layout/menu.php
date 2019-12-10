@@ -103,16 +103,13 @@ if (!isset($_SESSION['identity'])) {
      
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
-        <li class="treeview">
-          <a href="<?=URL_BASE?>frontend/principal">
-            <i class="fa fa-dashboard"></i> <span>Tablero</span>
-            
-          </a>         
-        </li>	
-        
+                
 		<?php
 		if (isset($_SESSION['sucursal'])) { ?>
-			 <li class="treeview">
+		
+		 <li><a href="<?=URL_BASE?>frontend/principal"><i class="fa fa-dashboard"></i> PRINCIPAL</a></li>  
+		
+		<li class="treeview">
           <a href="#">
             <i class="fa fa-files-o"></i>
             <span>PRESTAMOS</span>

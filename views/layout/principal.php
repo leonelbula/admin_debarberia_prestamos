@@ -30,7 +30,7 @@
 									</a>
 								</div>
 							<h4>Ventas de servicios</h4>
-							<table class="table table-bordered table-striped dt-responsive " width="100%">
+							<table class="table table-bordered table-striped dt-responsive  VentaServicioSucursalP" width="100%">
 
 								<thead>
 

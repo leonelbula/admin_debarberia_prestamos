@@ -96,6 +96,15 @@ class Avance{
 		}
 		return $result;
 	}
+	public function Pagar() {
+		$sql = "UPDATE avances SET estado = 0 WHERE id_estilista = {$this->getId_estilista()} AND id_sucursal = {$this->getId_sucursal()}";
+		$resp = $this->db->query($sql);
+		$result = FALSE;
+		if($resp){
+			$result = TRUE;
+		}
+		return $result;
+	}
 	public function Eliminar() {
 		$sql = "DELETE FROM avances WHERE id = {$this->getId()}";
 		$resp = $this->db->query($sql);

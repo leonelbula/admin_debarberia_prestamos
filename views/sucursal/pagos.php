@@ -3,13 +3,13 @@
 	<section class="content-header">
 
 		<h1>
-			Gestor de abono a prestamos
+			Gestor de pagos 
 		</h1>
 		<ol class="breadcrumb">
 
 			<li><a href="<?= URL_BASE ?>frontend/principal"><i class="fa fa-dashboard"></i> Inicio</a></li>
 
-			<li class="active">Gestor estado de abonos</li>
+			<li class="active">Gestor de pagos/li>
 
 		</ol>
 
@@ -20,15 +20,34 @@
 		<div class="box">  
 			<div class="box-header with-border">
 				<?php
+				$porcentaje = ParametrosController::Comisiones();				
+				
+				if(isset($porcentaje) != NULL){
+					$valorporcentaje =  (int)$porcentaje->valor;
+				}else{
+					$valorporcentaje = 1;
+				}
+				
 				while ($row = $detalles->fetch_object()):
-					$totalSericio = (int)$row->total;
-
-					$id_estilista = $row->id_estilista;
+					
+					$total = (int)$row->total;
+					$totalInterno = ($valorporcentaje / 100) * $total;
+					
+					$totalSericio = $total - $totalInterno;
+				
+					$id_estilista = $_GET['id'];
 
 					$datosCliente = empleadosController::estilistasId($id_estilista);
 					
 					$valorCuota = sucursalController::consultaPrestamo($id_estilista);
 					$valorTotalAvance = sucursalController::consulataAvances($id_estilista);
+					$saldoanterior = 0;// sucursalController::consulataSaldos($id_estilista);
+					
+					if($saldoanterior != NULL){
+						$saldopendiente = $saldoanterior->valor;
+					}else{
+						$saldopendiente =  0;
+					}
 					
 					if($valorCuota->num_rows != 0){
 						while ($row1 = $valorCuota->fetch_object()) {
@@ -45,7 +64,7 @@
 						$avances = 0;
 					}
 				
-					$totalDeduciones = $cuota + $avances;
+					$totalDeduciones = $cuota + $avances + $saldopendiente;
 				
 					
 					if($totalSericio < $totalDeduciones){
@@ -65,7 +84,7 @@
 						$nombre = $value['nombre'];
 					}
 					?>
-					<a href="<?= URL_BASE ?>sucursal/listaavences">
+					<a href="<?= URL_BASE ?>sucursal/liquidarpago">
 						<button class="btn btn-primary">
 
 							Cancelar
@@ -81,12 +100,25 @@
 
 							<address>
 								<h4>A la Fecha: <strong> <?= date('Y-md') ?> </strong><br></h4>								 
-								<h4>TOTAL GENERADO: <strong> <?= number_format($totalSericio) ?></strong> <br></h4>	
+								<h4>TOTAL GENERADO: <strong> <?= number_format($total) ?></strong> <br></h4>	
+								<h4>TOTAL A PAGAR: <strong> <?= number_format($totalSericio) ?></strong> <br></h4>	
 								<h4>AVANCES REALIZADO <strong>- <?= number_format($avances) ?> </strong><br></h4>
-								<h4>COUTA DE PRESTAMO: <strong>- <?= number_format($cuota) ?> </strong><br></h4>	
+								<h4>COUTA DE PRESTAMO: <strong>- <?= number_format($cuota) ?> </strong><br></h4>
+								<h4>SALDO PENDIETE: <strong>- <?= number_format($saldopendiente) ?> </strong><br></h4>
 								<hr>
 								<h3>TOTAL: <strong> <?= number_format($valorEntregar) ?></strong></h3> <br><?= $msn;?>
 							</address>
+							<form method="POST" class="" action="<?= URL_BASE ?>sucursal/cerrarpagosestistas">
+								<input type="hidden" name="id_sucursal" value="<?=$_SESSION['sucursal']->id?>" />
+								<input type="hidden" name="id_estilista" value="<?= $id_estilista ?>" />
+								<input type="hidden" name="totalgenerado" value="<?= $totalSericio ?>" />
+								<input type="hidden" name="totalavances" value="<?= $avances ?>" />
+								<input type="hidden" name="totalCouta" value="<?= $cuota ?>" />
+								<input type="hidden" name="total" value="<?= $total ?>" />
+								<input type="hidden" name="comision" value="<?= $totalInterno ?>" />
+								<input type="hidden" name="saldopendiente" value="<?= $saldopendiente ?>" />
+							<button type="submit" class="btn btn-primary">Comfirmar pagos servicios</button>
+							</form>						
 						</div>
 					</div>
 	<?php

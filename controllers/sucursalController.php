@@ -13,6 +13,8 @@ require_once 'models/PrestamosSucursal.php';
 require_once 'models/PrestamosEntregadosSucursal.php';
 require_once 'models/AbonoPrestamoEmpleado.php';
 require_once 'models/Avance.php';
+require_once 'models/SaldoPendiente.php';
+require_once 'models/PagosEstilista.php';
 
 class sucursalController {
 
@@ -1772,7 +1774,7 @@ class sucursalController {
 			$estado = 1;
 			if ($id_empleado && $valor) {
 				$nuevoAvance = new Avance();
-				
+
 				$nuevoAvance->setId($id);
 				$nuevoAvance->setId_estilista($id_empleado);
 				$nuevoAvance->setId_sucursal($id_sucursal);
@@ -1793,7 +1795,7 @@ class sucursalController {
 						  }).then(function(result){
 							if (result.value) {
 
-							window.location = "veravance&id='.$id_empleado.'";
+							window.location = "veravance&id=' . $id_empleado . '";
 
 							}
 						})
@@ -1820,21 +1822,23 @@ class sucursalController {
 			}
 		}
 	}
+
 	public function liquidarpago() {
 		require_once 'views/layout/menu.php';
 		require_once 'views/sucursal/liquidarpago.php';
 		require_once 'views/layout/copy.php';
 	}
+
 	public function pagoservicio() {
 		require_once 'views/layout/menu.php';
-		if($_GET['id']){
+		if ($_GET['id']) {
 			$id = $_GET['id'];
 			$servicios = new VentaServicio();
 			$servicios->setId_estilista($id);
 			$detalles = $servicios->MostrarServiciosRealizados();
 			$listaServicio = $servicios->verServicioPrestado();
 			require_once 'views/sucursal/pagos.php';
-		}else{
+		} else {
 			echo'<script>
 
 					swal({
@@ -1854,17 +1858,178 @@ class sucursalController {
 		}
 		require_once 'views/layout/copy.php';
 	}
-	
+
 	static public function consultaPrestamo($id_estilista) {
 		$prestamo = new PrestamosSucursal();
 		$prestamo->setId_estilista($id_estilista);
 		$valorApagar = $prestamo->MostrarValorApagarDiario();
 		return $valorApagar;
 	}
+
 	static public function consulataAvances($id_estilista) {
 		$avance = new Avance();
 		$avance->setId_estilista($id_estilista);
 		$valorAvance = $avance->MostrarAvancesId();
 		return $valorAvance;
 	}
+
+	static public function consulataSaldos($id_estilista) {
+		$saldo = new SaldoPendiente();
+		$saldo->setId_estilista($id_estilista);
+		$valor = $saldo->MostrarSaldosPemienteIdEstilista();
+		return $valor;
+	}
+
+	public function cerrarpagosestistas() {
+		if (isset($_POST['id_estilista'])) {
+			$id_estilista = isset($_POST['id_estilista']) ? $_POST['id_estilista'] : FALSE;
+			$id_sucursal = isset($_POST['id_sucursal']) ? $_POST['id_sucursal'] : FALSE;
+			$totalGenerado = isset($_POST['totalgenerado']) ? $_POST['totalgenerado'] : FALSE;
+			$totalAvances = isset($_POST['totalavances']) ? $_POST['totalavances'] : FALSE;
+			$totalCouta = isset($_POST['totalCouta']) ? $_POST['totalCouta'] : FALSE;
+			$total = isset($_POST['total']) ? $_POST['total'] : FALSE;
+			$comision = isset($_POST['comision']) ? $_POST['comision'] : FALSE;
+			$saldonuevo = isset($_POST['saldopendiente']) ? $_POST['saldopendiente'] : FALSE;
+
+			if ($id_estilista && $id_sucursal && $totalGenerado && $totalAvances && $totalCouta) {
+
+				$fecha = date('Y-m-d');
+
+
+				$avances = new Avance;
+				$avances->setId_estilista($id_estilista);
+				$avances->setId_sucursal($id_sucursal);
+				$avances->Pagar();
+				
+				$prestamo = new PrestamosSucursal();
+				$prestamo->setId_estilista($id_estilista);
+				$detallesPrestamo = $prestamo->MostrarPrestamoEntregadoIdEstilista();
+
+				while ($row = $detallesPrestamo->fetch_object()) {
+					
+					$id = $row->id;					
+					$valor = (int) $row->valorcuota;
+					$saldoPendeinet = (int) $row->saldo;
+					$saldoCuota = (int) $row->saldocuota;
+
+					$saldo = $saldoPendeinet - $valor;
+					$nuevosaldocuota = $saldoCuota - 1;
+
+					$prestamo->setId($id);
+					$prestamo->setSaldo($saldo);
+					$prestamo->setSaldocuota($nuevosaldocuota);
+					$prestamo->Abonar();
+					
+				}
+
+				$totalDeduciones = (int) $totalAvances + (int) $totalCouta + (int) $saldonuevo;
+
+				$valorDiferencia = $totalDeduciones - $totalGenerado;
+				if ($valorDiferencia != 0) {
+					$saldoPendienteM = new SaldoPendiente();
+
+					$saldoPendienteM->setId_estilista($id_estilista);
+					$saldoPendienteM->Eliminar();
+					
+					$saldoPendienteM->setId_sucursal($id_sucursal);
+					$saldoPendienteM->setValor($valorDiferencia);
+					$saldoPendienteM->setFecha($fecha);
+					
+					$saldoPendienteM->Guardar();
+				} else {
+					$saldoPendienteM = new SaldoPendiente();
+
+					$saldoPendienteM->setId_estilista($id_estilista);
+					$saldoPendienteM->Eliminar();
+				}
+				
+			
+				$ventaServicio = new VentaServicio();
+				$ventaServicio->setId_estilista($id_estilista);
+				$ventaServicio->PagoEstilista();
+
+				$pago = new PagosEstilista();
+
+				$pago->setId_estilista($id_estilista);
+				$pago->setId_sucursal($id_sucursal);
+				$pago->setValor($totalGenerado);
+				$pago->setValortotal($total);
+				$pago->setValorcomision($comision);
+				$pago->setFecha($fecha);
+				$resp = $pago->Guardar();
+				
+
+				if ($resp) {
+					echo'<script>
+
+					swal({
+						  type: "success",
+						  title: "Registro Guardado Correctamente",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "liquidarpago";
+
+							}
+						})
+
+					</script>';
+				} else {
+					echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Error en el registro!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "liquidarpago";
+
+							}
+						})
+
+		</script>';
+				}
+			} else {
+				echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Error en el registro!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "liquidarpago";
+
+							}
+						})
+
+		</script>';
+			}
+		} else {
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡No a seleccionado un registro!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "liquidarpago";
+
+							}
+						})
+
+		</script>';
+		}
+	}
+
 }
