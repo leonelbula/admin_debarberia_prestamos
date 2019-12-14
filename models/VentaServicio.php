@@ -89,6 +89,15 @@ class VentaServicio{
 		}
 		return $result;
 	}
+	public function Actulizar() {
+		$sql = "";
+		$resp = $this->db->query($sql);
+		$result = FALSE;
+		if($resp){
+			$result = TRUE;
+		}
+		return $result;
+	}
 	public function VerUltimaVentaServicio() {
 		$sql = "SELECT * FROM venta_servicio WHERE id_sucursal = {$this->getId_sucursal()} ORDER BY id DESC LIMIT 1";
 		$resp = $this->db->query($sql);

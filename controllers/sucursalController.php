@@ -596,6 +596,205 @@ class sucursalController {
 			}
 		}
 	}
+	
+	public function editarventaservicio() {
+		require_once 'views/layout/menu.php';
+		if($_GET['id']){
+			$id = $_GET['id'];
+			$ventasservicio = new VentaServicio();
+			$ventasservicio->setId($id);
+			$detalles = $ventasservicio->verDetallesId();
+			
+			require_once 'views/sucursal/editarventasservisio.php';
+			
+		}else{
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡No a seleccionado un registro!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "principal";
+
+							}
+						})
+
+		</script>';
+		}
+		require_once 'views/layout/copy.php';
+	}
+	
+	public function actualizarventasservicio() {
+		if($_POST['id_venta']){
+			$id_venta = $_POST['id_venta'];
+			$id_sucursal = $_POST['idSucursal'];
+			$id_estilista = $_POST['idBarbero'];
+			$fecha = isset($_POST['fecha']) ? $_POST['fecha'] : FALSE;
+			$listaServicio = isset($_POST['listaServicio']) ? $_POST['listaServicio'] : FALSE;
+			$total = isset($_POST['nuevoTotalServicio']) ? $_POST['nuevoTotalServicio'] : FALSE;
+
+			if ($id_venta && $id_estilista && $fecha && $listaServicio) {
+
+				
+
+				
+				$numRegistro = $_POST['numregistro'];
+				
+
+				$ventaServicio = new VentaServicio();
+				$ventaServicio->setId($id_venta);
+				$ultimaventa = $ventaServicio->verDetallesId();
+
+				
+				while ($row1 = $ultimaventa->fetch_object()) {
+						$detallesProducto = $row1->detalle;
+				}
+				$listaServicioAnt = json_decode($detallesProducto,TRUE);
+				
+				foreach ($listaServicioAnt as $key => $value) {
+					$id_servicio = $value['id'];
+
+					$insumo = new InsumoSucursal();
+					$componente = new ComponenteServicio();
+
+					$componente->setId_servicio($id_servicio);
+					$detalles = $componente->verDetalles();
+					if ($detalles->num_rows != 0) {
+						while ($row2 = $detalles->fetch_object()) {
+							$listaDetalles = $row2->detalle;
+						}
+						$listaInsumo = json_decode($listaDetalles, TRUE);
+
+						foreach ($listaInsumo as $key => $value) {
+
+							$insumo->setId_producto($value['id']);
+							$insumo->setId_sucursal($id_sucursal);
+							$insumoSer = $insumo->verInsumosId();
+
+							while ($row3 = $insumoSer->fetch_object()) {
+								$cantidadInsumo = (int) $row3->cantidad;
+							}
+							$nuevaCantidad = $cantidadInsumo + (int) $value['cantidad'];
+
+
+
+							$insumo->setCantidad($nuevaCantidad);
+							$insumo->ActulizarStock();
+						}
+					}
+				}
+				
+								
+
+				$detallesInsumo = json_decode($listaServicio, TRUE);
+
+				foreach ($detallesInsumo as $key => $value) {
+					$id_servicio = $value['id'];
+
+					$insumo = new InsumoSucursal();
+					$componente = new ComponenteServicio();
+
+					$componente->setId_servicio($id_servicio);
+					$detalles = $componente->verDetalles();
+					if ($detalles->num_rows != 0) {
+						while ($row2 = $detalles->fetch_object()) {
+							$listaDetalles = $row2->detalle;
+						}
+						$listaInsumo = json_decode($listaDetalles, TRUE);
+
+						foreach ($listaInsumo as $key => $value) {
+
+							$insumo->setId_producto($value['id']);
+							$insumo->setId_sucursal($id_sucursal);
+							$insumoSer = $insumo->verInsumosId();
+
+							while ($row3 = $insumoSer->fetch_object()) {
+								$cantidadInsumo = (int) $row3->cantidad;
+							}
+							$nuevaCantidad = $cantidadInsumo - (int) $value['cantidad'];
+
+
+
+							$insumo->setCantidad($nuevaCantidad);
+							$insumo->ActulizarStock();
+						}
+					}
+				}
+
+				
+				$ventaServicio->setId_estilista($id_estilista);				
+				$ventaServicio->setDetalle($listaServicio);				
+				$ventaServicio->setValor($total);
+				$ventaServicio->setSaldo($total);
+				$resp = $ventaServicio->Guardar();
+
+				$IdUltimaventa = $ventaServicio->VerUltimaVentaServicio();
+
+				
+					$idVenta = $id_venta;
+				
+
+				if ($resp) {
+					echo'<script>
+
+					swal({
+						  type: "success",
+						  title: "Registro guardado Correctamente",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "cobrarservico&id=' . $idVenta . '";
+
+							}
+						})
+
+					</script>';
+				} else {
+					echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Registro no Guardado!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "ventaservicio";
+
+							}
+						})
+
+			  	</script>';
+				}
+			}
+		} else {
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Registro no Guardado!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "ventaservicio";
+
+							}
+						})
+
+			  	</script>';
+		
+		}
+
+	}
 
 	public function nuevaventa() {
 		require_once 'views/layout/menu.php';
@@ -1837,7 +2036,7 @@ class sucursalController {
 			$servicios->setId_estilista($id);
 			$detalles = $servicios->MostrarServiciosRealizados();
 			$listaServicio = $servicios->verServicioPrestado();
-			require_once 'views/sucursal/pagos.php';
+			
 		} else {
 			echo'<script>
 
@@ -2031,5 +2230,5 @@ class sucursalController {
 		</script>';
 		}
 	}
-
+	
 }

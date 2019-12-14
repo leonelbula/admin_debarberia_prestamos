@@ -36,11 +36,11 @@
 
 									<tr>
 
-										<th style="width:10px">Codigo</th>
+										<th style="width:10px">#</th>
 										<th>fecha</th>  			 
 										<th>Nombre</th>
-										<th>valor</th>					
-
+										<th>valor</th>
+										<th>Acciones</th>
 
 									</tr>
 
