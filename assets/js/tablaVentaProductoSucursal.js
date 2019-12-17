@@ -10,8 +10,8 @@
 //})
   
  
-$('.VentaServicioSucursalP').DataTable( {
-    "ajax": "../ajax/tablaVentaServiciosSucursal.php?idsucursal="+idsucursal,
+$('.tablaVentaProductoSuc').DataTable( {
+    "ajax": "../ajax/tablaVentaProductoSucursal.php?idsucursal="+idsucursal,
     "deferRender": true,
 	"retrieve": true,
 	"processing": true,
@@ -44,9 +44,9 @@ $('.VentaServicioSucursalP').DataTable( {
 
 } );
 
-$(".VentaServicioSucursalP").on("click", ".btnEliminarVentaServicios", function(){
+$(".tablaVentaProductoSuc").on("click", ".btnEliminarVentaproducto", function(){
 
-  var idventaservicio = $(this).attr("idventaservicio");
+  var idventaproducto = $(this).attr("idventaproducto");
 
   swal({
         title: '¿Está seguro de borrar registro?',
@@ -60,7 +60,7 @@ $(".VentaServicioSucursalP").on("click", ".btnEliminarVentaServicios", function(
       }).then(function(result){
         if (result.value) {
           
-            window.location = "../sucursal/eliminarventaservicios&id="+idventaservicio;
+            window.location = "../sucursal/eliminarventaproducto&id="+idventaproducto;
         }
 
   })

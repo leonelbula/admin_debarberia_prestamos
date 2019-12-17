@@ -41,6 +41,7 @@
 <script src="<?= URL_BASE ?>assets/js/tablaPrestamosSucursal.js"></script>
 <script src="<?= URL_BASE ?>assets/js/avancesSucursal.js"></script>
 <script src="<?= URL_BASE ?>assets/js/tablaVentaServicioSucursal.js"></script>
+<script src="<?= URL_BASE ?>assets/js/tablaVentaProductoSucursal.js"></script>
 
 
 </body>

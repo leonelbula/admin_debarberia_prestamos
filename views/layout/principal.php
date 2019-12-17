@@ -62,7 +62,7 @@
 									</a>
 								</div>
 							<h4>Ventas de productos</h4>
-							<table class="table table-bordered table-striped dt-responsive " width="100%">
+							<table class="table table-bordered table-striped dt-responsive tablaVentaProductoSuc" width="100%">
 
 								<thead>
 
@@ -70,8 +70,9 @@
 
 										<th style="width:10px">Codigo</th>
 										<th>fecha</th>  			 
-										<th>Nombre</th>
-										<th>valor</th>					
+										<th>Numero</th>
+										<th>valor</th>	
+										<th>Accion</th>	
 
 
 									</tr>

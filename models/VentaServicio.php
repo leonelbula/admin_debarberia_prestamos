@@ -90,7 +90,16 @@ class VentaServicio{
 		return $result;
 	}
 	public function Actulizar() {
-		$sql = "";
+		$sql = "UPDATE venta_servicio SET detalle='{$this->getDetalle()}',id_estilista={$this->getId_estilista()},valor={$this->getValor()},saldo={$this->getSaldo()} WHERE id = {$this->getId()}";
+		$resp = $this->db->query($sql);
+		$result = FALSE;
+		if($resp){
+			$result = TRUE;
+		}
+		return $result;
+	}
+	public function Eliminar() {
+		$sql = "DELETE FROM venta_servicio WHERE id = {$this->getId()}";
 		$resp = $this->db->query($sql);
 		$result = FALSE;
 		if($resp){
