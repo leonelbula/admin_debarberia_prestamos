@@ -132,5 +132,10 @@ class ProductoSucursal {
 		$sql = "SELECT p,id,p.codigo,p.costo,p.nombre,p.precio_venta ,s.cantidad, s.stock_minimo FROM producto p , producto_sucursal s WHERE p.id = s.id_producto AND s.id_sucursal = {$this->getId_sucursal()} GROUP BY p.id";
 		$resul = $this->db->query($sql);
 		return $resul;
+	}
+	public function verproducto() {		
+		$sql = "SELECT * FROM producto_sucursal WHERE id_producto = {$this->getId_producto()} AND id_sucursal = {$this->getId_sucursal()}";
+		$resp = $this->db->query($sql);		
+		return $resp;
 	}	
 }

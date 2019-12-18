@@ -97,6 +97,24 @@ class VentaProducto{
 		}
 		return $result;
 	}
+	public function Actulizar() {
+		$sql = "UPDATE venta_producto SET detalles='{$this->getDetalle()}',utilidad={$this->getUtilidad()},totalventa={$this->getTotalventa()},totalcosto={$this->getTotalcosto()},saldo={$this->getSaldo()} WHERE id = {$this->getId()} AND id_sucursal = {$this->getId_sucursal()}";
+		$resp = $this->db->query($sql);
+		$result = FALSE;
+		if($resp){
+			$result = TRUE;
+		}
+		return $result;
+	}
+	public function Eliminar() {
+		$sql = "DELETE FROM venta_producto WHERE id = {$this->getId()}";
+		$resp = $this->db->query($sql);
+		$result = FALSE;
+		if($resp){
+			$result = TRUE;
+		}
+		return $result;
+	}
 	public function VerUltimaVenta() {
 		$sql = "SELECT * FROM venta_producto WHERE id_sucursal = {$this->getId_sucursal()} ORDER BY id DESC LIMIT 1";
 		$resp = $this->db->query($sql);

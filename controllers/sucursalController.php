@@ -15,6 +15,7 @@ require_once 'models/AbonoPrestamoEmpleado.php';
 require_once 'models/Avance.php';
 require_once 'models/SaldoPendiente.php';
 require_once 'models/PagosEstilista.php';
+require_once 'models/AbonoEntregadosPrestamosSucursal.php';
 
 class sucursalController {
 
@@ -627,6 +628,36 @@ class sucursalController {
 		require_once 'views/layout/copy.php';
 	}
 
+	public function verdetallesventaservicio() {
+		require_once 'views/layout/menu.php';
+		if ($_GET['id']) {
+			$id = $_GET['id'];
+			$ventasservicio = new VentaServicio();
+			$ventasservicio->setId($id);
+			$detalles = $ventasservicio->verDetallesId();
+
+			require_once 'views/sucursal/verventasservisio.php';
+		} else {
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡No a seleccionado un registro!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "principal";
+
+							}
+						})
+
+		</script>';
+		}
+		require_once 'views/layout/copy.php';
+	}
+
 	public function actualizarventasservicio() {
 		if ($_POST['id_venta']) {
 			$id_venta = $_POST['id_venta'];
@@ -802,7 +833,6 @@ class sucursalController {
 			while ($row1 = $ultimaventa->fetch_object()) {
 				$detallesProducto = $row1->detalle;
 				$id_sucursal = $row1->id_sucursal;
-			
 			}
 			$listaServicioAnt = json_decode($detallesProducto, TRUE);
 
@@ -817,7 +847,6 @@ class sucursalController {
 				if ($detalles->num_rows != 0) {
 					while ($row2 = $detalles->fetch_object()) {
 						$listaDetalles = $row2->detalle;
-						
 					}
 					$listaInsumo = json_decode($listaDetalles, TRUE);
 
@@ -912,6 +941,14 @@ class sucursalController {
 		$producto = new ProductoSucursal();
 		$producto->setId_sucursal($id_sucursal);
 		$detalles = $producto->ListaProductos();
+		return $detalles;
+	}
+
+	static public function verproductosucursal($id_producto, $id_sucursal) {
+		$producto = new ProductoSucursal();
+		$producto->setId_producto($id_producto);
+		$producto->setId_sucursal($id_sucursal);
+		$detalles = $producto->verproducto();
 		return $detalles;
 	}
 
@@ -1065,6 +1102,7 @@ class sucursalController {
 			  	</script>';
 		}
 	}
+
 	public function editarventaproducto() {
 		require_once 'views/layout/menu.php';
 		if ($_GET['id']) {
@@ -1094,6 +1132,288 @@ class sucursalController {
 		}
 		require_once 'views/layout/copy.php';
 	}
+
+	public function verdetalesventaproducto() {
+		require_once 'views/layout/menu.php';
+		if ($_GET['id']) {
+			$id = $_GET['id'];
+			$ventasProcuto = new VentaProducto();
+			$ventasProcuto->setId($id);
+			$detalles = $ventasProcuto->verDetallesId();
+
+			require_once 'views/sucursal/verdetallesventasproducto.php';
+		} else {
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡No a seleccionado un registro!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "principal";
+
+							}
+						})
+
+		</script>';
+		}
+		require_once 'views/layout/copy.php';
+	}
+
+	public function actulizarventasproducto() {
+		if ($_POST['id_venta']) {
+			$id_venta = $_POST['id_venta'];
+			$listaPorducto = isset($_POST['listaProductos']) ? $_POST['listaProductos'] : FALSE;
+			$total = isset($_POST['nuevoTotalProducto']) ? $_POST['nuevoTotalProducto'] : FALSE;
+			$id_sucursal = $_POST['idSucursal'];
+			if ($id_venta && $listaPorducto) {
+
+
+				$ventaProducto = new VentaProducto();
+				$ventaProducto->setId($id_venta);
+				$venta = $ventaProducto->verDetallesId();
+
+				while ($row = $venta->fetch_object()) {
+					$detallesProductoAnt = $row->detalles;
+				}
+
+				$detallesPorductoAnt = json_decode($detallesProductoAnt, TRUE);
+
+				foreach ($detallesPorductoAnt as $key => $value) {
+					$id_producto = $value['id'];
+					$cantidaV = (int) $value['cantidad'];
+
+
+					$productoSucursal = new ProductoSucursal();
+					$productoSucursal->setId_producto($id_producto);
+					$productoSucursal->setId_sucursal($id_sucursal);
+					$detalles = $productoSucursal->MostrarProductosSucursal();
+
+					while ($row2 = $detalles->fetch_object()) {
+						$cantidaActual = (int) $row2->cantidad;
+					}
+
+					$nuevaCantidad = $cantidaActual + $cantidaV;
+
+					$productoSucursal->setCantidad($nuevaCantidad);
+					$productoSucursal->ActulizarStockSucursal();
+				}
+
+
+				$detallesPorducto = json_decode($listaPorducto, TRUE);
+
+				foreach ($detallesPorducto as $key => $value) {
+					$id_producto = $value['id'];
+					$costo = (int) $value['costo'];
+					$cantidaV = (int) $value['cantidad'];
+					$precio = $value['precio'];
+
+
+					$productoSucursal = new ProductoSucursal();
+					$productoSucursal->setId_producto($id_producto);
+					$productoSucursal->setId_sucursal($id_sucursal);
+					$detalles = $productoSucursal->MostrarProductosSucursal();
+
+					while ($row2 = $detalles->fetch_object()) {
+						$cantidaActual = (int) $row2->cantidad;
+					}
+
+					$nuevaCantidad = $cantidaActual - $cantidaV;
+
+					$productoSucursal->setCantidad($nuevaCantidad);
+					$productoSucursal->ActulizarStockSucursal();
+
+					$totalCosto = $costo * $cantidaV;
+
+					$arrayCosto[] = array('valor' => $totalCosto);
+				}
+
+				$arrayCostoTotal = array_column($arrayCosto, 'valor');
+				$valortotalCosto = array_sum($arrayCostoTotal);
+				$utilidad = (int) $total - (int) $valortotalCosto;
+
+				$ventaProducto->setId_sucursal($id_sucursal);
+				$ventaProducto->setDetalle($listaPorducto);
+				$ventaProducto->setUtilidad($utilidad);
+				$ventaProducto->setTotalventa($total);
+				$ventaProducto->setTotalcosto($valortotalCosto);
+				$ventaProducto->setSaldo($total);
+				$resp = $ventaProducto->Actulizar();
+
+
+
+
+				$idVenta = $id_venta;
+
+
+				if ($resp) {
+					echo'<script>
+
+					swal({
+						  type: "success",
+						  title: "Registro guardado correctamente",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "cobrarventa&id=' . $idVenta . '";
+
+							}
+						})
+
+					</script>';
+				} else {
+					echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Registro no Guardado!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "nuevaventa";
+
+							}
+						})
+
+			  	</script>';
+				}
+			} else {
+				echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Registro no Guardado!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "nuevaventa";
+
+							}
+						})
+
+			  	</script>';
+			}
+		} else {
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Registro no Guardado!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "nuevaventa";
+
+							}
+						})
+
+			  	</script>';
+		}
+	}
+
+	public function eliminarventaproducto() {
+		if (isset($_GET['id'])) {
+
+			$id_venta = $_GET['id'];
+
+			$ventaProducto = new VentaProducto();
+			$ventaProducto->setId($id_venta);
+			$venta = $ventaProducto->verDetallesId();
+
+			while ($row = $venta->fetch_object()) {
+				$detallesProductoAnt = $row->detalles;
+				$id_sucursal = $row->id_sucursal;
+			}
+
+			$detallesPorductoAnt = json_decode($detallesProductoAnt, TRUE);
+
+			foreach ($detallesPorductoAnt as $key => $value) {
+				$id_producto = $value['id'];
+				$cantidaV = (int) $value['cantidad'];
+
+
+				$productoSucursal = new ProductoSucursal();
+				$productoSucursal->setId_producto($id_producto);
+				$productoSucursal->setId_sucursal($id_sucursal);
+				$detalles = $productoSucursal->MostrarProductosSucursal();
+
+				while ($row2 = $detalles->fetch_object()) {
+					$cantidaActual = (int) $row2->cantidad;
+				}
+
+				$nuevaCantidad = $cantidaActual + $cantidaV;
+
+				$productoSucursal->setCantidad($nuevaCantidad);
+				$productoSucursal->ActulizarStockSucursal();
+			}
+			$resp = $ventaProducto->Eliminar();
+
+			if ($resp) {
+				echo'<script>
+
+					swal({
+						  type: "success",
+						  title: "Registro Eliminado correctamente",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "../frontend/principal";
+
+							}
+						})
+
+					</script>';
+			} else {
+				echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Registro no Eliminado!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "nuevaventa";
+
+							}
+						})
+
+			  	</script>';
+			}
+		} else {
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Registro no Eliminado!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "nuevaventa";
+
+							}
+						})
+
+			  	</script>';
+		}
+	}
+
 	static public function verventaproducto($id) {
 		$ventaproducto = new VentaProducto();
 		$ventaproducto->setId($id);
@@ -2164,6 +2484,7 @@ class sucursalController {
 			$servicios->setId_estilista($id);
 			$detalles = $servicios->MostrarServiciosRealizados();
 			$listaServicio = $servicios->verServicioPrestado();
+			require_once 'views/sucursal/pagos.php';
 		} else {
 			echo'<script>
 
@@ -2207,6 +2528,7 @@ class sucursalController {
 	}
 
 	public function cerrarpagosestistas() {
+
 		if (isset($_POST['id_estilista'])) {
 			$id_estilista = isset($_POST['id_estilista']) ? $_POST['id_estilista'] : FALSE;
 			$id_sucursal = isset($_POST['id_sucursal']) ? $_POST['id_sucursal'] : FALSE;
@@ -2217,7 +2539,8 @@ class sucursalController {
 			$comision = isset($_POST['comision']) ? $_POST['comision'] : FALSE;
 			$saldonuevo = isset($_POST['saldopendiente']) ? $_POST['saldopendiente'] : FALSE;
 
-			if ($id_estilista && $id_sucursal && $totalGenerado && $totalAvances && $totalCouta) {
+
+			if ($id_estilista && $id_sucursal && $totalGenerado) {
 
 				$fecha = date('Y-m-d');
 
@@ -2227,25 +2550,37 @@ class sucursalController {
 				$avances->setId_sucursal($id_sucursal);
 				$avances->Pagar();
 
-				$prestamo = new PrestamosSucursal();
-				$prestamo->setId_estilista($id_estilista);
-				$detallesPrestamo = $prestamo->MostrarPrestamoEntregadoIdEstilista();
+				if ($totalCouta != 0) {
+					$prestamo = new PrestamosSucursal();
+					$prestamo->setId_estilista($id_estilista);
+					$detallesPrestamo = $prestamo->MostrarPrestamoEntregadoIdEstilista();
 
-				while ($row = $detallesPrestamo->fetch_object()) {
+					while ($row = $detallesPrestamo->fetch_object()) {
 
-					$id = $row->id;
-					$valor = (int) $row->valorcuota;
-					$saldoPendeinet = (int) $row->saldo;
-					$saldoCuota = (int) $row->saldocuota;
+						$id = $row->id;						
+						$saldoPendeinet = (int) $row->saldo;
+						$saldoCuota = (int) $row->saldocuota;
 
-					$saldo = $saldoPendeinet - $valor;
-					$nuevosaldocuota = $saldoCuota - 1;
+						$saldo = $saldoPendeinet - (int)$totalCouta;
+						$nuevosaldocuota = $saldoCuota - 1;
 
-					$prestamo->setId($id);
-					$prestamo->setSaldo($saldo);
-					$prestamo->setSaldocuota($nuevosaldocuota);
-					$prestamo->Abonar();
+						$prestamo->setId($id);
+						$prestamo->setSaldo($saldo);
+						$prestamo->setSaldocuota($nuevosaldocuota);
+						$prestamo->Abonar();
+						
+					}
+					$estado = 1;
+					$abonoRecivido = new AbonoEntregadosPrestamosSucursal();
+					$abonoRecivido->setId_estilista($id_estilista);
+					$abonoRecivido->setFecha($fecha);
+					$abonoRecivido->setId_sucursal($id_sucursal);
+					$abonoRecivido->setValor($totalCouta);
+					$abonoRecivido->setEstado($estado);
+					$abonoRecivido->Guardar();
+					
 				}
+				
 
 				$totalDeduciones = (int) $totalAvances + (int) $totalCouta + (int) $saldonuevo;
 
@@ -2324,7 +2659,7 @@ class sucursalController {
 
 					swal({
 						  type: "error",
-						  title: "¡Error en el registro!",
+						  title: "¡Error en el registro ss!",
 						  showConfirmButton: true,
 						  confirmButtonText: "Cerrar"
 						  }).then(function(result){

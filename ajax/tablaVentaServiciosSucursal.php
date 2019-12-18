@@ -42,7 +42,7 @@ class VentaServicioSucursalAjax {
 			 }
 			 
 			 $url = '../sucursal';
-			$botones = "<div class='btn-group'><a href='$url/editarventaservicio&id=$row->id'><button class='btn btn-warning'><i class='fa fa-pencil'></i></button></a><a><button class='btn btn-danger btnEliminarVentaServicios' idventaservicio='$row->id' ><i class='fa fa-times'></i></button></a></div><a href='$url/verventaservicio&id=$row->id'><button class='btn btn-info'><i class='fa fa-eye'></i></button></a></div>";
+			$botones = "<div class='btn-group'><a href='$url/editarventaservicio&id=$row->id'><button class='btn btn-warning'><i class='fa fa-pencil'></i></button></a><a><button class='btn btn-danger btnEliminarVentaServicios' idventaservicio='$row->id' ><i class='fa fa-times'></i></button></a></div><a href='$url/verdetallesventaservicio&id=$row->id'><button class='btn btn-info'><i class='fa fa-eye'></i></button></a></div>";
   				
 		 
 		  	$datosJson .='[
