@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 10-12-2019 a las 12:48:36
+-- Tiempo de generación: 18-12-2019 a las 12:12:23
 -- Versión del servidor: 5.7.26
 -- Versión de PHP: 7.2.18
 
@@ -68,6 +68,23 @@ CREATE TABLE IF NOT EXISTS `abono_compra` (
   PRIMARY KEY (`id`),
   KEY `id_factura` (`id_factura`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `abono_entregados_prestamos_sucursal`
+--
+
+DROP TABLE IF EXISTS `abono_entregados_prestamos_sucursal`;
+CREATE TABLE IF NOT EXISTS `abono_entregados_prestamos_sucursal` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_estilista` int(11) NOT NULL,
+  `id_sucursal` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  `valor` int(11) NOT NULL,
+  `estado` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -201,14 +218,15 @@ CREATE TABLE IF NOT EXISTS `cierre_pago_estilista` (
   `fecha` date NOT NULL,
   `valorcomision` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `cierre_pago_estilista`
 --
 
 INSERT INTO `cierre_pago_estilista` (`id`, `id_estilista`, `id_sucursal`, `valor`, `valortotal`, `fecha`, `valorcomision`) VALUES
-(1, 1, 1, 21000, 30000, '2019-12-10', 9000);
+(1, 1, 1, 21000, 30000, '2019-12-10', 9000),
+(2, 1, 1, 5000, 10000, '2019-12-18', 5000);
 
 -- --------------------------------------------------------
 
@@ -278,7 +296,7 @@ CREATE TABLE IF NOT EXISTS `comisiones` (
 --
 
 INSERT INTO `comisiones` (`id`, `valor`, `fecha`) VALUES
-(1, 30, '2019-12-01');
+(1, 50, '2019-12-01');
 
 -- --------------------------------------------------------
 
@@ -535,7 +553,7 @@ CREATE TABLE IF NOT EXISTS `insumos_sucursal` (
 --
 
 INSERT INTO `insumos_sucursal` (`id`, `id_insumo`, `id_sucursal`, `cantidad`, `stock_minimo`) VALUES
-(1, 2, 1, 91, 50),
+(1, 2, 1, 94, 50),
 (2, 2, 2, 100, 50),
 (3, 2, 3, 50, 50),
 (4, 2, 9, 50, 50);
@@ -743,8 +761,8 @@ CREATE TABLE IF NOT EXISTS `producto_sucursal` (
 --
 
 INSERT INTO `producto_sucursal` (`id`, `id_producto`, `id_sucursal`, `cantidad`, `stock_minimo`) VALUES
-(1, 1, 1, 7, 10),
-(2, 2, 1, 21, 5),
+(1, 1, 1, 13, 10),
+(2, 2, 1, 27, 5),
 (3, 6, 2, 20, 5),
 (4, 6, 3, 20, 5),
 (5, 6, 9, 30, 5);
@@ -789,14 +807,14 @@ CREATE TABLE IF NOT EXISTS `saldo_pendiente` (
   `valor` int(11) NOT NULL,
   `fecha` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `saldo_pendiente`
 --
 
 INSERT INTO `saldo_pendiente` (`id`, `id_estilista`, `id_sucursal`, `valor`, `fecha`) VALUES
-(2, 1, 1, 12833, '2019-12-10');
+(3, 1, 1, -5000, '2019-12-18');
 
 -- --------------------------------------------------------
 
@@ -954,14 +972,12 @@ CREATE TABLE IF NOT EXISTS `venta_producto` (
 --
 
 INSERT INTO `venta_producto` (`id`, `id_sucursal`, `num_factura`, `fecha`, `detalles`, `utilidad`, `totalventa`, `totalcosto`, `saldo`) VALUES
-(1, 1, 1, '2019-11-15', '10', 10000, 30000, 20000, 0),
-(2, 1, 2, '2019-11-16', '10', 10000, 30000, 20000, 0),
-(3, 2, 1, '2019-11-16', 'venta', 40000, 80000, 40000, 0),
-(4, 2, 3, '2019-11-16', 'venta', 40000, 80000, 40000, 0),
-(5, 3, 1, '2019-11-16', 'venta', 40000, 80000, 40000, 0),
-(6, 3, 2, '2019-11-16', 'venta', 40000, 80000, 40000, 0),
-(7, 1, 3, '2019-11-17', 'venta', 40000, 80000, 40000, 0),
-(8, 1, 4, '2019-12-06', '[{\"id\":\"1\",\"codigo\":\"1000\",\"descripcion\":\"papas de limon 150g \",\"cantidad\":\"3\",\"costo\":\"900\",\"precio\":\"1260\",\"descuento\":\"0\",\"subtotal\":\"3780\"},{\"id\":\"2\",\"codigo\":\"1001\",\"descripcion\":\"gaseosa 250 ml \",\"cantidad\":\"3\",\"costo\":\"500\",\"precio\":\"700\",\"descuento\":\"0\",\"subtotal\":\"2100\"}]', 1680, 5880, 4200, 0);
+(3, 2, 1, '2019-11-16', '[{\"id\":\"1\",\"codigo\":\"1000\",\"descripcion\":\"papas de limon 150g \",\"cantidad\":\"4\",\"costo\":\"900\",\"precio\":\"1260\",\"descuento\":\"0\",\"subtotal\":\"5040\"},{\"id\":\"2\",\"codigo\":\"1001\",\"descripcion\":\"gaseosa 250 ml \",\"cantidad\":\"4\",\"costo\":\"500\",\"precio\":\"700\",\"descuento\":\"0\",\"subtotal\":\"2800\"}]', 40000, 80000, 40000, 0),
+(4, 2, 3, '2019-11-16', '[{\"id\":\"1\",\"codigo\":\"1000\",\"descripcion\":\"papas de limon 150g \",\"cantidad\":\"4\",\"costo\":\"900\",\"precio\":\"1260\",\"descuento\":\"0\",\"subtotal\":\"5040\"},{\"id\":\"2\",\"codigo\":\"1001\",\"descripcion\":\"gaseosa 250 ml \",\"cantidad\":\"4\",\"costo\":\"500\",\"precio\":\"700\",\"descuento\":\"0\",\"subtotal\":\"2800\"}]', 40000, 80000, 40000, 0),
+(5, 3, 1, '2019-11-16', '[{\"id\":\"1\",\"codigo\":\"1000\",\"descripcion\":\"papas de limon 150g \",\"cantidad\":\"4\",\"costo\":\"900\",\"precio\":\"1260\",\"descuento\":\"0\",\"subtotal\":\"5040\"},{\"id\":\"2\",\"codigo\":\"1001\",\"descripcion\":\"gaseosa 250 ml \",\"cantidad\":\"4\",\"costo\":\"500\",\"precio\":\"700\",\"descuento\":\"0\",\"subtotal\":\"2800\"}]', 40000, 80000, 40000, 0),
+(6, 3, 2, '2019-11-16', '[{\"id\":\"1\",\"codigo\":\"1000\",\"descripcion\":\"papas de limon 150g \",\"cantidad\":\"4\",\"costo\":\"900\",\"precio\":\"1260\",\"descuento\":\"0\",\"subtotal\":\"5040\"},{\"id\":\"2\",\"codigo\":\"1001\",\"descripcion\":\"gaseosa 250 ml \",\"cantidad\":\"4\",\"costo\":\"500\",\"precio\":\"700\",\"descuento\":\"0\",\"subtotal\":\"2800\"}]', 40000, 80000, 40000, 0),
+(7, 1, 3, '2019-11-17', '[{\"id\":\"1\",\"codigo\":\"1000\",\"descripcion\":\"papas de limon 150g \",\"cantidad\":\"4\",\"costo\":\"900\",\"precio\":\"1260\",\"descuento\":\"0\",\"subtotal\":\"5040\"},{\"id\":\"2\",\"codigo\":\"1001\",\"descripcion\":\"gaseosa 250 ml \",\"cantidad\":\"4\",\"costo\":\"500\",\"precio\":\"700\",\"descuento\":\"0\",\"subtotal\":\"2800\"}]', 40000, 80000, 40000, 0),
+(8, 1, 4, '2019-12-06', '[{\"id\":\"1\",\"codigo\":\"1000\",\"descripcion\":\"papas de limon 150g \",\"cantidad\":\"4\",\"costo\":\"900\",\"precio\":\"1260\",\"descuento\":\"0\",\"subtotal\":\"5040\"},{\"id\":\"2\",\"codigo\":\"1001\",\"descripcion\":\"gaseosa 250 ml \",\"cantidad\":\"4\",\"costo\":\"500\",\"precio\":\"700\",\"descuento\":\"0\",\"subtotal\":\"2800\"}]', 2240, 7840, 5600, 0);
 
 -- --------------------------------------------------------
 
@@ -983,7 +999,7 @@ CREATE TABLE IF NOT EXISTS `venta_servicio` (
   PRIMARY KEY (`id`),
   KEY `id_sucursal` (`id_sucursal`),
   KEY `id_estilista` (`id_estilista`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `venta_servicio`
@@ -995,11 +1011,7 @@ INSERT INTO `venta_servicio` (`id`, `id_sucursal`, `num_venta`, `detalle`, `id_e
 (3, 1, 3, '[{\"id\":\"5\",\"codigo\":\"5\",\"descripcion\":\"CORTE BASICO 3\",\"cantidad\":\"1\",\"precio\":\"6000\",\"descuento\":\"0\",\"subtotal\":\"6000\"}]', 3, '2019-11-30', 6000, 0, 0),
 (4, 1, 4, '[{\"id\":\"6\",\"codigo\":\"6\",\"descripcion\":\"CORTE BASICO 4\",\"cantidad\":\"1\",\"precio\":\"8000\",\"descuento\":\"0\",\"subtotal\":\"8000\"}]', 2, '2019-12-04', 8000, 0, 0),
 (5, 1, 5, '[{\"id\":\"6\",\"codigo\":\"6\",\"descripcion\":\"CORTE BASICO 4\",\"cantidad\":\"1\",\"precio\":\"8000\",\"descuento\":\"0\",\"subtotal\":\"8000\"}]', 2, '2019-12-04', 8000, 0, 0),
-(6, 1, 6, '[{\"id\":\"1\",\"codigo\":\"1\",\"descripcion\":\"CORTE BASICO\",\"cantidad\":\"1\",\"precio\":\"5000\",\"descuento\":\"0\",\"subtotal\":\"5000\"}]', 1, '2019-12-04', 5000, 0, 0),
-(7, 1, 7, '[{\"id\":\"3\",\"codigo\":\"3\",\"descripcion\":\"CORTE EXPERTO\",\"cantidad\":\"1\",\"precio\":\"10000\",\"descuento\":\"0\",\"subtotal\":\"10000\"}]', 1, '2019-12-06', 10000, 0, 0),
-(8, 1, 8, '[{\"id\":\"3\",\"codigo\":\"3\",\"descripcion\":\"CORTE EXPERTO\",\"cantidad\":\"1\",\"precio\":\"10000\",\"descuento\":\"0\",\"subtotal\":\"10000\"}]', 1, '2019-12-06', 10000, 0, 0),
-(9, 1, 9, '[{\"id\":\"1\",\"codigo\":\"1\",\"descripcion\":\"CORTE BASICO\",\"cantidad\":\"1\",\"precio\":\"5000\",\"descuento\":\"0\",\"subtotal\":\"5000\"}]', 2, '2019-12-06', 5000, 0, 1),
-(10, 1, 10, '[{\"id\":\"1\",\"codigo\":\"1\",\"descripcion\":\"CORTE BASICO\",\"cantidad\":\"1\",\"precio\":\"5000\",\"descuento\":\"0\",\"subtotal\":\"5000\"}]', 1, '2019-12-09', 5000, 0, 0);
+(6, 1, 6, '[{\"id\":\"1\",\"codigo\":\"1\",\"descripcion\":\"CORTE BASICO\",\"cantidad\":\"1\",\"precio\":\"5000\",\"descuento\":\"0\",\"subtotal\":\"5000\"}]', 1, '2019-12-04', 5000, 0, 0);
 
 --
 -- Restricciones para tablas volcadas
