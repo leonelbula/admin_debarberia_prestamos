@@ -42,7 +42,9 @@
 <script src="<?= URL_BASE ?>assets/js/avancesSucursal.js"></script>
 <script src="<?= URL_BASE ?>assets/js/tablaVentaServicioSucursal.js"></script>
 <script src="<?= URL_BASE ?>assets/js/tablaVentaProductoSucursal.js"></script>
-
+<script src="<?= URL_BASE ?>assets/js/pagosSucursal.js"></script>
+<script src="<?= URL_BASE ?>assets/js/productosSucursal.js"></script>
+<script src="<?= URL_BASE ?>assets/js/tablaInsumoSucursal.js"></script>
 
 </body>
 </html>

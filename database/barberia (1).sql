@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 18-12-2019 a las 12:12:23
+-- Tiempo de generación: 19-12-2019 a las 11:51:02
 -- Versión del servidor: 5.7.26
 -- Versión de PHP: 7.2.18
 
@@ -497,12 +497,40 @@ INSERT INTO `estilista` (`id`, `id_sucursal`, `nombre`, `nit`, `telefono`, `dire
 DROP TABLE IF EXISTS `gastos`;
 CREATE TABLE IF NOT EXISTS `gastos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `gastos` int(11) NOT NULL,
+  `id_sucursal` int(11) NOT NULL,
   `fecha` date NOT NULL,
   `detalle` int(11) NOT NULL,
   `valor` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_sucursal` (`id_sucursal`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `iniciar_punto_venta`
+--
+
+DROP TABLE IF EXISTS `iniciar_punto_venta`;
+CREATE TABLE IF NOT EXISTS `iniciar_punto_venta` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `fecha_inicio` date NOT NULL,
+  `fecha_cierre` date NOT NULL,
+  `basecaja` int(11) NOT NULL,
+  `totalingresos` int(11) NOT NULL,
+  `totalgastos` int(11) NOT NULL,
+  `montoentregado` int(11) NOT NULL,
+  `diferencia` int(11) NOT NULL,
+  `estado` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `iniciar_punto_venta`
+--
+
+INSERT INTO `iniciar_punto_venta` (`id`, `fecha_inicio`, `fecha_cierre`, `basecaja`, `totalingresos`, `totalgastos`, `montoentregado`, `diferencia`, `estado`) VALUES
+(1, '2019-12-19', '2019-12-19', 30000, 0, 0, 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -1067,6 +1095,12 @@ ALTER TABLE `compra`
 --
 ALTER TABLE `estilista`
   ADD CONSTRAINT `estilista_ibfk_1` FOREIGN KEY (`id_sucursal`) REFERENCES `sucursal` (`id`);
+
+--
+-- Filtros para la tabla `gastos`
+--
+ALTER TABLE `gastos`
+  ADD CONSTRAINT `gastos_ibfk_1` FOREIGN KEY (`id_sucursal`) REFERENCES `sucursal` (`id`);
 
 --
 -- Filtros para la tabla `prestamos_cliente`

@@ -2691,5 +2691,23 @@ class sucursalController {
 		</script>';
 		}
 	}
+	
+	public function pagosrealizados() {
+		require_once 'views/layout/menu.php';
+		require_once 'views/sucursal/pagosrealizados.php';
+		require_once 'views/layout/copy.php';
+	}
+	
+	public function productossucursal() {
+		require_once 'views/layout/menu.php';
+		require_once 'views/sucursal/listaproductos.php';
+		require_once 'views/layout/copy.php';
+	}
+	public function insumossucursal() {
+		require_once 'views/layout/menu.php';
+		require_once 'views/sucursal/listainsumos.php';
+		require_once 'views/layout/copy.php';
+	}
+	
 
 }

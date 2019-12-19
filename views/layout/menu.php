@@ -109,7 +109,17 @@ if (!isset($_SESSION['identity'])) {
 		
 		 <li><a href="<?=URL_BASE?>frontend/principal"><i class="fa fa-dashboard"></i> PRINCIPAL</a></li>  
 		
-		 
+		 <li class="treeview">
+          <a href="#">
+            <i class="fa fa-edit"></i> <span>PUNTO DE VENTAS</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="<?=URL_BASE?>puntoventa/"><i class="fa fa-circle-o"></i>Iniciar Ventas</a></li>                      
+          </ul>
+        </li>
 		<li class="treeview">
           <a href="#">
             <i class="fa fa fa-th"></i> <span>REALIZAR AVANCES</span>
@@ -119,8 +129,19 @@ if (!isset($_SESSION['identity'])) {
           </a>
           <ul class="treeview-menu">           
 			<li><a href="<?=URL_BASE?>sucursal/listaavences"><i class="fa fa-circle-o"></i> LISTA AVANCES ACTUAL</a></li>
-			<li><a href="<?=URL_BASE?>sucursal/avancerealizado"><i class="fa fa-circle-o"></i> AVANCES REALIZADOS</a></li>
+<!--			<li><a href="sucursal/avancerealizado"><i class="fa fa-circle-o"></i> AVANCES REALIZADOS</a></li>-->
            
+          </ul>
+        </li>
+		  <li class="treeview">
+          <a href="#">
+            <i class="fa fa-share"></i> <span>GASTOS</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="<?=URL_BASE?>gastos/"><i class="fa fa-circle-o"></i> GASTOS</a></li>            
           </ul>
         </li>
 		<li class="treeview">
@@ -133,7 +154,7 @@ if (!isset($_SESSION['identity'])) {
           </a>
           <ul class="treeview-menu">
             <li><a href="<?=URL_BASE?>sucursal/liquidarpago"><i class="fa fa-circle-o"></i> NUEVO PAGO</a></li>
-            <li><a href="<?=URL_BASE?>proveedor/estadocuenta"><i class="fa fa-circle-o"></i> PAGOS REALIZADOS</a></li>                   
+            <li><a href="<?=URL_BASE?>sucursal/pagosrealizados"><i class="fa fa-circle-o"></i> PAGOS REALIZADOS</a></li>                   
           </ul>
         </li>
 		<li class="treeview">
@@ -145,8 +166,8 @@ if (!isset($_SESSION['identity'])) {
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<?=URL_BASE?>productos/"><i class="fa fa-circle-o"></i> PRODUCTOS</a></li>           
-            <li><a href="<?=URL_BASE?>productos/insumos"><i class="fa fa-circle-o"></i> LISTA INSUMOS</a></li>            
+            <li><a href="<?=URL_BASE?>sucursal/productossucursal"><i class="fa fa-circle-o"></i> PRODUCTOS</a></li>           
+            <li><a href="<?=URL_BASE?>sucursal/insumossucursal"><i class="fa fa-circle-o"></i> LISTA INSUMOS</a></li>            
           </ul>
         </li>
 		<?php } else { ?>
