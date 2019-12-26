@@ -13,6 +13,7 @@ class VentaServicio{
 	private $fecha; 
 	private $valor;
 	private $saldo;
+	private $valorinterno;
 			
 
 	function getId() {
@@ -45,6 +46,9 @@ class VentaServicio{
 	function getSaldo() {
 		return $this->saldo;
 	}
+	function getValorinterno() {
+		return $this->valorinterno;
+	}
 
 	function setId($id) {
 		$this->id = $id;
@@ -76,12 +80,15 @@ class VentaServicio{
 	function setSaldo($saldo) {
 		$this->saldo = $saldo;
 	}
+	function setValorinterno($valorinterno) {
+		$this->valorinterno = $valorinterno;
+	}
 
 	public function __construct() {
 		$this->db = Database::connect();
 	}
 	public function Guardar() {
-		$sql = "INSERT INTO venta_servicio VALUES (NULL,{$this->getId_sucursal()},{$this->getNum_venta()},'{$this->getDetalle()}',{$this->getId_estilista()},'{$this->getFecha()}',{$this->getValor()},{$this->getSaldo()},1)";
+		$sql = "INSERT INTO venta_servicio VALUES (NULL,{$this->getId_sucursal()},{$this->getNum_venta()},'{$this->getDetalle()}',{$this->getId_estilista()},'{$this->getFecha()}',{$this->getValor()},{$this->getSaldo()},{$this->getValorinterno()},1)";
 		$resp = $this->db->query($sql);
 		$result = FALSE;
 		if($resp){
@@ -90,7 +97,7 @@ class VentaServicio{
 		return $result;
 	}
 	public function Actulizar() {
-		$sql = "UPDATE venta_servicio SET detalle='{$this->getDetalle()}',id_estilista={$this->getId_estilista()},valor={$this->getValor()},saldo={$this->getSaldo()} WHERE id = {$this->getId()}";
+		$sql = "UPDATE venta_servicio SET detalle='{$this->getDetalle()}',id_estilista={$this->getId_estilista()},valor={$this->getValor()},saldo={$this->getSaldo()} ,valorinterno = {$this->getValorinterno()} WHERE id = {$this->getId()}";
 		$resp = $this->db->query($sql);
 		$result = FALSE;
 		if($resp){

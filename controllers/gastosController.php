@@ -123,15 +123,17 @@ class gastosController{
 	public function actulizargasto() {
 		if($_POST['id']){
 			
-			$id = isset($_POST['id']) ? $_POST['id']:FALSE;			
+			$id = isset($_POST['id']) ? $_POST['id']:FALSE;		
+			$id_sucursal = isset($_POST['id_sucursal']) ? $_POST['id_sucursal']:FALSE;		
 			$fecha = isset($_POST['fecha']) ? $_POST['fecha']:FALSE;
 			$valor = isset($_POST['valor']) ? $_POST['valor']:FALSE;
 			$descripcion = isset($_POST['descripcion']) ? $_POST['descripcion']:FALSE;
 			
-			if($id && $fecha && $valor && $descripcion){
+			if($id_sucursal && $id && $fecha && $valor && $descripcion){
 				
 				$gasto = new Gastos();
 				$gasto->setId($id);
+				$gasto->setId_sucursal($id_sucursal);
 				$gasto->setFecha($fecha);
 				$gasto->setValor($valor);
 				$gasto->setDescripcion($descripcion);

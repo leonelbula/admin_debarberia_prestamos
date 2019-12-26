@@ -89,7 +89,7 @@ class VentaProducto{
 		$this->db = Database::connect();
 	}
 	public function Guardar() {
-		$sql = "INSERT INTO venta_producto VALUES (NULL,{$this->getId_sucursal()},{$this->getNum_venta()},'{$this->getFecha()}','{$this->getDetalle()}',{$this->getUtilidad()},{$this->getTotalventa()},{$this->getTotalcosto()},{$this->getSaldo()})";
+		$sql = "INSERT INTO venta_producto VALUES (NULL,{$this->getId_sucursal()},{$this->getNum_venta()},'{$this->getFecha()}','{$this->getDetalle()}',{$this->getUtilidad()},{$this->getTotalventa()},{$this->getTotalcosto()},{$this->getSaldo()},1)";
 		$resp = $this->db->query($sql);
 		$result = FALSE;
 		if($resp){

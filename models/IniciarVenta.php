@@ -7,6 +7,7 @@ class IniciarVenta {
 	public $db;
 	
 	private $id;
+	private $id_sucursal;
 	private $fechainicio;
 	private $fechacierre;
 	private $basecaja;
@@ -18,6 +19,9 @@ class IniciarVenta {
 	
 	function getId() {
 		return $this->id;
+	}
+	function getId_sucursal() {
+		return $this->id_sucursal;
 	}
 
 	function getFechainicio() {
@@ -52,6 +56,9 @@ class IniciarVenta {
 	}
 	function setId($id) {
 		$this->id = $id;
+	}
+	function setId_sucursal($id_sucursal) {
+		$this->id_sucursal = $id_sucursal;
 	}
 
 	function setFechainicio($fechainicio) {
@@ -100,12 +107,12 @@ class IniciarVenta {
 		return $resul;
 	}
 	public function ventasActivas() {
-		$sql = "SELECT * FROM iniciar_punto_venta  WHERE estado = 1";
+		$sql = "SELECT * FROM iniciar_punto_venta  WHERE estado = 1 AND id_sucursal = {$this->getId_sucursal()}";
 		$resul = $this->db->query($sql);
 		return $resul;
 	}
 	public function InicarVenta() {
-		$sql = "INSERT INTO iniciar_punto_venta VALUES (NULL,'{$this->getFechainicio()}','{$this->getFechacierre()}',{$this->getBasecaja()},{$this->getTotalingresos()},"
+		$sql = "INSERT INTO iniciar_punto_venta VALUES (NULL,{$this->getId_sucursal()},'{$this->getFechainicio()}','{$this->getFechacierre()}',{$this->getBasecaja()},{$this->getTotalingresos()},"
 		. "{$this->getTotalgastos()},{$this->getMontoentregado()},{$this->getDiferencia()},{$this->getEstado()})";
 		$resul = $this->db->query($sql);
 		$respt = FALSE;
@@ -116,7 +123,7 @@ class IniciarVenta {
 	}
 	public function CerrarVenta() {
 		$sql = "UPDATE iniciar_punto_venta SET fecha_cierre='{$this->getFechacierre()}',totalingresos={$this->getTotalingresos()},totalgastos={$this->getTotalgastos()},"
-		. "montoentregado={$this->getMontoentregado()},diferencia={$this->getDiferencia()}, estado={$this->getEstado()} WHERE id = {$this->getId()}";
+		. "montoentregado={$this->getMontoentregado()},diferencia={$this->getDiferencia()}, estado={$this->getEstado()} WHERE id = {$this->getId()} AND id_sucursal = {$this->getId_sucursal()}";
 		$resul = $this->db->query($sql);
 		$respt = FALSE;
 		if($resul){

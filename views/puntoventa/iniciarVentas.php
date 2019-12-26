@@ -20,9 +20,16 @@
       <div class="box">
         <div class="box-header with-border">      
 			<?php 
-			while ($row = $detalles->fetch_object()) {
+			$id_sucursal = $_SESSION['sucursal']->id;
+			$detalles = puntoventaController::ventasActivas($id_sucursal);
+			if(isset($detalles)!=0){
+				while ($row = $detalles->fetch_object()) {
 				$estado = $row->estado;
+				}
+			}else{
+				$estado = 0;
 			}
+			
 			if(isset($estado) == 1): ?>
 			<a href="<?= URL_BASE ?>sucursal/ventaservicio">
 					<button class="btn btn-primary">
@@ -56,17 +63,17 @@
           
         </div>
         <div class="box-body">
-			<table id="puntoventas" class=" table table-bordered table-striped dt-responsive tablas" style="width:100%">
+			<table id="puntoventas" class=" table table-bordered table-striped dt-responsive tablasCierreSucursal" style="width:100%">
 					<thead>
 						<tr>
 							<th>#Id</th>
 							<th>fecha Inicio</th>
 							<th>fecha Cierre</th>
 							<th>Total Gastos</th>
-							<th>Total Vendido</th>
+							<th>Valor Total </th>
 							<th>Total Entregado</th>
-							<th>Diferencia</th>
-							<th>Acciones</th>													
+							<th>Diferencia</th>	
+							<th>Imprimir</th>	
 						</tr>
 					</thead>
 					<tbody>
@@ -119,6 +126,7 @@
               <div class="input-group">
                 
                 <span class="input-group-addon"><i class="fa fa-th"></i></span>
+				 <input type="hidden" name="id_sucursal" value="<?=$_SESSION['sucursal']->id?>"	/>		  
 
                 <input type="date" name="fecha" placeholder="fecha"  value="<?= date('Y-m-d')?>" disabled class="form-control input-lg"  />
 
@@ -195,7 +203,7 @@
               <div class="input-group">
                 
                 <span class="input-group-addon"><i class="fa fa-th"></i></span>
-
+				 <input type="hidden" name="id_sucursal" value="<?=$_SESSION['sucursal']->id?>"	/>		  
                 <input type="date" name="fecha" placeholder="fecha"  value="<?= date('Y-m-d')?>" disabled class="form-control input-lg"  />
 
               </div> 

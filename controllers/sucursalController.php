@@ -1,6 +1,7 @@
 <?php
 
 require_once 'models/Sucursal.php';
+require_once 'models/Comisiones.php';
 require_once 'models/ProductosSucursal.php';
 require_once 'models/VentasSucursal.php';
 require_once 'models/VentaServicio.php';
@@ -399,6 +400,17 @@ class sucursalController {
 
 				$parametros = new Parametros();
 				$detallesParrametro = $parametros->MostrarParrametro();
+				
+				$comicion = new Comisiones();
+				$detallesComicion = $comicion->MostrarDetalles();
+				
+				
+				if(isset($detallesComicion) != NULL){
+					$valorporcentaje =  (int)$detallesComicion->valor;
+				}else{
+					$valorporcentaje = 1;
+				}
+				
 
 				while ($row = $detallesParrametro->fetch_object()) {
 					$numRegistro = $row->num_inicio_factura;
@@ -452,7 +464,10 @@ class sucursalController {
 					}
 				}
 
-
+				
+				$totalInterno = ($valorporcentaje / 100) * $total;
+					
+				$valorinterno = $total - $totalInterno;
 
 
 				$ventaServicio->setId_sucursal($id_sucursal);
@@ -462,6 +477,7 @@ class sucursalController {
 				$ventaServicio->setFecha($fecha);
 				$ventaServicio->setValor($total);
 				$ventaServicio->setSaldo($total);
+				$ventaServicio->setValorinterno($valorinterno);
 				$resp = $ventaServicio->Guardar();
 
 				$IdUltimaventa = $ventaServicio->VerUltimaVentaServicio();
@@ -669,7 +685,15 @@ class sucursalController {
 
 			if ($id_venta && $id_estilista && $fecha && $listaServicio) {
 
-
+				$comicion = new Comisiones();
+				$detallesComicion = $comicion->MostrarDetalles();
+				
+				
+				if(isset($detallesComicion) != NULL){
+					$valorporcentaje =  (int)$detallesComicion->valor;
+				}else{
+					$valorporcentaje = 1;
+				}
 
 
 				$numRegistro = $_POST['numregistro'];
@@ -754,12 +778,16 @@ class sucursalController {
 						}
 					}
 				}
-
+				
+				$totalInterno = ($valorporcentaje / 100) * $total;
+					
+				$valorinterno = $total - $totalInterno;
 
 				$ventaServicio->setId_estilista($id_estilista);
 				$ventaServicio->setDetalle($listaServicio);
 				$ventaServicio->setValor($total);
 				$ventaServicio->setSaldo($total);
+				$ventaServicio->setValorinterno($valorinterno);
 				$resp = $ventaServicio->Actulizar();
 
 				$idVenta = $id_venta;

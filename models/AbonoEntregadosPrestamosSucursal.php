@@ -72,5 +72,34 @@ class AbonoEntregadosPrestamosSucursal{
 		}
 		return $result;
 	}
+	public function AbonosDiarios($fechaInicial, $fechaFinal,$id_sucursal) {
+
+
+		if ($fechaInicial == $fechaFinal) {
+
+			$sql = "SELECT SUM(valor) as total FROM abono_entregados_prestamos_sucursal WHERE fecha like '%$fechaFinal%' AND id_sucursal = $id_sucursal";
+		} else {
+
+			$fechaActual = new DateTime();
+			$fechaActual->add(new DateInterval("P1D"));
+			$fechaActualMasUno = $fechaActual->format("Y-m-d");
+
+			$fechaFinal2 = new DateTime($fechaFinal);
+			$fechaFinal2->add(new DateInterval("P1D"));
+			$fechaFinalMasUno = $fechaFinal2->format("Y-m-d");
+
+			if ($fechaFinalMasUno == $fechaActualMasUno) {
+
+				$sql = "SELECT SUM(valor) as total FROM abono_entregados_prestamos_sucursal WHERE fecha BETWEEN '$fechaInicial' AND '$fechaFinalMasUno' AND id_sucursal = $id_sucursal";
+			} else {
+
+				$sql = "SELECT SUM(valor) as total FROM abono_entregados_prestamos_sucursal WHERE fecha BETWEEN '$fechaInicial' AND '$fechaFinal' AND id_sucursal = $id_sucursal";
+			}
+		}
+
+
+		$resul = $this->db->query($sql);
+		return $resul;
+	}
 }
 

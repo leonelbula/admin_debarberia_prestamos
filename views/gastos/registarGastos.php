@@ -36,7 +36,7 @@
       
       <div class="row">
 		  <form action="<?=URL_BASE?>gastos/guardargasto" method="POST" >
-					  
+			 <input type="hidden" name="id_sucursal" value="<?=$_SESSION['sucursal']->id?>"	/>		  
         <div class="col-md-8">
 			
           <div class="box box-danger">

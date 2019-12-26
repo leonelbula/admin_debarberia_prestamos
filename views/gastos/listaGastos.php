@@ -55,7 +55,7 @@
 				 ?>
                 <tr>
                   <td><?=$row->id?></td>                  
-				  <td><?=$row->descripcion?></td>
+				  <td><?=$row->detalle?></td>
 				  <td><?=$row->valor?></td>
 				  <td><?=$row->fecha?></td>				  
 				  <td>

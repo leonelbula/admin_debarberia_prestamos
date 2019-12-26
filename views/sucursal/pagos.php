@@ -9,7 +9,7 @@
 
 			<li><a href="<?= URL_BASE ?>frontend/principal"><i class="fa fa-dashboard"></i> Inicio</a></li>
 
-			<li class="active">Gestor de pagos/li>
+			<li class="active">Gestor de pagos</li>
 
 		</ol>
 
@@ -64,7 +64,7 @@
 						$avances = 0;
 					}
 				
-					$totalDeduciones = $cuota + $avances + $saldopendiente;
+					$totalDeduciones = $avances + $saldopendiente;
 				
 					
 					if($totalSericio < $totalDeduciones){
@@ -97,22 +97,22 @@
 
 						<div class="col-sm-4 invoice-col">	
 							<h3><strong>Nombre:</strong> <?= $nombre ?></h3>
-							<form method="POST" class="" action="<?= URL_BASE ?>sucursal/cerrarpagosestistas">
+							<form method="POST" class="formularioPagoServicio" action="<?= URL_BASE ?>sucursal/cerrarpagosestistas">
 							<address>
 								<h4>A la Fecha: <strong> <?= date('Y-md') ?> </strong><br></h4>								 
 								<h4>TOTAL GENERADO: <strong> <?= number_format($total) ?></strong> <br></h4>	
 								<h4>TOTAL A PAGAR: <strong> <?= number_format($totalSericio) ?></strong> <br></h4>	
 								<h4>AVANCES REALIZADO <strong>- <?= number_format($avances) ?> </strong><br></h4>
-								<h4>COUTA DE PRESTAMO: <strong>- <input type="number" name="totalCouta" value="<?= $cuota ?>" /><br></h4>
+								<h4>ABONAR: <strong>- <input type="number totalCouta" id="totalCouta" name="totalCouta" value="0" /><br></h4>
 								<h4>SALDO PENDIETE: <strong>- <?= number_format($saldopendiente) ?> </strong><br></h4>
 								<hr>
-								<h3>TOTAL: <strong> <?= number_format($valorEntregar) ?></strong></h3> <br><?= $msn;?>
+								<h3>TOTAL: <strong>  <input type="number totalEntregar" id="totalEntregar" name="totalEntregar" value="<?=$valorEntregar ?>" disabled/></strong></h3> <br><?= $msn;?>
 							</address>
 							
 								<input type="hidden" name="id_sucursal" value="<?=$_SESSION['sucursal']->id?>" />
 								<input type="hidden" name="id_estilista" value="<?= $id_estilista ?>" />
-								<input type="hidden" name="totalgenerado" value="<?= $totalSericio ?>" />
-								<input type="hidden" name="totalavances" value="<?= $avances ?>" />								
+								<input type="hidden" name="totalgenerado" id="totalgenerado" value="<?= $totalSericio ?>" />
+								<input type="hidden" name="totalavances" id="totalavances" value="<?= $avances ?>" />								
 								<input type="hidden" name="total" value="<?= $total ?>" />
 								<input type="hidden" name="comision" value="<?= $totalInterno ?>" />
 								<input type="hidden" name="saldopendiente" value="<?= $saldopendiente ?>" />

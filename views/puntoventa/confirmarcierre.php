@@ -21,7 +21,7 @@
     <div class="box">
 
       <div class="box-header with-border">
-		  <a href="<?=URL_BASE?>ventas/inicarventas">
+		  <a href="<?=URL_BASE?>puntoventa/">
           <button class="btn btn-primary">
 
           volver
@@ -36,9 +36,10 @@
 		  <div class="panel panel-default">
 			  <div class="panel-heading">Informacion de Cierre</div>
 				<ul class="list-group">
-					<li class="list-group-item"><b><h2>Venta Total:</b> <?= number_format($ventatotal)?></h2>
+					<li class="list-group-item"><b><h2>Venta Total Productos:</b> <?= number_format($ventatotal)?></h2>
+					<li class="list-group-item"><b><h2>Venta Total Servicio:</b> <?= number_format($ventatotalServicio)?></h2>
 					<h2><b style="color:#C0392B;">Gastos:</b> - <?=number_format($gastoGenerado)?></h2>					
-					<h2><b>Abonos Clientes:</b> <?=number_format($valorAbonos)?></h2>
+					<h2><b>Abonos Barberos:</b> <?=number_format($valorAbonos)?></h2>
 					<h2><b>VALOR TOTAL:</b> <?=number_format($montoDiario)?></h2></li>
 					<li class="list-group-item"><b><h2>Efectivo Entregado:</b> <?=number_format($montoentregado)?></h2></li>
 					<li class="list-group-item"><b><h2 style="color:#58D68D;">Diferencia:</b> <?= number_format($diferencia)?></h2></li>
@@ -47,9 +48,10 @@
 				 
 			  </ul>
 		  </div>
-		  <form action="<?= URL_BASE ?>ventas/guardarcierre" method="POST">			  
+		  <form action="<?= URL_BASE ?>puntoventa/guardarcierre" method="POST">	
+			  <input type="hidden" name="id_sucursal" value="<?=$_SESSION['sucursal']->id?>"	/>		  			  
 			  <input type="hidden" name="id" value="<?= $id ?>" />
-			   <input type="hidden" name="ventatotal" value="<?= $montoDiario ?>" />
+			  <input type="hidden" name="ventatotal" value="<?= $montoDiario ?>" />
 			  <input type="hidden" name="gastototal" value="<?= $gastoGenerado ?>" />
 			  <input type="hidden" name="montoentregado" value="<?= $montoentregado ?>" />
 			  <input type="hidden" name="diferencia" value="<?= $diferencia ?>" />

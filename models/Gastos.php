@@ -78,7 +78,7 @@ class Gastos{
 		return $respt;
 	}
 	public function Actulizar() {
-		$sql = "UPDATE gastos SET fecha='{$this->getFecha()}',descripcion='{$this->getDescripcion()}',valor={$this->getValor()} WHERE id = {$this->getId()}";
+		$sql = "UPDATE gastos SET fecha='{$this->getFecha()}',detalle='{$this->getDescripcion()}',valor={$this->getValor()} WHERE id = {$this->getId()}  AND id_sucursal = {$this->getId_sucursal()}";
 		$resul = $this->db->query($sql);
 		$respt = FALSE;
 		

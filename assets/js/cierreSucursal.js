@@ -10,8 +10,8 @@
 //})
   
  
-$('.VentaServicioSucursalP').DataTable( {
-    "ajax": "../ajax/tablaVentaServiciosSucursal.php?idsucursal="+idsucursal,
+$('.tablasCierreSucursal').DataTable( {
+    "ajax": "../ajax/tablaCierreCaja.php?idsucursal="+idsucursal,
     "deferRender": true,
 	"retrieve": true,
 	"processing": true,
@@ -44,25 +44,16 @@ $('.VentaServicioSucursalP').DataTable( {
 
 } );
 
-$(".VentaServicioSucursalP").on("click", ".btnEliminarVentaServicios", function(){
 
-  var idventaservicio = $(this).attr("idventaservicio");
 
-  swal({
-        title: '¿Está seguro de borrar registro?',
-        text: "¡Si no lo está puede cancelar la accíón!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Si, borrar Registro!'
-      }).then(function(result){
-        if (result.value) {
-          
-            window.location = "../sucursal/eliminarventaservicios&id="+idventaservicio;
-        }
+/*=============================================
+IMPRIMIR FACTURA
+=============================================*/
 
-  })
+$(".tablasCierreSucursal").on("click", ".btnImprimirDocumento", function(){
+
+	var codigo = $(this).attr("numDocumento");
+
+	window.open("../extensiones/tcpdf/pdf/cierre.php?codigo="+codigo, " _blank");
 
 })

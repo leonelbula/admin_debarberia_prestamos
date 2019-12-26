@@ -10,8 +10,8 @@ $(".formularioCobroServicio").on("change", "input#nuevoValorEfectivo", function(
 	
 	nuevoCambioEfectivo.val(cambio);
 	
-	console.log("valor ",valor);
-	console.log("efectivo",efectivo);
-	console.log("efectivo",cambio)
+//	console.log("valor ",valor);
+//	console.log("efectivo",efectivo);
+//	console.log("efectivo",cambio)
 
 })

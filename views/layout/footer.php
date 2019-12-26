@@ -45,6 +45,8 @@
 <script src="<?= URL_BASE ?>assets/js/pagosSucursal.js"></script>
 <script src="<?= URL_BASE ?>assets/js/productosSucursal.js"></script>
 <script src="<?= URL_BASE ?>assets/js/tablaInsumoSucursal.js"></script>
+<script src="<?= URL_BASE ?>assets/js/cierreSucursal.js"></script>
+<script src="<?= URL_BASE ?>assets/js/pagosServicio.js"></script>
 
 </body>
 </html>

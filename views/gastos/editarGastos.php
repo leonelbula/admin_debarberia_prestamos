@@ -39,6 +39,7 @@
 			<?php while ($row = $detallesGasto -> fetch_object()): ?>	
 				   
 			  <input type="hidden" name="id" value="<?= $row->id ?>" />
+			   <input type="hidden" name="id_sucursal" value="<?=$_SESSION['sucursal']->id?>"	/>		
         <div class="col-md-8">
 			
           <div class="box box-danger">
@@ -83,7 +84,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-bookmark-o"></i>
                   </div>
-					<textarea class="form-control" rows="3" name="descripcion" placeholder="Descripcion ..." required><?= $row->descripcion ?></textarea>
+					<textarea class="form-control" rows="3" name="descripcion" placeholder="Descripcion ..." required><?= $row->detalle ?></textarea>
                 </div>
                 <!-- /.input group -->
               </div>

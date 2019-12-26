@@ -1,17 +1,27 @@
 <?php
 
 require_once 'models/IniciarVenta.php';
+require_once 'models/VentasSucursal.php';
+require_once 'models/AbonoEntregadosPrestamosSucursal.php';
+require_once 'models/Gastos.php';
 
 class puntoventaController {
 
 	public function index() {
 		require_once 'views/layout/menu.php';
-		$iniciarventas = new IniciarVenta();
-		$detalles = $iniciarventas->ventasActivas();
+		$iniciarventas = new IniciarVenta();		
 		$listacierres = $iniciarventas->MostrarCierres();
 		require_once 'views/puntoventa/iniciarVentas.php';
 		require_once 'views/layout/copy.php';
 	}
+	static public function ventasActivas($id_sucursal) {		
+		$iniciarventas = new IniciarVenta();
+		$iniciarventas->setId_sucursal($id_sucursal);
+		$detalles = $iniciarventas->ventasActivas();
+		return $detalles;
+		
+	}
+
 	public function vercierre() {
 		require_once 'views/layout/menu.php';
 		if ($_GET['id']) {
@@ -47,6 +57,7 @@ class puntoventaController {
 			$fechainicio = date('Y-m-d');
 			$fechacierre = date('Y-m-d');
 			$basecaja = $_POST['basecaja'];
+			$id_sucursal = $_POST['id_sucursal'];
 			$totalingresos = 0;
 			$totalgastos = 0;
 			$montoentregado = 0;
@@ -54,7 +65,8 @@ class puntoventaController {
 			$estado = 1;
 
 			$inicioventa = new IniciarVenta();
-
+			
+			$inicioventa->setId_sucursal($id_sucursal);
 			$inicioventa->setFechainicio($fechainicio);
 			$inicioventa->setFechacierre($fechacierre);
 			$inicioventa->setBasecaja($basecaja);
@@ -126,26 +138,40 @@ class puntoventaController {
 
 			$fechacierre = date('Y-m-d');
 			$montoentregado = (int) $_POST['caja'];
-
+			$id_sucursal = $_POST['id_sucursal'];
 
 			$cerrarventa = new IniciarVenta();
-
+			$cerrarventa->setId_sucursal($id_sucursal);
 			$detalles = $cerrarventa->ventasActivas();
-
+			
 			while ($row = $detalles->fetch_object()) {
 				$id = $row->id;
 				$basecaja = (int) $row->basecaja;
 				$fechainicio = $row->fecha_inicio;
 			}
 
-			$ventas = new Venta();
-			$totalVentas = $ventas->Ventas($fechainicio, $fechacierre);
-			while ($row1 = $totalVentas->fetch_object()) {
-				$ventatotal = (int) $row1->total;
+			$ventas = new VentasSucursal();
+			$totalVentas = $ventas->VentasProductos($fechainicio, $fechacierre,$id_sucursal);
+			
+			if (isset($totalVentas->num_rows) != 0) {
+				while ($row1 = $totalVentas->fetch_object()) {
+					$ventatotal = (int) $row1->total;
+				}
+			} else {
+				$ventatotal = 0;
+			}
+			$totalVentaServicio = $ventas->VentasServicios($fechainicio, $fechacierre,$id_sucursal);
+			
+			if (isset($totalVentaServicio->num_rows) != 0) {
+				while ($row1 = $totalVentaServicio->fetch_object()) {
+					$ventatotalServicio = (int) $row1->total;
+				}
+			} else {
+				$ventatotalServicio = 0;
 			}
 
-			$abonos = new AbonosCliente();
-			$totalAbonos = $abonos->AbonosDiarios($fechainicio, $fechacierre);
+			$abonos = new AbonoEntregadosPrestamosSucursal();
+			$totalAbonos = $abonos->AbonosDiarios($fechainicio, $fechacierre,$id_sucursal);
 
 			while ($row3 = $totalAbonos->fetch_object()) {
 				$valorAbonos = $row3->total;
@@ -157,8 +183,8 @@ class puntoventaController {
 				$gastoGenerado = (int) $row2->total;
 			}
 
-			$resultado1 = $montoentregado + $gastoGenerado;
-			$montoDiario = $ventatotal + $valorAbonos;
+			$resultado1 = $montoentregado + $gastoGenerado ;
+			$montoDiario = ($ventatotal + $valorAbonos + $ventatotalServicio) - $gastoGenerado;
 			$diferencia = $resultado1 - $montoDiario;
 
 			$resp = TRUE;
@@ -189,6 +215,7 @@ class puntoventaController {
 	public function guardarcierre() {
 		if ($_POST['id']) {
 			$id = $_POST['id'];
+			$id_sucursal = $_POST['id_sucursal'];
 			$fechacierre = date('Y-m-d');
 			$totalingresos = $_POST['ventatotal'];
 			$totalgastos = $_POST['gastototal'];
@@ -199,6 +226,7 @@ class puntoventaController {
 			$cierre = new IniciarVenta();
 
 			$cierre->setId($id);
+			$cierre->setId_sucursal($id_sucursal);
 			$cierre->setFechacierre($fechacierre);
 			$cierre->setTotalingresos($totalingresos);
 			$cierre->setMontoentregado($montoentregado);
@@ -206,6 +234,12 @@ class puntoventaController {
 			$cierre->setDiferencia($diferencia);
 			$cierre->setEstado($estado);
 
+			$ventas = new VentasSucursal();
+			$ventas->setId_sucursal($id_sucursal);
+			$ventas->CerrarVentasProducto();
+			$ventas->CerrarVentasServicio();
+			$ventas->CerrarAbonos();
+			
 			$resp = $cierre->CerrarVenta();
 
 			if ($resp) {
@@ -262,4 +296,5 @@ class puntoventaController {
 			  	</script>';
 		}
 	}
+
 }
