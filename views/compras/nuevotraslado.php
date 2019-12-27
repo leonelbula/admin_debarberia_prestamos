@@ -6,11 +6,11 @@
 				<div class="box">
                     
                     <div class="panel-body" style="height: 400px;" id="formularioregistros">
-                        <form name="formulario" class="formularioComponente" id="formulario" method="POST" action="guardartraslado">
+                        <form name="formulario" class="formularioTraslado" id="formularioTraslado" method="POST" action="guardartraslado">
 							<div class="form-group col-lg-8 col-md-8 col-sm-8 col-xs-12">
 								<label>Sucursal(*):</label>								
 								<select id="idcliente" name="idSucursal" class="form-control selectpicker" data-live-search="true" required>
-									<option value="">Seleccionar cliente</option>
+									<option value="">Seleccionar sucursal</option>
 									<?php 
 										$listaSucursal = sucursalController::listaSucursal();
 										while ($row = $listaSucursal->fetch_object()) {

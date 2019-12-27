@@ -80,6 +80,11 @@ class Empleados {
 		$resul = $this->db->query($sql);
 		return $resul;
 	}
+	public function ListaEmpleados() {
+		$sql = "SELECT * FROM empleado";
+		$resul = $this->db->query($sql);
+		return $resul;
+	}
 	public function MostraEmpleadoId() {
 		$sql = "SELECT * FROM empleado WHERE id = {$this->getId()}";
 		$resul = $this->db->query($sql);

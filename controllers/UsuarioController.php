@@ -266,7 +266,8 @@ class UsuarioController {
 			$estado = isset($_POST['estado']) ? $_POST['estado'] : false;
 
 			if ($nombre && $pass && $tipo && $estado) {
-
+				
+				$fecha = date('Y-m-d');
 				$usuario = new Usuario();
 
 				$usuario->setNombre($nombre);
@@ -275,12 +276,12 @@ class UsuarioController {
 				$usuario->setPassword($password);
 				$usuario->setTipo($tipo);
 				$usuario->setEstado($estado);
-
+				$usuario->setFecha($fecha);
 
 				$save = $usuario->save();
-
-				//var_dump($save);
-
+				
+//				var_dump($save);
+//				die();
 				if ($save) {
 
 					echo'<script>
@@ -397,6 +398,70 @@ class UsuarioController {
 		echo'<script>
 				window.location="' . URL_BASE . '";
 			</script>';
+	}
+	
+	public function guardarubicacion() {
+		if (isset($_POST)) {
+
+			$sucursal = isset($_POST['sucursal']) ? $_POST['sucursal'] : false;
+			$empleado = isset($_POST['empleado']) ? $_POST['empleado'] : false;
+			$estado = isset($_POST['estado']) ? $_POST['estado'] : false;
+			
+
+			if ($sucursal && $empleado) {
+				
+				
+				$ubicacion = new UsuarioUbicacion();
+
+				$ubicacion->setId_sucursal($sucursal);
+				$ubicacion->setId_usuario($empleado);
+				$ubicacion->setEstado($estado);
+
+				
+				$save = $ubicacion->save();
+				
+				
+				if ($save) {
+
+					echo'<script>
+
+					swal({
+						  type: "success",
+						  title: "Registro guardado correctamente",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "index";
+
+							}
+						})
+
+					</script>';
+				} else {
+					echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡No se puedo registrar informacion!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "index";
+
+							}
+						})
+
+			  	</script>';
+
+					return;
+				}
+			}
+			//header('location:index');
+		}
 	}
 
 }

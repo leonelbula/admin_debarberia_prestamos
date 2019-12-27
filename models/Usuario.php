@@ -10,7 +10,8 @@ class Usuario{
 	private $password;
 	private $estado;
 	private $tipo;
-	
+	private $fecha;
+			
 	function getId_usuario() {
 		return $this->id_usuario;
 	}
@@ -29,6 +30,9 @@ class Usuario{
 
 	function getTipo() {
 		return $this->tipo;
+	}
+	function getFecha() {
+		return $this->fecha;
 	}
 
 	function setId_usuario($id_usuario) {
@@ -50,6 +54,9 @@ class Usuario{
 	function setTipo($tipo) {
 		$this->tipo = $tipo;
 	}
+	function setFecha($fecha) {
+		$this->fecha = $fecha;
+	}
 
 	public function __construct() {
 		$this->db = Database::connect();
@@ -65,7 +72,7 @@ class Usuario{
 		return $resul;
 	}
 	public function save() {
-		$sql = "INSERT INTO usuarios VALUE(NULL,'{$this->getNombre()}','{$this->getPassword()}','{$this->getEstado()}','{$this->getTipo()}')";
+		$sql = "INSERT INTO usuarios VALUE(NULL,'{$this->getNombre()}','{$this->getPassword()}','{$this->getTipo()}',{$this->getEstado()},'{$this->getFecha()}')";
 		$save = $this->db->query($sql);
 		
 		$resul = false;
