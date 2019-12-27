@@ -1,5 +1,8 @@
 <?php
-
+require_once 'models/VentaProducto.php';
+require_once 'models/VentaServicio.php';
+require_once 'models/Compra.php';
+require_once 'models/Productos.php';
 
 class frontendController{
 	
@@ -8,7 +11,17 @@ class frontendController{
 	}	
 	public function Principal() {
 		
-		require_once 'views/layout/menu.php';		
+		require_once 'views/layout/menu.php';
+		$ventasProducto = new VentaProducto();
+		$Compra = new Compra();	
+		$ventaServicio = new VentaServicio();
+		$productos = new Producto();	
+		
+		
+		$totalCompra = $Compra->TotalCompras();
+		$totalVentasProductos = $ventasProducto->TotalVentasProducto();
+		$totalVentaServicios = $ventaServicio->TotalVentasServicio();
+		$totalProductos = $productos->TotalProductos();
 		require_once 'views/layout/principal.php';
 		require_once 'views/layout/copy.php';
 		
