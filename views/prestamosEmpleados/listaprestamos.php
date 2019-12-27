@@ -21,7 +21,7 @@
     <div class="box">
 
       <div class="box-header with-border">
-		  <a href="<?= URL_BASE ?>sucursal/relizarprestamo">
+		  <a href="<?= URL_BASE ?>prestamosempleados/relizarprestamo">
 					<button class="btn btn-primary">
 						Nuevo Prestamo
 					</button>

@@ -34,7 +34,7 @@
 					 }
 			
 			?>
-		  <a href="<?=URL_BASE?>sucursal/prestamossucursal">
+		  <a href="<?=URL_BASE?>prestamosempleados/">
           <button class="btn btn-primary">
 
            Cancelar
@@ -43,7 +43,7 @@
 		  </a>
 			<?php if($row->saldo > 0):?>		
 			 
-			<a href="<?= URL_BASE ?>sucursal/abonar&id=<?= $_GET['id'] ?>">
+			<a href="<?= URL_BASE ?>prestamosempleados/abonar&id=<?= $_GET['id'] ?>">
 				<button class="btn btn-primary ">
 					<i class="fa fa-dollar"></i> Abonar
 				</button>
@@ -107,7 +107,7 @@
 				    	  
                   <td>
 					  <div class="btn-group">
-						  <a href="<?=URL_BASE?>sucursal/editarabono&id=<?= $value['id']?>">
+						  <a href="<?=URL_BASE?>prestamosempleados/editarabono&id=<?= $value['id']?>">
 							  <button class="btn btn-warning ">
 								  <i class="fa fa-pencil"></i> Editar
 							  </button>

@@ -41,7 +41,7 @@ class ListaPrestamosAjax {
 				 $nombre = $row1->nombre;
 			 }
 		
-		$url = URL_BASE.'sucursal';
+		$url = URL_BASE.'prestamosempleados';
 
   		$botones = "<div class='btn-group'><a href='$url/editarprestamo&id=$row->id'><button class='btn btn-warning'><i class='fa fa-pencil'></i></button></a><a><button class='btn btn-danger btnEliminarPrestamos' idprestamos='$row->id' ><i class='fa fa-times'></i></button></a></div><a href='$url/verprestamo&id=$row->id'><button class='btn btn-info'><i class='fa fa-eye'></i></button></a></div>";
   		

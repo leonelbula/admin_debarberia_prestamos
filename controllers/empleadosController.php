@@ -16,6 +16,11 @@ class empleadosController{
 		$detalles = $estista->estilistas();
 		return $detalles;
 	}
+	static public function listaestilistas() {		
+		$estista = new Estilista();		
+		$detalles = $estista->Mostrarestilistas();
+		return $detalles;
+	}
 	static public function estilistasId($id) {
 		$id = $id;
 		$estista = new Estilista();

@@ -30,7 +30,7 @@
 			}
 			$idPrestamo = $value['id_prestamo'];
 
-			$detallesPrestamo = sucursalController::detallesPrestamo($idPrestamo);
+			$detallesPrestamo = prestamosempleadosController::detallesPrestamo($idPrestamo);
 			while ($row = $detallesPrestamo->fetch_object()) {
 				$valorCouta = $row->valorcuota;
 				$saldo = $row->saldo;
@@ -40,7 +40,7 @@
 			<div class="box">
 
 				<div class="box-header with-border">
-					<a href="<?= URL_BASE ?>sucursal/verprestamo&id=<?=  $value['id_prestamo'] ?>">
+					<a href="<?= URL_BASE ?>prestamosempleados/verprestamo&id=<?=  $value['id_prestamo'] ?>">
 						<button class="btn btn-primary">
 
 							Cancelar
@@ -54,10 +54,9 @@
 
 
 					<div class="row">
-						<form action="<?= URL_BASE ?>sucursal/actulizarabono" method="POST" >						
+						<form action="<?= URL_BASE ?>prestamosempleados/actulizarabono" method="POST" >						
 
-							<div class="col-md-8">
-								<input type="hidden" name="idSucursal" value="<?= $_SESSION['sucursal']->id  ?>"/> 
+							<div class="col-md-8">								
 								<input type="hidden" name="id" value="<?= $value['id'] ?>"/> 	
 								<input type="hidden" name="idPrestamo" value="<?= $value['id_prestamo'] ?>"/> 
 								<input type="hidden" name="abonoAnterio" value="<?= $value['valor'] ?>"/> 

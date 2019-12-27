@@ -71,6 +71,11 @@ class Estilista{
 	public function __construct() {
 		$this->db = Database::connect();
 	}
+	public function Mostrarestilistas() {
+		$sql = "SELECT * FROM estilista";
+		$respt = $this->db->query($sql);
+		return $respt;
+	}
 	public function estilistas() {
 		$sql = "SELECT * FROM estilista WHERE id_sucursal = {$this->getId_sucursal()}";
 		$respt = $this->db->query($sql);

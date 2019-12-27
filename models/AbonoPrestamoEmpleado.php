@@ -74,7 +74,7 @@ class AbonoPrestamoEmpleado{
 		return $resp;
 	}
 	public function Guardar() {
-		$sql = "INSERT INTO abono_prestamos_estilista VALUES (NULL,{$this->getId_prestamo()},{$this->getId_sucursal()},{$this->getId_estilista()},'{$this->getFecha()}',{$this->getValor()})";
+		$sql = "INSERT INTO abono_prestamos_estilista VALUES (NULL,{$this->getId_prestamo()},{$this->getId_estilista()},'{$this->getFecha()}',{$this->getValor()})";
 		$resp = $this->db->query($sql);
 		$result = FALSE;
 		if($resp){

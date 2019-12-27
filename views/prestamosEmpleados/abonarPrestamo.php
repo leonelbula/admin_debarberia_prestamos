@@ -35,7 +35,7 @@
 
 
 				<div class="row">
-					<form action="<?= URL_BASE ?>sucursal/guardarabono" method="POST" >
+					<form action="<?= URL_BASE ?>prestamosempleados/guardarabono" method="POST" >
 						<?php
 						foreach ($detalles as $key => $value):
 							$id = $value['id_estilista'];
@@ -46,8 +46,7 @@
 							?>
 
 							<div class="col-md-8">
-								<input type="hidden" name="id" value="<?= $value['id'] ?>"/> 
-								<input type="hidden" name="idSucursal" value="<?= $_SESSION['sucursal']->id  ?>"/> 
+								<input type="hidden" name="id" value="<?= $value['id'] ?>"/> 								
 								<input type="hidden" name="idCliente" value="<?= $value['id_estilista'] ?>"/> 		
 								<div class="box box-danger">
 									<div class="box-header">

@@ -29,7 +29,7 @@
 
 				<div class="col-xs-6">
 					<h4>Ventas de servicios</h4>
-					<table class="table table-bordered table-striped dt-responsive " width="100%">
+					<table class="table table-bordered table-striped dt-responsive tablaVentaServicioAdmin" width="100%">
 
 						<thead>
 
@@ -39,7 +39,7 @@
 								<th>fecha</th>  			 
 								<th>Nombre</th>
 								<th>valor</th>					
-
+								<th>valor</th>
 
 							</tr>
 
@@ -52,7 +52,7 @@
 				</div>
 				<div class="col-xs-6">
 					<h4>Ventas de productos</h4>
-					<table class="table table-bordered table-striped dt-responsive " width="100%">
+					<table class="table table-bordered table-striped dt-responsive tablaVentaProductoAdmin" width="100%">
 
 						<thead>
 
@@ -62,7 +62,7 @@
 								<th>fecha</th>  			 
 								<th>Nombre</th>
 								<th>valor</th>					
-
+								<th>Utilidad</th>	
 
 							</tr>
 

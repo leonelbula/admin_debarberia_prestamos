@@ -86,7 +86,7 @@ $(".tablaestadocuentaprestamosucursal").on("click", ".btnEliminarAbono", functio
       }).then(function(result){
         if (result.value) {
           
-            window.location = rutaOculta+"sucursal/eliminarabono&id="+idAbono;
+            window.location = rutaOculta+"prestamosempleados/eliminarabono&id="+idAbono;
         }
 
   })

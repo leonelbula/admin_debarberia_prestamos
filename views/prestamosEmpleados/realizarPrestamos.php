@@ -25,7 +25,7 @@
 			</div>
 			<div class="box-body">
 				<div class="box-header with-border">
-					<a href="<?= URL_BASE ?>sucursal/prestamossucursal">
+					<a href="<?= URL_BASE ?>prestamosempleados/">
 						<button class="btn btn-primary">
 
 							Cancelar
@@ -36,21 +36,23 @@
 				<div class="box box-default">				
 
 					<div class="col-md-6">
-						<form method="POST" class="formularioPrestamo" action="<?= URL_BASE ?>sucursal/guardarprestamos">						
+						<form method="POST" class="formularioPrestamo" action="<?= URL_BASE ?>prestamosempleados/guardarprestamos">						
 							<div class="form-group">
 								<label>SELECIONE EL CLIENTE</label>
 								<select class="form-control select2" style="width: 100%;" name="idCliente" required>
 									<option value="0">Seleccione un cliente</option>
 									<?php
-									$id = $_SESSION['sucursal']->id;
-									$listaCliente = empleadosController::estilistas($id);
+									
+									$listaCliente = empleadosController::listaestilistas();
 
 									while ($row = $listaCliente->fetch_object()) :
+										
 										?>
 										<option value="<?= $row->id ?>"><?= $row->nombre ?></option>
+										
 									<?php endwhile; ?>
 								</select>
-								<input type="hidden" name="id_sucursal" value="<?=$id?>" />
+								
 							</div>	
 							<div class="form-group">
 								<label>Fecha entrega:</label>

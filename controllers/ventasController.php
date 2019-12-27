@@ -10,4 +10,10 @@ class ventasController{
 		require_once 'views/ventas/listaventas.php';
 		require_once 'views/layout/copy.php';
 	}	
+	
+	public function reportes() {		
+		require_once 'views/layout/menu.php';		
+		require_once 'views/ventas/reportes.php';
+		require_once 'views/layout/copy.php';
+	}	
 }

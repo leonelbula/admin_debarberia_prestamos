@@ -194,7 +194,7 @@ if (!isset($_SESSION['identity'])) {
           </a>
           <ul class="treeview-menu">           
 			<li><a href="<?=URL_BASE?>ventas/ventassucursal"><i class="fa fa-circle-o"></i> VENTAS POR SUCURSAL</a></li>
-            <li><a href="<?=URL_BASE?>ventas/resportes"><i class="fa fa-circle-o"></i> REPORTES</a></li>
+            <li><a href="<?=URL_BASE?>ventas/reportes"><i class="fa fa-circle-o"></i> REPORTES</a></li>
           </ul>
         </li>     
         <li class="treeview">
@@ -221,7 +221,7 @@ if (!isset($_SESSION['identity'])) {
           </a>
           <ul class="treeview-menu">
             <li><a href="<?=URL_BASE?>servicios/"><i class="fa fa-circle-o"></i> SERVICIOS</a></li>
-			<li><a href="<?=URL_BASE?>servicios/reporte"><i class="fa fa-circle-o"></i> REPORTES</a></li>                      
+			
           </ul>
         </li>		
         <li class="treeview">
@@ -270,7 +270,7 @@ if (!isset($_SESSION['identity'])) {
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<?=URL_BASE?>sucursal/prestamossucursal"><i class="fa fa-circle-o"></i> LISTA PRESTAMOS</a></li>			
+            <li><a href="<?=URL_BASE?>prestamosempleados/"><i class="fa fa-circle-o"></i> LISTA PRESTAMOS</a></li>			
 	
           </ul>
         </li>       
@@ -323,11 +323,8 @@ if (!isset($_SESSION['identity'])) {
             <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
           </ul>
         </li>
-        <li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
-        <li class="header">LABELS</li>
-        <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+        <li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>PAGINA WEB</span></a></li>
+        
       <?php
 		
 		}

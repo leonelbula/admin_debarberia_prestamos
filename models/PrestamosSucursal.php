@@ -168,13 +168,13 @@ class PrestamosSucursal {
 		$sql = "UPDATE prestamo_estilista SET id_estilista={$this->getId_estilista()},"
 				. "fecha='{$this->getFecha()}',fecha_vencimiento='{$this->getFecha_vencimiento()}',"
 				. "interes={$this->getInteres()},valor={$this->getValor()},valortotal={$this->getValortotal()},saldo={$this->getSaldo()},"
-				. "cuotas={$this->getCuotas()},saldocuota={$this->getSaldocuota()},utilidad={$this->getCuotas()},valorcuota={$this->getValorcuota()} WHERE id = {$this->getId()} AND id_sucursal = {$this->getId_sucursal()}";
+				. "cuotas={$this->getCuotas()},saldocuota={$this->getSaldocuota()},utilidad={$this->getCuotas()},valorcuota={$this->getValorcuota()} WHERE id = {$this->getId()}";
 		$resp = $this->db->query($sql);
 		$result = FALSE;
 		if ($resp) {
 			$result = TRUE;
 		}
-		return $resp;
+		return $result;
 	}
 
 	public function Eliminar() {
