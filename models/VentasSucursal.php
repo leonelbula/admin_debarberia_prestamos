@@ -75,7 +75,7 @@ class VentasSucursal {
 
 		if ($fechaInicial == $fechaFinal) {
 
-			$sql = "SELECT SUM(valorinterno) as total FROM venta_servicio WHERE fecha like '%$fechaFinal%'  AND id_sucursal = $id_sucursal AND estado = 1";
+			$sql = "SELECT SUM(valorinterno) as total FROM venta_servicio WHERE fecha like '%$fechaFinal%'  AND id_sucursal = $id_sucursal AND estadocierre = 1";
 		} else {
 
 			$fechaActual = new DateTime();
@@ -88,10 +88,10 @@ class VentasSucursal {
 
 			if ($fechaFinalMasUno == $fechaActualMasUno) {
 
-				$sql = "SELECT SUM(valorinterno) as total FROM venta_servicio WHERE fecha BETWEEN '$fechaInicial' AND '$fechaFinalMasUno' AND id_sucursal = $id_sucursal AND estado = 1";
+				$sql = "SELECT SUM(valorinterno) as total FROM venta_servicio WHERE fecha BETWEEN '$fechaInicial' AND '$fechaFinalMasUno' AND id_sucursal = $id_sucursal AND estadocierre = 1";
 			} else {
 
-				$sql = "SELECT SUM(valorinterno) as total FROM venta_servicio WHERE fecha BETWEEN '$fechaInicial' AND '$fechaFinal' AND id_sucursal = $id_sucursal AND estado = 1";
+				$sql = "SELECT SUM(valorinterno) as total FROM venta_servicio WHERE fecha BETWEEN '$fechaInicial' AND '$fechaFinal' AND id_sucursal = $id_sucursal AND estadocierre = 1";
 			}
 		}
 
@@ -106,7 +106,7 @@ class VentasSucursal {
 		return $resul;
 	}
 	public function CerrarVentasServicio() {
-		$sql = "UPDATE venta_servicio SET estado = 0 WHERE id_sucursal = {$this->getId_sucursal()}";
+		$sql = "UPDATE venta_servicio SET estadocierre = 0 WHERE id_sucursal = {$this->getId_sucursal()}";
 		$resp = $this->db->query($sql);
 		$result = FALSE;
 		if($resp){

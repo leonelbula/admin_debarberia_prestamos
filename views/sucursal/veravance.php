@@ -102,7 +102,7 @@
 							  </button>
 						  </a>	
 						  <a>
-							  <button class="btn btn-danger btnEliminarAvence" idabono="<?= $value['id']?>">
+							  <button class="btn btn-danger btnEliminarAvence" idavance="<?= $value['id']?>">
 								  <i class="fa fa-times"></i> Eliminar
 							  </button>
 						  </a>	

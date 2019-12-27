@@ -57,9 +57,9 @@
 			 ?>   
 					<h3><strong>Nombre:</strong> <?= $nombreProveedor ?></h3>
 				  <address>
-					  <h4><strong>Fecha Factura: </strong> <?= $row->fecha?> <br></h4>
+					  <h4><strong>Fecha Factura: </strong> <?= $row->fecha_compra?> <br></h4>
 					  <h4><strong>Fecha Vencimiento: </strong> <?= $row->fecha_vencimiento?> <br></h4>
-					  <h4><strong>N° Factura: </strong><?= $row->numero_factura?> <br></h4>
+					  <h4><strong>N° Factura: </strong><?= $row->num_factura?> <br></h4>
 					  <h4><strong>Valor Factura: </strong> <?= number_format($row->total) ?><br></h4>
 					  <h4><strong>Saldo Factura: </strong> <?= number_format($row->saldo) ?> <br></h4>					
 				  </address>
@@ -93,6 +93,7 @@
 		   <tbody>
 			   <?php 
 			  $i = 1;
+			 if($listaAbono){
 			   foreach ($listaAbono as $key => $value):			  
 			   
 				
@@ -123,7 +124,11 @@
 					  </div>
 				  </td>
                 </tr>
-				<?php endforeach; ?>
+				<?php 
+				endforeach; 
+			 }
+				?>
+				
 		   </tbody>
 
         </table> 

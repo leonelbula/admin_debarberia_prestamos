@@ -60,7 +60,7 @@ $(".tablasAvancesDetallesSucursal").on("click", ".btnEliminarAvence", function()
       }).then(function(result){
         if (result.value) {
           
-            window.location = "eliminarprestamos&id="+idavance;
+            window.location = "eliminaravance&id="+idavance;
         }
 
   })

@@ -15,8 +15,8 @@ class PrestamosAjax {
 		$resul = $this->db->query($sql);
 		return $resul;
 	}
-	public function MostrarPrestamosCliente($idsucursal) {
-		$sql = "SELECT * FROM prestamo_estilista WHERE saldo > 0 AND id_sucursal = $idsucursal";
+	public function MostrarPrestamosCliente() {
+		$sql = "SELECT * FROM prestamo_estilista WHERE saldo > 0 ";
 		$resp = $this->db->query($sql);
 		return $resp;
 	}
@@ -26,8 +26,8 @@ class PrestamosAjax {
 class ListaPrestamosAjax {
 	public function MostrarPrestamo() {
 		$prestamo = new PrestamosAjax();
-		$idsucursal = $_GET['idsucursal'];
-		$listaPrestamo = $prestamo->MostrarPrestamosCliente($idsucursal);
+		//$idsucursal = $_GET['idsucursal'];
+		$listaPrestamo = $prestamo->MostrarPrestamosCliente();
 		
 		$i = 1;			
 		 $datosJson = '{

@@ -55,26 +55,26 @@ class AbonosProveedor{
 		$this->db = Database::connect();
 	}
 	public function RegistrarAbono() {
-		$sql = "INSERT INTO abono_compras VALUES (NULL,{$this->getId_factura()},{$this->getValor()},'{$this->getDescripcion()}','{$this->getFecha()}')";
+		$sql = "INSERT INTO abono_compra VALUES (NULL,{$this->getId_factura()},'{$this->getFecha()}','{$this->getDescripcion()}',{$this->getValor()})";
 		$resp = $this->db->query($sql);
 		$respt = FALSE;
 		if($resp){
 			$respt = TRUE;
 		}
-		return $sql;
+		return $respt;
 	}
 	public function MostrarAbonosId() {
-		$sql = "SELECT * FROM abono_compras WHERE id_factura = {$this->getId_factura()} ORDER BY id DESC";
+		$sql = "SELECT * FROM abono_compra WHERE id_factura = {$this->getId_factura()} ORDER BY id DESC";
 		$resp = $this->db->query($sql);
 		return $resp;
 	}
 	public function VerAbonoId() {
-		$sql = "SELECT * FROM abono_compras WHERE id = {$this->getId()}";
+		$sql = "SELECT * FROM abono_compra WHERE id = {$this->getId()}";
 		$resp = $this->db->query($sql);
 		return $resp;
 	}
 	public function EditarAbono() {
-		$sql = "UPDATE abono_compras SET valor = {$this->getValor()},descripcion = '{$this->getDescripcion()}',fecha='{$this->getFecha()}' WHERE id = {$this->getId()};";
+		$sql = "UPDATE abono_compra SET valor = {$this->getValor()},descripcion = '{$this->getDescripcion()}',fecha='{$this->getFecha()}' WHERE id = {$this->getId()};";
 		$resp = $this->db->query($sql);
 		$result = FALSE;
 		if($resp){
@@ -83,7 +83,7 @@ class AbonosProveedor{
 		return $result;
 	}
 	public function Eliminarbono() {
-		$sql = "DELETE FROM abono_compras  WHERE id = {$this->getId()};";
+		$sql = "DELETE FROM abono_compra  WHERE id = {$this->getId()};";
 		$resp = $this->db->query($sql);
 		$result = FALSE;
 		if($resp){

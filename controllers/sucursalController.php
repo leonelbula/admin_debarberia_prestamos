@@ -2497,6 +2497,69 @@ class sucursalController {
 			}
 		}
 	}
+	
+	public function eliminaravance() {
+		if (!empty($_GET['id'])) {
+			$id_Avance = $_GET['id'];
+			
+			$avance = new Avance();
+			$avance->setId($id_Avance);
+			$resp = $avance->Eliminar();
+
+			if ($resp) {
+				echo'<script>
+
+					swal({
+						  type: "success",
+						  title: "Registro Eliminado correctamente",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "listaavences";
+
+							}
+						})
+
+					</script>';
+			} else {
+				echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡No se logro guardar el abono!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "listaavences";
+
+							}
+						})
+
+		</script>';
+			}
+		} else {
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡No a seleccionado ningun registro!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "listaavences";
+
+							}
+						})
+
+		</script>';
+		}
+	}
 
 	public function liquidarpago() {
 		require_once 'views/layout/menu.php';

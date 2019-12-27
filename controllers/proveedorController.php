@@ -419,7 +419,7 @@ class proveedorController {
 					$abonoCompra->setFecha($fecha);
 
 					$reptB = $abonoCompra->RegistrarAbono();
-
+					
 					if ($reptA && $reptB) {
 						echo'<script>
 
@@ -431,7 +431,7 @@ class proveedorController {
 							  }).then(function(result){
 								if (result.value) {
 
-								window.location = "verestadocuentaprov&id=' . $_POST['id'] . '";
+								window.location = "abonosfactura&id=' . $_POST['id'] . '";
 
 								}
 							})

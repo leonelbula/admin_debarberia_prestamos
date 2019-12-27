@@ -148,6 +148,7 @@ $fechacierre = $row->fecha_cierre;
 $gastos = number_format($row->totalgastos);
 $montoentregado = number_format($row->montoentregado);
 $total = number_format($row->totalingresos);
+$diferencia  = number_format($row->diferencia);
 }
 
 $totalVentas = $factura->VentasProductos($fecha, $fechacierre,$id_sucursal);
@@ -285,7 +286,8 @@ $bloque4 = <<<EOF
 			<td style="border: 1px solid #9B9B9B; color:#333; background-color:white; width:150px; text-align:left">
 			<br>Total venta Producto.<br>$ $ventatotal
 			<br>Total venta Servicio. <br>$ $ventatotalServicio
-			<br>Abonos. : $	$valorAbonos		
+			<br>Abonos. : $	$valorAbonos
+			<br>Diferencia. : $	$diferencia
 			
 			
 			</td>

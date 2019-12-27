@@ -92,7 +92,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-tag"></i>
                   </div>
-					<input type="text" class="form-control" value="<?= $value['numero_factura']?>" name="numerofactura" disabled>
+					<input type="text" class="form-control" value="<?= $value['num_factura']?>" name="numerofactura" disabled>
 					
                 </div>
                 <!-- /.input group -->

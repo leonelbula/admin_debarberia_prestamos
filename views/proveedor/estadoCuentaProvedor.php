@@ -81,11 +81,11 @@
 			   while ($row =  $listaEstado ->fetch_object()) :
 				  ?>
 				  <td><?= $row->id?></td>
-				  <td>Factura N°<?= $row->numero_factura?></td>
-				  <td><?= $row->fecha?></td>				  
+				  <td>Factura N°<?= $row->num_factura?></td>
+				  <td><?= $row->fecha_compra?></td>				  
 				   <?php
 				 $fechaAct = date('Y-m-d');
-				 $fecha = $row->fecha;
+				 $fecha = $row->fecha_compra;
 				 $fechaActual = strtotime('+30 day', strtotime($fecha));
 				 $fechaNueva = date('Y-m-d', $fechaActual);
 				 $fechaActual2 = strtotime('+45 day', strtotime($fecha));
