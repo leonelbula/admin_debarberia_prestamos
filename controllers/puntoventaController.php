@@ -4,6 +4,7 @@ require_once 'models/IniciarVenta.php';
 require_once 'models/VentasSucursal.php';
 require_once 'models/AbonoEntregadosPrestamosSucursal.php';
 require_once 'models/Gastos.php';
+require_once 'models/DatosCierre.php';
 
 class puntoventaController {
 
@@ -182,7 +183,9 @@ class puntoventaController {
 			while ($row2 = $totalGastos->fetch_object()) {
 				$gastoGenerado = (int) $row2->total;
 			}
-
+			
+			
+			
 			$resultado1 = $montoentregado + $gastoGenerado ;
 			$montoDiario = ($ventatotal + $valorAbonos + $ventatotalServicio) - $gastoGenerado;
 			$diferencia = $resultado1 - $montoDiario;
@@ -222,6 +225,49 @@ class puntoventaController {
 			$montoentregado = $_POST['montoentregado'];
 			$diferencia = $_POST['diferencia'];
 			$estado = 0;
+			
+			
+			$fechacierre = date('Y-m-d');			
+		
+
+			$cerrarventa = new IniciarVenta();
+			
+			$cerrarventa->setId_sucursal($id_sucursal);
+			$detalles = $cerrarventa->ventasActivas();
+			
+			while ($row = $detalles->fetch_object()) {
+				$id = $row->id;
+				$basecaja = (int) $row->basecaja;
+				$fechainicio = $row->fecha_inicio;
+			}
+						
+			$ventas = new VentasSucursal();
+			$totalVentas = $ventas->VentasProductos($fechainicio, $fechacierre,$id_sucursal);
+			
+			if (isset($totalVentas->num_rows) != 0) {
+				while ($row1 = $totalVentas->fetch_object()) {
+					$ventatotal = (int) $row1->total;
+				}
+			} else {
+				$ventatotal = 0;
+			}
+			$totalVentaServicio = $ventas->VentasServicios($fechainicio, $fechacierre,$id_sucursal);
+			
+			if (isset($totalVentaServicio->num_rows) != 0) {
+				while ($row1 = $totalVentaServicio->fetch_object()) {
+					$ventatotalServicio = (int) $row1->total;
+				}
+			} else {
+				$ventatotalServicio = 0;
+			}
+			
+			$datoscierre = new DatosCierre();
+			$datoscierre->setId_cierre($id);
+			$datoscierre->setTotalproducto($ventatotal);
+			$datoscierre->setTotalservicio($ventatotalServicio);
+			$datoscierre->Guardar();
+			
+			
 
 			$cierre = new IniciarVenta();
 

@@ -55,64 +55,12 @@ $resul = $this->db->query($sql);
 return $resul;
 }	
 
-public function VentasProductos($fechaInicial, $fechaFinal,$id_sucursal) {
-
-if ($fechaInicial == $fechaFinal) {
-
-$sql = "SELECT SUM(totalventa) as total FROM venta_producto WHERE fecha like '%$fechaFinal%'  AND id_sucursal = $id_sucursal ";
-} else {
-
-$fechaActual = new DateTime();
-$fechaActual->add(new DateInterval("P1D"));
-$fechaActualMasUno = $fechaActual->format("Y-m-d");
-
-$fechaFinal2 = new DateTime($fechaFinal);
-$fechaFinal2->add(new DateInterval("P1D"));
-$fechaFinalMasUno = $fechaFinal2->format("Y-m-d");
-
-if ($fechaFinalMasUno == $fechaActualMasUno) {
-
-$sql = "SELECT SUM(totalventa) as total FROM venta_producto WHERE fecha BETWEEN '$fechaInicial' AND '$fechaFinalMasUno' AND id_sucursal = $id_sucursal";
-} else {
-
-$sql = "SELECT SUM(totalventa) as total FROM venta_producto WHERE fecha BETWEEN '$fechaInicial' AND '$fechaFinal' AND id_sucursal = $id_sucursal ";
-}
-}
-
-
+public function datosCierre($codigo) {
+$sql = "SELECT * FROM datos_cierre WHERE id_cierre = $codigo";
 $resul = $this->db->query($sql);
-return $resul;
-}
-	
-public function VentasServicios($fechaInicial, $fechaFinal,$id_sucursal) {
-
-
-if ($fechaInicial == $fechaFinal) {
-
-$sql = "SELECT SUM(valorinterno) as total FROM venta_servicio WHERE fecha like '%$fechaFinal%'  AND id_sucursal = $id_sucursal ";
-} else {
-
-$fechaActual = new DateTime();
-$fechaActual->add(new DateInterval("P1D"));
-$fechaActualMasUno = $fechaActual->format("Y-m-d");
-
-$fechaFinal2 = new DateTime($fechaFinal);
-$fechaFinal2->add(new DateInterval("P1D"));
-$fechaFinalMasUno = $fechaFinal2->format("Y-m-d");
-
-if ($fechaFinalMasUno == $fechaActualMasUno) {
-
-$sql = "SELECT SUM(valorinterno) as total FROM venta_servicio WHERE fecha BETWEEN '$fechaInicial' AND '$fechaFinalMasUno' AND id_sucursal = $id_sucursal ";
-} else {
-
-$sql = "SELECT SUM(valorinterno) as total FROM venta_servicio WHERE fecha BETWEEN '$fechaInicial' AND '$fechaFinal' AND id_sucursal = $id_sucursal ";
-}
+return $resul;	
 }
 
-
-$resul = $this->db->query($sql);
-return $resul;
-}
 }
 
 
@@ -151,14 +99,10 @@ $total = number_format($row->totalingresos);
 $diferencia  = number_format($row->diferencia);
 }
 
-$totalVentas = $factura->VentasProductos($fecha, $fechacierre,$id_sucursal);
-while ($row1 = $totalVentas->fetch_object()) {
-$ventatotal = (int) $row1->total;
-}
-
-$totalVentaServicio = $factura->VentasServicios($fecha, $fechacierre,$id_sucursal);
-while ($row1 = $totalVentaServicio->fetch_object()) {
-$ventatotalServicio = (int) $row1->total;
+$Ventas = $factura->datosCierre($codigo);
+while ($row1 = $Ventas->fetch_object()) {
+$ventatotal = (int) $row1->totalproducto;
+$ventatotalServicio = (int) $row1->totalservicio;
 }
 
 $totalAbonos = $factura->AbonosDiarios($fecha, $fechacierre, $id_sucursal);

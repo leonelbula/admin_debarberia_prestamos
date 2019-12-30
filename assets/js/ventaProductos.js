@@ -69,7 +69,7 @@ $(".tablaproductoventa tbody").on("click", "button.agregarProducto", function(){
 	
 	$.ajax({
 
-		url: "../ajax/ajaxProductos.php",
+		url: "../ajax/ajaxProductosSucursal.php",
 		method: "POST",
 		data: datos,
 		cache: false,

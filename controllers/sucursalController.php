@@ -1051,7 +1051,7 @@ class sucursalController {
 				$ventaProducto->setTotalcosto($valortotalCosto);
 				$ventaProducto->setSaldo($total);
 				$resp = $ventaProducto->Guardar();
-				var_dump($resp);
+				//var_dump($resp);
 				$IdUltimaventa = $ventaProducto->VerUltimaVenta();
 
 				while ($row4 = $IdUltimaventa->fetch_object()) {
@@ -2016,6 +2016,7 @@ class sucursalController {
 		require_once 'views/sucursal/listaproductos.php';
 		require_once 'views/layout/copy.php';
 	}
+	
 	public function insumossucursal() {
 		require_once 'views/layout/menu.php';
 		require_once 'views/sucursal/listainsumos.php';
