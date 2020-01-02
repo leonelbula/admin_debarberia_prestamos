@@ -12,7 +12,7 @@
 	<section class="content">
 		<div class="box">
 			<div class="box-header with-border">
-				<a href="<?= URL_BASE ?>prestamos/cliente">
+				<a href="<?= URL_BASE ?>ventasproducto/vendedores">
 					<button class="btn btn-primary">
 						Cancelar
 					</button>
@@ -20,16 +20,16 @@
 			</div>
 			<div class="box-body">
 				<div class="row">
-					<form action="<?= URL_BASE ?>prestamos/actualizarcliente" method="POST" >
+					<form action="<?= URL_BASE ?>ventasproducto/actualizarvendedor" method="POST" >
 						<div class="col-md-6">
 
 							<div class="box box-danger">
 								<div class="box-header">
-									<h3 class="box-title">Informacion del Cliente</h3>
+									<h3 class="box-title">Informacion del Vendedor</h3>
 								</div>
 								<div class="box-body">
 									<?php
-									while ($row1 = $detallesCliente->fetch_object()):
+									while ($row1 = $detalles->fetch_object()):
 										?>
 
 										<div class="form-group">

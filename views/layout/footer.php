@@ -49,6 +49,11 @@
 <script src="<?= URL_BASE ?>assets/js/pagosServicio.js"></script>
 <script src="<?= URL_BASE ?>assets/js/tablaVentaProducto.js"></script>
 <script src="<?= URL_BASE ?>assets/js/tablaVentasServicio.js"></script>
+<script src="<?= URL_BASE ?>assets/js/tablavendedor.js"></script>
+<script src="<?= URL_BASE ?>assets/js/tablaProductosVentas.js"></script>
+<script src="<?= URL_BASE ?>assets/js/ventasVendedor.js"></script>
+<script src="<?= URL_BASE ?>assets/js/tablaventasvendedor.js"></script>
+
 
 </body>
 </html>

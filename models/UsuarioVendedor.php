@@ -2,13 +2,14 @@
 
 require_once 'config/DataBase.php';
 
-class Usuario{
+class UsuarioVendedor{
 	
 	public $db;
 	private $id;
 	private $nombre;
 	private $password;
-	
+	private $estado;
+			
 	function getId() {
 		return $this->id;
 	}
@@ -19,6 +20,9 @@ class Usuario{
 
 	function getPassword() {
 		return $this->password;
+	}
+	function getEstado() {
+		return $this->estado;
 	}
 
 	function setId($id) {
@@ -31,6 +35,9 @@ class Usuario{
 
 	function setPassword($password) {
 		$this->password = $password;
+	}
+	function setEstado($estado) {
+		$this->estado = $estado;
 	}
 
 	public function __construct() {
@@ -47,7 +54,7 @@ class Usuario{
 		return $resul;
 	}
 	public function save() {
-		$sql = "INSERT INTO usuario_vendedor VALUE(NULL,'{$this->getNombre()}','{$this->getPassword()}')";
+		$sql = "INSERT INTO usuario_vendedor VALUE(NULL,'{$this->getNombre()}','{$this->getPassword()}',{$this->getEstado()})";
 		$save = $this->db->query($sql);
 		
 		$resul = false;

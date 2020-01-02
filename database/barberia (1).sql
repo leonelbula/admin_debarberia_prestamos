@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 30-12-2019 a las 12:13:33
+-- Tiempo de generación: 02-01-2020 a las 12:59:05
 -- Versión del servidor: 5.7.26
 -- Versión de PHP: 7.2.18
 
@@ -848,6 +848,35 @@ INSERT INTO `producto` (`id`, `id_categoria`, `codigo`, `nombre`, `costo`, `cant
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `productoventa`
+--
+
+DROP TABLE IF EXISTS `productoventa`;
+CREATE TABLE IF NOT EXISTS `productoventa` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `codigo` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
+  `nombre` text COLLATE utf8_spanish_ci NOT NULL,
+  `costo` int(11) NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `precio_venta` int(11) NOT NULL,
+  `porcentaje_utilidad` int(11) NOT NULL,
+  `utilidad` int(11) NOT NULL,
+  `stock_minimo` int(11) NOT NULL,
+  `codigo_vendedor` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
+  `id_vendedor` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `productoventa`
+--
+
+INSERT INTO `productoventa` (`id`, `codigo`, `nombre`, `costo`, `cantidad`, `precio_venta`, `porcentaje_utilidad`, `utilidad`, `stock_minimo`, `codigo_vendedor`, `id_vendedor`) VALUES
+(1, '1000', 'producto editado', 5000, 18, 7500, 50, 2500, 10, '4545', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `producto_sucursal`
 --
 
@@ -1070,8 +1099,40 @@ CREATE TABLE IF NOT EXISTS `usuario_vendedor` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` text COLLATE utf8_spanish_ci NOT NULL,
   `password` text COLLATE utf8_spanish_ci NOT NULL,
+  `estado` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `usuario_vendedor`
+--
+
+INSERT INTO `usuario_vendedor` (`id`, `nombre`, `password`, `estado`) VALUES
+(1, 'vendedor', '$2y$04$xjnDLNprz/Gy83mw9TEbwuNX6.Y.rYtwCd/7K82l66j.Jr15u3xEW', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `vendedores`
+--
+
+DROP TABLE IF EXISTS `vendedores`;
+CREATE TABLE IF NOT EXISTS `vendedores` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` text COLLATE utf8_spanish_ci NOT NULL,
+  `nit` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
+  `telefono` varchar(20) COLLATE utf8_spanish_ci NOT NULL,
+  `direccion` text COLLATE utf8_spanish_ci NOT NULL,
+  `ciudad` varchar(200) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `vendedores`
+--
+
+INSERT INTO `vendedores` (`id`, `nombre`, `nit`, `telefono`, `direccion`, `ciudad`) VALUES
+(1, 'CARLOS MACEA', '78454540', 'carrera 11A #21 - 20', 'SAHAGUN', '3007412721');
 
 -- --------------------------------------------------------
 
@@ -1165,6 +1226,35 @@ INSERT INTO `venta_servicio` (`id`, `id_sucursal`, `num_venta`, `detalle`, `id_e
 (18, 1, 18, '[{\"id\":\"1\",\"codigo\":\"1\",\"descripcion\":\"CORTE BASICO\",\"cantidad\":\"1\",\"precio\":\"5000\",\"descuento\":\"0\",\"subtotal\":\"5000\"}]', 3, '2019-12-30', 5000, 0, 2500, 1, 0),
 (19, 1, 19, '[{\"id\":\"3\",\"codigo\":\"3\",\"descripcion\":\"CORTE EXPERTO\",\"cantidad\":\"1\",\"precio\":\"10000\",\"descuento\":\"0\",\"subtotal\":\"10000\"}]', 2, '2019-12-30', 10000, 0, 5000, 1, 0),
 (20, 1, 20, '[{\"id\":\"1\",\"codigo\":\"1\",\"descripcion\":\"CORTE BASICO\",\"cantidad\":\"1\",\"precio\":\"5000\",\"descuento\":\"0\",\"subtotal\":\"5000\"}]', 1, '2019-12-30', 5000, 0, 2500, 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `venta_vendedores`
+--
+
+DROP TABLE IF EXISTS `venta_vendedores`;
+CREATE TABLE IF NOT EXISTS `venta_vendedores` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_vendedor` int(11) NOT NULL,
+  `num_factura` int(11) NOT NULL,
+  `fecha` text COLLATE utf8_spanish_ci NOT NULL,
+  `detalles` text COLLATE utf8_spanish_ci NOT NULL,
+  `utilidad` int(11) NOT NULL,
+  `totalventa` int(11) NOT NULL,
+  `totalcosto` int(11) NOT NULL,
+  `saldo` int(11) NOT NULL,
+  `tipo` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `venta_vendedores`
+--
+
+INSERT INTO `venta_vendedores` (`id`, `id_vendedor`, `num_factura`, `fecha`, `detalles`, `utilidad`, `totalventa`, `totalcosto`, `saldo`, `tipo`) VALUES
+(1, 1, 14, '2020-01-02', '[{\"id\":\"1\",\"codigo\":\"1000\",\"descripcion\":\"producto editado\",\"cantidad\":\"1\",\"precio\":\"7500\",\"costo\":\"5000\",\"subtotal\":\"7500\"}]', 2500, 7500, 5000, 7500, 1),
+(2, 1, 14, '2020-01-02', '[{\"id\":\"1\",\"codigo\":\"1000\",\"descripcion\":\"producto editado\",\"cantidad\":\"1\",\"precio\":\"7500\",\"costo\":\"5000\",\"subtotal\":\"7500\"}]', 2500, 7500, 5000, 7500, 1);
 
 --
 -- Restricciones para tablas volcadas
