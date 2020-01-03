@@ -124,7 +124,7 @@ class VentasProductoVendedor{
 		return $result;
 	}
 	public function VerUltimaVenta() {
-		$sql = "SELECT * FROM venta_producto ORDER BY id DESC LIMIT 1";
+		$sql = "SELECT * FROM venta_vendedores ORDER BY id DESC LIMIT 1";
 		$resp = $this->db->query($sql);
 		return $resp;
 	}

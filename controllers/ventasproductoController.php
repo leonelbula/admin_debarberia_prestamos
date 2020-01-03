@@ -166,11 +166,11 @@ class ventasproductoController{
 		require_once 'views/layout/menu.php';
 		if ($_GET['id']) {
 			$id = $_GET['id'];
-			$ventasProcuto = new VentaProducto();
+			$ventasProcuto = new VentasProductoVendedor();
 			$ventasProcuto->setId($id);
 			$detalles = $ventasProcuto->verDetallesId();
 
-			require_once 'views/sucursal/editarventasproducto.php';
+			require_once 'views/ventaproducto/editarventasproducto.php';
 		} else {
 			echo'<script>
 
@@ -227,11 +227,11 @@ class ventasproductoController{
 			$id_venta = $_POST['id_venta'];
 			$listaPorducto = isset($_POST['listaProductos']) ? $_POST['listaProductos'] : FALSE;
 			$total = isset($_POST['nuevoTotalProducto']) ? $_POST['nuevoTotalProducto'] : FALSE;
-			$id_sucursal = $_POST['idSucursal'];
+			$id_vendedor = $_POST['idVendedor'];
 			if ($id_venta && $listaPorducto) {
 
 
-				$ventaProducto = new VentaProducto();
+				$ventaProducto = new VentasProductoVendedor();
 				$ventaProducto->setId($id_venta);
 				$venta = $ventaProducto->verDetallesId();
 
@@ -246,10 +246,10 @@ class ventasproductoController{
 					$cantidaV = (int) $value['cantidad'];
 
 
-					$productoSucursal = new ProductoSucursal();
-					$productoSucursal->setId_producto($id_producto);
-					$productoSucursal->setId_sucursal($id_sucursal);
-					$detalles = $productoSucursal->MostrarProductosSucursal();
+					$producto = new ProductosVentas();
+					$producto->setId($id_producto);
+					
+					$detalles = $producto->MostrarProductosId();
 
 					while ($row2 = $detalles->fetch_object()) {
 						$cantidaActual = (int) $row2->cantidad;
@@ -257,8 +257,8 @@ class ventasproductoController{
 
 					$nuevaCantidad = $cantidaActual + $cantidaV;
 
-					$productoSucursal->setCantidad($nuevaCantidad);
-					$productoSucursal->ActulizarStockSucursal();
+					$producto->setCantidad($nuevaCantidad);
+					$producto->ActulizarStock();
 				}
 
 
@@ -271,10 +271,10 @@ class ventasproductoController{
 					$precio = $value['precio'];
 
 
-					$productoSucursal = new ProductoSucursal();
-					$productoSucursal->setId_producto($id_producto);
-					$productoSucursal->setId_sucursal($id_sucursal);
-					$detalles = $productoSucursal->MostrarProductosSucursal();
+					$producto = new ProductosVentas();
+					$producto->setId($id_producto);
+					
+					$detalles = $producto->MostrarProductosId();
 
 					while ($row2 = $detalles->fetch_object()) {
 						$cantidaActual = (int) $row2->cantidad;
@@ -282,8 +282,8 @@ class ventasproductoController{
 
 					$nuevaCantidad = $cantidaActual - $cantidaV;
 
-					$productoSucursal->setCantidad($nuevaCantidad);
-					$productoSucursal->ActulizarStockSucursal();
+					$producto->setCantidad($nuevaCantidad);
+					$producto->ActulizarStock();
 
 					$totalCosto = $costo * $cantidaV;
 
@@ -294,20 +294,14 @@ class ventasproductoController{
 				$valortotalCosto = array_sum($arrayCostoTotal);
 				$utilidad = (int) $total - (int) $valortotalCosto;
 
-				$ventaProducto->setId_sucursal($id_sucursal);
+				$ventaProducto->setId_vendedor($id_vendedor);
 				$ventaProducto->setDetalle($listaPorducto);
 				$ventaProducto->setUtilidad($utilidad);
 				$ventaProducto->setTotalventa($total);
 				$ventaProducto->setTotalcosto($valortotalCosto);
 				$ventaProducto->setSaldo($total);
 				$resp = $ventaProducto->Actulizar();
-
-
-
-
-				$idVenta = $id_venta;
-
-
+	
 				if ($resp) {
 					echo'<script>
 
@@ -319,7 +313,7 @@ class ventasproductoController{
 						  }).then(function(result){
 							if (result.value) {
 
-							window.location = "cobrarventa&id=' . $idVenta . '";
+							window.location = "ventasproducto";
 
 							}
 						})
@@ -336,7 +330,7 @@ class ventasproductoController{
 						  }).then(function(result){
 							if (result.value) {
 
-							window.location = "nuevaventa";
+							window.location = "ventasproducto";
 
 							}
 						})
@@ -354,7 +348,7 @@ class ventasproductoController{
 						  }).then(function(result){
 							if (result.value) {
 
-							window.location = "nuevaventa";
+							window.location = "ventasproducto";
 
 							}
 						})
@@ -372,7 +366,7 @@ class ventasproductoController{
 						  }).then(function(result){
 							if (result.value) {
 
-							window.location = "nuevaventa";
+							window.location = "ventasproducto";
 
 							}
 						})
@@ -473,6 +467,12 @@ class ventasproductoController{
 		}
 	}
 
+	static public function verproducto($id) {
+		$producto = new ProductosVentas();
+		$producto->setId($id);
+		$detalles = $producto->VercantidadProducto();
+		return $detalles;
+	}
 	
 	static public function ListaVendedores() {
 		$vendedor = new Vendedores();
