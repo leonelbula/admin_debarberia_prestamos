@@ -1,5 +1,17 @@
-$('.tablaVentaProductovendedor').DataTable( {
-    "ajax": "../ajax/tablaVentaProductosVendedor.php",
+	var idvendedor = $("#idvendedor").val();
+//	//console.log("idsucursal", idsucursal);
+// $.ajax({
+//
+// 	url: "../ajax/tablaVentaServiciosSucursal.php?idsucursal="+idsucursal,
+// 	success:function(respuesta){
+//			console.log("respuesta", respuesta);
+//	}
+//
+//})
+  
+ 
+$('.tablavendedorcompra').DataTable( {
+    "ajax": "../ajax/tablaVentaProductosVendedor.php?idsucursal="+idvendedor,
     "deferRender": true,
 	"retrieve": true,
 	"processing": true,
@@ -31,26 +43,3 @@ $('.tablaVentaProductovendedor').DataTable( {
 	}
 
 } );
-
-$(".tablaVentaProductovendedor").on("click", ".btnEliminarVentaVendedor", function(){
-
-  var idventavendedor = $(this).attr("idventavendedor");
-
-  swal({
-        title: '¿Está seguro de borrar registro?',
-        text: "¡Si no lo está puede cancelar la accíón!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Si, borrar Registro!'
-      }).then(function(result){
-        if (result.value) {
-          
-            window.location = "eliminarventavendedor&id="+idventavendedor;
-        }
-
-  })
-
-})

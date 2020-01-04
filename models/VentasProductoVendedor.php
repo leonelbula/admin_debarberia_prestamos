@@ -106,7 +106,7 @@ class VentasProductoVendedor{
 		return $result;
 	}
 	public function Actulizar() {
-		$sql = "UPDATE venta_vendedores SET detalles='{$this->getDetalle()}',utilidad={$this->getUtilidad()},totalventa={$this->getTotalventa()},totalcosto={$this->getTotalcosto()},saldo={$this->getSaldo()} WHERE id = {$this->getId()} ";
+		$sql = "UPDATE venta_vendedores SET id_vendedor={$this->getId_vendedor()}, detalles='{$this->getDetalle()}',utilidad={$this->getUtilidad()},totalventa={$this->getTotalventa()},totalcosto={$this->getTotalcosto()},saldo={$this->getSaldo()} WHERE id = {$this->getId()} ";
 		$resp = $this->db->query($sql);
 		$result = FALSE;
 		if($resp){

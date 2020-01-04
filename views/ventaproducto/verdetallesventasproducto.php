@@ -18,14 +18,16 @@
 							<input type="hidden" name="id_venta" value="<?= $row1->id ?>" />
 								<input type="hidden" name="numregistro" value="<?= $row1->num_factura ?>" />
 							<div class="form-group col-lg-8 col-md-8 col-sm-8 col-xs-12">
-								<label>Sucursal(*):</label>	
-								<input type="text" class="form-control" name="sucursal" id="sucursal" value="<?= $_SESSION['sucursal']->nombre ?>" readonly="">
-								
-									<!--									<option value="">Seleccionar Client</option>-->
-									<?php
-									$id = $_SESSION['sucursal']->id;
+								<label>Venededor(*):</label>								
+								<select id="idcliente" name="idVendedor" class="form-control selectpicker" data-live-search="true" readonly required>
 									
-									?>
+									<option value="">Seleccionar Vendedor</option>
+									<?php 
+										$listaVendedores = ventasproductoController::ListaVendedores();
+										while ($row = $listaVendedores->fetch_object()) { ?>
+											<option value="<?=$row->id ?>" <?=$row->id == $row1->id_vendedor ? 'selected':'' ?>><?=$row->nombre?></option>';
+									<?php }	 ?>
+								</select>
 				
 							</div>
 							<input type="hidden" name="idSucursal" id="idsucursal" value="<?= $id ?>" />
@@ -44,8 +46,7 @@
                                     <th>Codigo</th>
                                     <th>Descripcion</th>
                                     <th>Cantidad</th>
-                                    <th>Precio</th>
-									<th>Descuento</th> 
+                                    <th>Precio</th>									
                                     <th>Subtotal</th>
 									<th>Accion</th>
 									</thead>
@@ -54,9 +55,9 @@
 											$listaProductos = json_decode($row1->detalles ,TRUE);
 											
 											 foreach ($listaProductos as $key => $value) {
-												 $id_producto = $value['id'];
-												 $id_sucursal = $id;
-												$productos = sucursalController::verproductosucursal($id_producto,$id_sucursal);
+												 $id = $value['id'];
+												 
+												$productos = ventasproductoController::verproducto($id);
 												while ($row = $productos ->fetch_object()) {
 													$cantidad = (int)$row->cantidad;
 												}
@@ -65,17 +66,16 @@
 											 
 												 
 										echo '<tr>
-												<td class="valorivap">'.$value['codigo'].'<input  class="valoriva" type="hidden" /></td>
-												<td class="costop">'.$value['descripcion'].'<input  class="costo" type="hidden" name="costo"  value="'.$value['costo'].'"/></td>						
-												<td class="ingresoCantidad"><input type="number" class="nuevaCantidadProducto" name="nuevaCantidadProducto" stock="'.$stock.'" value="'.$value['cantidad'].'"readonly /></td>							
-												<td class="precio"><input type="number" class="precioProducto" name="precioProducto" value="'.$value['precio'].'" readonly/></td>							
-												<td class="descuentop"><input type="number" class="descuento" id="descuentoProdu" name="descuento" value="'.$value['descuento'].'" readonly/></td>							
-												<td class="nuevototalp"><input type="text" class="nuevototal"  name="nuevototal"  value="'.$value['precio'].'" readonly></td>
-												<td></td>
-												<input  class="nombreProduc" type="hidden" name="nombreProduc" value="'.$value['descripcion'].'"/>
-												<input  class="idProductoVenta" type="hidden" name="idProductoVenta" value="'.$value['id'].'"/>	
-												<input  class="codigo" type="hidden" name="codigo" value="'.$value['codigo'].'"/>
-										</tr>';
+													<td class="valorivap">'.$value['codigo'].'<input  class="valoriva" type="hidden" name="valoriva"  /></td>
+													<td class="costop">'.$value['descripcion'].'<input  class="costo" type="hidden" name="costo"  value="'.$value['costo'].'"/></td>						
+													<td class="ingresoCantidad"><input type="number" class="CantidadProd" name="CantidadProd"  stock="'.$stock.'"  readonly value="'.$value['cantidad'].'" /></td>							
+													<td class="precio"><input type="number" class="costoProducto" name="costoProducto" value="'.$value['precio'].'" readonly/></td>
+													<td class="nuevototalp"><input type="text" class="nuevototalT"  name="nuevototalT"  value="'.$value['precio'].'" readonly></td>
+													<td></td>
+													<input  class="nombreProduc" type="hidden" name="nombreProduc" value="'.$value['descripcion'].'"/>
+													<input  class="idProductoVenta" type="hidden" name="idProductoVenta" value="'.$value['id'].'"/>	
+													<input  class="codigo" type="hidden" name="codigo" value="'.$value['codigo'].'"/>
+											</tr>';
 											 }
 										?>
 										
@@ -99,7 +99,7 @@
 							<?php endwhile; ?>
 							<div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
 								
-								<a href="<?= URL_BASE ?>frontend/principal">
+								<a href="<?= URL_BASE ?>ventasproducto/">
 									<button id="btnCancelar" class="btn btn-danger" type="button"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>
 								</a>
 							</div>

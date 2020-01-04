@@ -192,15 +192,15 @@ class ventasproductoController{
 		require_once 'views/layout/copy.php';
 	}
 
-	public function verdetalesventaproducto() {
+	public function verdetallesventavendedor() {
 		require_once 'views/layout/menu.php';
 		if ($_GET['id']) {
 			$id = $_GET['id'];
-			$ventasProcuto = new VentaProducto();
+			$ventasProcuto = new VentasProductoVendedor();
 			$ventasProcuto->setId($id);
 			$detalles = $ventasProcuto->verDetallesId();
 
-			require_once 'views/sucursal/verdetallesventasproducto.php';
+			require_once 'views/ventaproducto/verdetallesventasproducto.php';
 		} else {
 			echo'<script>
 
@@ -226,7 +226,7 @@ class ventasproductoController{
 		if ($_POST['id_venta']) {
 			$id_venta = $_POST['id_venta'];
 			$listaPorducto = isset($_POST['listaProductos']) ? $_POST['listaProductos'] : FALSE;
-			$total = isset($_POST['nuevoTotalProducto']) ? $_POST['nuevoTotalProducto'] : FALSE;
+			$total = isset($_POST['nuevoTotalVendedor']) ? $_POST['nuevoTotalVendedor'] : FALSE;
 			$id_vendedor = $_POST['idVendedor'];
 			if ($id_venta && $listaPorducto) {
 
@@ -301,7 +301,7 @@ class ventasproductoController{
 				$ventaProducto->setTotalcosto($valortotalCosto);
 				$ventaProducto->setSaldo($total);
 				$resp = $ventaProducto->Actulizar();
-	
+				
 				if ($resp) {
 					echo'<script>
 
@@ -375,9 +375,9 @@ class ventasproductoController{
 		}
 	}
 
-	public function eliminarventaproducto() {
+	public function eliminarventavendedor() {
 		if (isset($_GET['id'])) {
-
+			
 			$id_venta = $_GET['id'];
 
 			$ventaProducto = new VentaProducto();
