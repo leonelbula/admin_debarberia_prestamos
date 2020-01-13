@@ -1,7 +1,6 @@
 <?php
 
 require_once 'models/UsuarioVendedor.php';
-require_once 'models/VentasProductoVendedor.php';
 
 class vendedoresController {
 
@@ -114,35 +113,6 @@ class vendedoresController {
 		echo'<script>
 				window.location="' . URL_BASE . 'vendedores/";
 			</script>';
-	}
-	public function verdetallescompra() {
-		require_once 'views/vendedor/menu.php';
-		if ($_GET['id']) {
-			$id = $_GET['id'];
-			$ventasProcuto = new VentasProductoVendedor();
-			$ventasProcuto->setId($id);
-			$detalles = $ventasProcuto->verDetallesId();
-
-			require_once 'views/vendedor/verdetallesventasproducto.php';
-		} else {
-			echo'<script>
-
-					swal({
-						  type: "error",
-						  title: "¡No a seleccionado un registro!",
-						  showConfirmButton: true,
-						  confirmButtonText: "Cerrar"
-						  }).then(function(result){
-							if (result.value) {
-
-							window.location = "principal";
-
-							}
-						})
-
-		</script>';
-		}
-		require_once 'views/layout/copy.php';
 	}
 }
 

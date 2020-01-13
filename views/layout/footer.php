@@ -18,12 +18,6 @@
 <input type="hidden" name="idSucursal" id="idsucursal" value="0" />
 <?php } ?>
 
-<?php if(isset($_SESSION['identity'])){ ?>
-<input type="hidden" name="idvendedor" id="idvendedor" value="<?=  $_SESSION['identity']->id ?>" />
-<?php }else{?>
-<input type="hidden" name="idvendedor" id="idvendedor" value="0" />
-<?php } ?>
-
 <script src="<?= URL_BASE ?>assets/js/ventaServicios.js"></script>
 <script src="<?= URL_BASE ?>assets/js/tablaclientes.js"></script>
 <script src="<?= URL_BASE ?>assets/js/tablaPrestamos.js"></script>
@@ -59,7 +53,6 @@
 <script src="<?= URL_BASE ?>assets/js/tablaProductosVentas.js"></script>
 <script src="<?= URL_BASE ?>assets/js/ventasVendedor.js"></script>
 <script src="<?= URL_BASE ?>assets/js/tablaventasvendedor.js"></script>
-<script src="<?= URL_BASE ?>assets/js/tablavendedorcompras.js"></script>
 
 
 </body>

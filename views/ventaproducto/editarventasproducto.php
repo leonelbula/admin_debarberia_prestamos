@@ -83,7 +83,7 @@
                                     <th></th>									
                                     <th>TOTAL</th>
                                     <th><h4 id="total"></h4><input type="hidden" name="totalVendedor" id="totalVendedor">
-									<input type="text" class="form-control input-lg nuevoTotalVendedor" id="nuevoTotalVendedor" name="nuevoTotalVendedor" value="<?= $row1->totalventa ?>" readonly/></th> 
+									<input type="text" class="form-control input-lg nuevoTotalVendedor" id="nuevoTotalVendedor" name="nuevoTotalVendedor" value="0" readonly/></th> 
 									</tfoot>
 									<tbody>
 

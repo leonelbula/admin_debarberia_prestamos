@@ -38,10 +38,11 @@
             <tr>
 				<th>#</th>
                 <th>Codigo</th>
-				<th>Fecha</th>	
+                <th>Fecha</th>	
                 <th>Nombre</th>                			
                 <th>Valor</th>
-				<th>Saldo</th> 
+                <th>Utilidad</th>
+				    <th>Saldo</th> 
 				<th>acciones</th>
             </tr>
         </thead>		

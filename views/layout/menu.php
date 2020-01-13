@@ -208,6 +208,7 @@ if (!isset($_SESSION['identity'])) {
 			<li><a href="<?=URL_BASE?>ventasproducto/"><i class="fa fa-circle-o"></i> VENTAS </a></li>
 			<li><a href="<?=URL_BASE?>ventasproducto/productos"><i class="fa fa-circle-o"></i> LISTA PRODUCTO </a></li>
 			<li><a href="<?=URL_BASE?>ventasproducto/vendedores"><i class="fa fa-circle-o"></i> LISTA VENDEDORES </a></li>
+         <li><a href="<?=URL_BASE?>ventasproducto/estadocuenta"><i class="fa fa-circle-o"></i> ESTDO DE CUENTA </a></li>
             <li><a href="<?=URL_BASE?>ventasproducto/reportes"><i class="fa fa-circle-o"></i> REPORTES</a></li>
           </ul>
         </li>     

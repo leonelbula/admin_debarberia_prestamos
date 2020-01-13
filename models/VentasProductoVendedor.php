@@ -106,7 +106,7 @@ class VentasProductoVendedor{
 		return $result;
 	}
 	public function Actulizar() {
-		$sql = "UPDATE venta_vendedores SET id_vendedor={$this->getId_vendedor()}, detalles='{$this->getDetalle()}',utilidad={$this->getUtilidad()},totalventa={$this->getTotalventa()},totalcosto={$this->getTotalcosto()},saldo={$this->getSaldo()} WHERE id = {$this->getId()} ";
+		$sql = "UPDATE venta_vendedores SET detalles='{$this->getDetalle()}',utilidad={$this->getUtilidad()},totalventa={$this->getTotalventa()},totalcosto={$this->getTotalcosto()},saldo={$this->getSaldo()} WHERE id = {$this->getId()} ";
 		$resp = $this->db->query($sql);
 		$result = FALSE;
 		if($resp){
@@ -127,13 +127,19 @@ class VentasProductoVendedor{
 		$sql = "SELECT * FROM venta_vendedores ORDER BY id DESC LIMIT 1";
 		$resp = $this->db->query($sql);
 		return $resp;
+   }
+      public function VerVenta() {
+		$sql = "SELECT id_vendedor, SUM(totalventa) AS total,SUM(saldo) AS saldo FROM venta_vendedores GROUP BY id_vendedor ";
+		$resp = $this->db->query($sql);
+		return $resp;
 	}
+   
 	public function verDetallesId() {
 		$sql = "SELECT * FROM venta_vendedores WHERE id = {$this->getId()}";
 		$resp = $this->db->query($sql);
 		return $resp;
-	}
-	public function Cobrar() {
+	}	
+   public function Abonar() {
 		$sql = "UPDATE venta_vendedores SET saldo = {$this->getSaldo()} WHERE id = {$this->getId()}";
 		$resp = $this->db->query($sql);
 		$result = FALSE;
@@ -141,6 +147,16 @@ class VentasProductoVendedor{
 			$result = TRUE;
 		}
 		return $result;
+	}
+	public function estadoCuenta() {
+		$sql = "SELECT * FROM venta_vendedores WHERE id_vendedor = {$this->getId_vendedor()} AND saldo > 0";
+		$resp = $this->db->query($sql);
+		return $resp;
+	}
+   public function MostrarComprasVendedor() {
+		$sql = "SELECT * FROM venta_vendedores WHERE id_vendedor = {$this->getId_vendedor()} ORDER BY id DESC";
+		$resul = $this->db->query($sql);
+		return $resul;
 	}
 	
 }

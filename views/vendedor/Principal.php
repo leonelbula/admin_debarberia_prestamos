@@ -24,7 +24,7 @@
 								
 								</div>
 							<h4>Lista de Compras</h4>
-							<table class="table table-bordered table-striped dt-responsive  tablavendedorcompra" width="100%">
+							<table class="table table-bordered table-striped dt-responsive  " width="100%">
 
 								<thead>
 
@@ -33,7 +33,6 @@
 										<th style="width:10px">#</th>
 										<th>fecha</th>  			 
 										<th>N° registro</th>
-										<th>Descripcion</th>
 										<th>valor</th>
 										<th>Saldo</th>
 										<th>Acciones</th>

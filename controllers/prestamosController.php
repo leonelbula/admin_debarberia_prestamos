@@ -66,7 +66,7 @@ class prestamosController {
 
 					swal({
 						  type: "success",
-						  title: "Registro Guardado Correctamente",
+						  title: "Cliente Guardado Correctamente",
 						  showConfirmButton: true,
 						  confirmButtonText: "Cerrar"
 						  }).then(function(result){

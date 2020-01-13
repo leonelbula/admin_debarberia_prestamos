@@ -4,6 +4,7 @@ require_once 'models/Vendedores.php';
 require_once 'models/ProductosVentas.php';
 require_once 'models/Parametros.php';
 require_once 'models/VentasProductoVendedor.php';
+require_once 'models/AbonosVendedor.php';
 
 
 class ventasproductoController{
@@ -87,6 +88,8 @@ class ventasproductoController{
 				$ventaProducto->setTotalventa($total);
 				$ventaProducto->setTotalcosto($valortotalCosto);
 				$ventaProducto->setSaldo($total);
+            var_dump($total);
+            die();
 				$resp = $ventaProducto->Guardar();
 				
 				if ($resp) {
@@ -192,7 +195,7 @@ class ventasproductoController{
 		require_once 'views/layout/copy.php';
 	}
 
-	public function verdetallesventavendedor() {
+	public function verdetalesventaproducto() {
 		require_once 'views/layout/menu.php';
 		if ($_GET['id']) {
 			$id = $_GET['id'];
@@ -226,7 +229,7 @@ class ventasproductoController{
 		if ($_POST['id_venta']) {
 			$id_venta = $_POST['id_venta'];
 			$listaPorducto = isset($_POST['listaProductos']) ? $_POST['listaProductos'] : FALSE;
-			$total = isset($_POST['nuevoTotalVendedor']) ? $_POST['nuevoTotalVendedor'] : FALSE;
+			$total = isset($_POST['nuevoTotalProducto']) ? $_POST['nuevoTotalProducto'] : FALSE;
 			$id_vendedor = $_POST['idVendedor'];
 			if ($id_venta && $listaPorducto) {
 
@@ -301,7 +304,7 @@ class ventasproductoController{
 				$ventaProducto->setTotalcosto($valortotalCosto);
 				$ventaProducto->setSaldo($total);
 				$resp = $ventaProducto->Actulizar();
-				
+	
 				if ($resp) {
 					echo'<script>
 
@@ -375,9 +378,9 @@ class ventasproductoController{
 		}
 	}
 
-	public function eliminarventavendedor() {
+	public function eliminarventaproducto() {
 		if (isset($_GET['id'])) {
-			
+
 			$id_venta = $_GET['id'];
 
 			$ventaProducto = new VentaProducto();
@@ -477,6 +480,20 @@ class ventasproductoController{
 	static public function ListaVendedores() {
 		$vendedor = new Vendedores();
 		$detalles = $vendedor->listarVendedores();
+		return $detalles;
+	}
+   
+	static public function ListaVenta($id) {
+		$venta = new VentasProductoVendedor();
+		$venta->setId($id);
+		$detalles = $venta->verDetallesId();
+		return $detalles;
+	}
+	
+    static public function ListaVendedoresId($id) {
+		$vendedor = new Vendedores();
+      $vendedor->setId($id);
+		$detalles = $vendedor->listarVendedoresId();
 		return $detalles;
 	}
 	
@@ -1150,5 +1167,438 @@ class ventasproductoController{
 
 		require_once 'views/layout/copy.php';
 	}
+   
+   public function estadocuenta() {
+		require_once 'views/layout/menu.php';
+		$cuenta = new VentasProductoVendedor();
+		$listaEstado = $cuenta->VerVenta();
+		require_once 'views/ventaproducto/estadoCuenta.php';
+		require_once 'views/layout/copy.php';
+	}
 
+	public function verestadocuentavend() {
+		require_once 'views/layout/menu.php';
+		if (isset($_GET['id'])) {
+			$id_vendedor = $_GET['id'];
+			$cuenta = new VentasProductoVendedor();
+			$cuenta->setId_vendedor($id_vendedor);
+			$listaEstado = $cuenta->MostrarComprasVendedor();
+		} else {
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Debe selecionar proveedor a Editar!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "index";
+
+							}
+						})
+
+			  	</script>';
+		}
+
+
+		require_once 'views/ventaproducto/estadoCuentaVendedor.php';
+		require_once 'views/layout/copy.php';
+	}
+
+	public function abonarfactura() {
+		require_once 'views/layout/menu.php';
+		if (isset($_GET['id'])) {
+			$id = $_GET['id'];
+			$cuenta = new VentasProductoVendedor();
+			$cuenta->setId($id);
+			$listaEstado = $cuenta->verDetallesId();
+		} else {
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Debe selecionar proveedor a Editar!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "index";
+
+							}
+						})
+
+			  	</script>';
+		}
+
+
+		require_once 'views/ventaproducto/abonarfactura.php';
+		require_once 'views/layout/copy.php';
+	}
+
+	public function guardarabono() {
+		if (isset($_POST['id'])) {
+			$id = $_POST['id'];
+			$abono = (int) $_POST['valor'];
+			$descripcion = $_POST['descripcion'];
+			$fecha = $_POST['fecha'];
+
+			if ($id && $abono && $fecha) {
+
+				$saldoVenta = new VentasProductoVendedor();
+				$saldoVenta->setId($id);
+				$valorSald = $saldoVenta->verDetallesId();
+
+				while ($row = $valorSald->fetch_object()) {
+					$saldoPendiente = (int) $row->saldo;
+				}
+				if ($saldoPendiente > $abono) {
+
+					$nuevoSaldo = $saldoPendiente - $abono;
+					
+					$saldoVenta->setSaldo($nuevoSaldo);
+					$reptA = $saldoVenta->Abonar();
+
+					$abonoVendedor = new AbonosVendedor();
+					$abonoVendedor->setId_factura($id);
+					$abonoVendedor->setValor($abono);
+					$abonoVendedor->setDescripcion($descripcion);
+					$abonoVendedor->setFecha($fecha);
+
+					$reptB = $abonoVendedor->RegistrarAbono();
+					
+					if ($reptA && $reptB) {
+						echo'<script>
+
+						swal({
+							  type: "success",
+							  title: "Abono registrado Correctamente",
+							  showConfirmButton: true,
+							  confirmButtonText: "Cerrar"
+							  }).then(function(result){
+								if (result.value) {
+
+								window.location = "abonosfactura&id=' . $_POST['id'] . '";
+
+								}
+							})
+
+						</script>';
+					}
+				} else {
+					echo'<script>
+
+						swal({
+							  type: "warning",
+							  title: "¡El abono es superior al saldo pendiente!",
+							  showConfirmButton: true,
+							  confirmButtonText: "Cerrar"
+							  }).then(function(result){
+								if (result.value) {
+
+								window.location = "abonarfactura&id=' . $_POST['id'] . '";
+
+								}
+							})
+
+					</script>';
+				}
+			} else {
+				echo'<script>
+
+						swal({
+							  type: "warning",
+							  title: "¡El no debe llenar todos los campos!",
+							  showConfirmButton: true,
+							  confirmButtonText: "Cerrar"
+							  }).then(function(result){
+								if (result.value) {
+
+								window.location = "abonarfactura&id=' . $_POST['id'] . '";
+
+								}
+							})
+
+					</script>';
+			}
+		}
+	}
+
+	public function abonosfactura() {
+		require_once 'views/layout/menu.php';
+		if (isset($_GET['id'])) {
+
+			$id_factura = $_GET['id'];
+
+			$abonos = new AbonosVendedor();
+			$abonos->setId_factura($id_factura);
+			$listaAbono = $abonos->MostrarAbonosId();
+
+			$saldoVenta = new VentasProductoVendedor();
+			$saldoVenta->setId($id_factura);
+			$valorSald = $saldoVenta->verDetallesId();
+		} else {
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Debe selecionar una factura !",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "estadocuenta";
+
+							}
+						})
+
+			  	</script>';
+		}
+		require_once 'views/ventaproducto/abonosfactura.php';
+		require_once 'views/layout/copy.php';
+	}
+
+	public function editarAbono() {
+		require_once 'views/layout/menu.php';
+		if (isset($_GET['id'])) {
+			$id = $_GET['id'];
+			$abono = new AbonosVendedor();
+			$abono->setId($id);
+			$DatosAbono = $abono->VerAbonoId();
+		} else {
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Debe selecionar una factura !",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "estadocuenta";
+
+							}
+						})
+
+			  	</script>';
+		}
+		require_once 'views/ventaproducto/editarabonos.php';
+		require_once 'views/layout/copy.php';
+	}
+
+	public function ActualizarAbono() {
+		if ($_POST['id']) {
+
+			$id = isset($_POST['id']) ? $_POST['id'] : FALSE;
+			$abonoValor = isset($_POST['valor']) ? $_POST['valor'] : FALSE;
+			$descripcion = $_POST['descripcion'];
+			$fecha = isset($_POST['fecha']) ? $_POST['fecha'] : FALSE;
+
+			if ($id && $abonoValor && $fecha) {
+
+
+				$abono = new AbonosVendedor();
+				$abono->setId($id);
+				$DatosAbono = $abono->VerAbonoId();
+
+				while ($row = $DatosAbono->fetch_object()) {
+					$id_venta = $row->id_factura;
+					$abonoanterior = (int) $row->valor;
+				}
+
+				$Venta = new VentasProductoVendedor();
+				$Venta->setId($id);
+				$detallesVenta = $Venta->verDetallesId();
+
+				while ($row1 = $detallesVenta->fetch_object()) {
+					$saldo = (int) $row1->saldo;
+				}
+				if ($saldo >= $abonoValor) {
+
+					$nuevosaldo = $saldo + $abonoanterior;
+
+					$Venta->setSaldo($nuevosaldo);
+					$Venta->Abonar();
+
+					$nuevovalorA = $nuevosaldo - (int) $abonoValor;
+
+					$Venta->setSaldo($nuevovalorA);
+					$Venta->Abonar();
+
+					$abono->setId($id);
+					$abono->setValor($abonoValor);
+					$abono->setDescripcion($descripcion);
+					$abono->setFecha($fecha);
+					$respt = $abono->EditarAbono();
+
+					if ($respt) {
+						echo'<script>
+
+							swal({
+								  type: "success",
+								  title: "Abono actualizado Correctamente",
+								  showConfirmButton: true,
+								  confirmButtonText: "Cerrar"
+								  }).then(function(result){
+									if (result.value) {
+
+									window.location = "abonosfactura&id=' . $id_venta . '";
+
+									}
+								})
+
+							</script>';
+					} else {
+						echo'<script>
+
+							swal({
+							type: "error",
+							title: "¡Debe selecionar pago relizado !",
+							showConfirmButton: true,
+							confirmButtonText: "Cerrar"
+							}).then(function(result){
+							  if (result.value) {
+
+							  window.location = "abonarfactura&id=' . $id_venta . '";
+
+							  }
+						  })
+
+			  	</script>';
+					}
+				} else {
+					echo'<script>
+
+						swal({
+							  type: "warning",
+							  title: "¡El abono es superior al saldo pendiente!",
+							  showConfirmButton: true,
+							  confirmButtonText: "Cerrar"
+							  }).then(function(result){
+								if (result.value) {
+
+								window.location = "editarabono&id=' . $_POST['id'] . '";
+
+								}
+							})
+
+					</script>';
+				}
+			} else {
+				echo'<script>
+
+						swal({
+							  type: "warning",
+							  title: "¡No debes tener campos vacios!",
+							  showConfirmButton: true,
+							  confirmButtonText: "Cerrar"
+							  }).then(function(result){
+								if (result.value) {
+
+								window.location = "editarabono&id=' . $_POST['id'] . '";
+
+								}
+							})
+
+				</script>';
+			}
+		} else {
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Debe selecionar pago relizado !",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "estadocuenta";
+
+							}
+						})
+
+			  	</script>';
+		}
+	}
+
+	public function EliminarAbono() {
+		if ($_GET['id']) {
+
+			$id = $_GET['id'];
+
+
+			$abono = new AbonosVendedor();
+			$abono->setId($id);
+			$DatosAbono = $abono->VerAbonoId();
+
+			while ($row = $DatosAbono->fetch_object()) {
+				$id_compra = $row->id_factura;
+				$abonoanterior = (int) $row->valor;
+			}
+
+			$Venta = new VentasProductoVendedor();
+			$Venta->setId($id);
+			$detallesventa = $Venta->verDetallesId();
+
+			while ($row1 = $detallesventa->fetch_object()) {
+				$saldo = (int) $row1->saldo;
+			}
+			$nuevosaldo = $saldo + $abonoanterior;
+
+			$Venta->setSaldo($nuevosaldo);
+			$Venta->Abonar();
+
+			$abono->setId($id);
+
+			$respt = $abono->Eliminarbono();
+
+			if ($respt) {
+				echo'<script>
+
+					swal({
+						  type: "success",
+						  title: "Abono Eliminado Correctamente",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "abonosfactura&id=' . $id_compra . '";
+
+							}
+						})
+
+					</script>';
+			} else {
+				
+			}
+		} else {
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Debe selecionar pago relizado !",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "estadocuentaproveedor";
+
+							}
+						})
+
+			  	</script>';
+		}
+	}
+	public function reportes() {
+		require_once 'views/layout/menu.php';
+		require_once 'views/ventaproducto/reporte.php';
+		require_once 'views/layout/copy.php';
+	}
 }

@@ -35,22 +35,24 @@ class VentaProductoAjax {
 		 $i = 1;
 		 while ($row = $listaventas->fetch_object()) {		
 		
-			 $nombre = 'compra de  productos';
+			 $detalles = $ventas->MostrarVendedorId($row->id_vendedor);
 			 
-			 
-			
+			 foreach ($detalles as $key => $value) {
+				 $nombre = $value['nombre'];
+			 }
 			 
 			 $url = '../ventasproducto';
-			$botones = "<div class='btn-group'></div><a href='verdetallescompra&id=$row->id'><button class='btn btn-info'><i class='fa fa-eye'></i>Ver</button></a></div>";
+			$botones = "<div class='btn-group'><a href='$url/editarventaproducto&id=$row->id'><button class='btn btn-warning'><i class='fa fa-pencil'></i></button></a><a><button class='btn btn-danger btnEliminarVentaServicios' idventaservicio='$row->id' ><i class='fa fa-times'></i></button></a></div><a href='$url/verdetalesventaproducto&id=$row->id'><button class='btn btn-info'><i class='fa fa-eye'></i></button></a></div>";
 //  				
 		 
 		  	$datosJson .='[
-			      "'.($i++).'",			     
+			      "'.($i++).'",
+			      "'.$row->num_factura.'",
 				  "'.$row->fecha.'",
-				  "'.$row->num_factura.'",
 			      "'.$nombre.'",
 			      "'.$row->totalventa.'",				 					  
-			      "'.$row->saldo.'",
+			      "'.$row->utilidad.'",
+               "'.$row->saldo.'",
 				  "'.$botones.'"
 			    ],';
 
