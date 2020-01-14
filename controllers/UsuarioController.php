@@ -463,5 +463,11 @@ class UsuarioController {
 			//header('location:index');
 		}
 	}
+	
+	static public function listaUsuario() {
+		$usuario = new Usuario();
+		$detalles = $usuario->MostrarTodosTipo();
+		return $detalles;
+	}
 
 }

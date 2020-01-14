@@ -39,7 +39,7 @@
             <tr>
               
               <th style="width:10px">Codigo</th>
-              <th>CIENTE</th>   			 
+              <th>CLIENTE</th>   			 
 			  <th>FECHA</th>
 			  <th>INTERES</th>
 			  <th>PLAZO</th>

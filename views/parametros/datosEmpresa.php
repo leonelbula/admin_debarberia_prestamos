@@ -3,7 +3,7 @@
 	<section class="content-header">
 
 		<h1>
-			Detalles Productos
+			Detalles
 		</h1>
 
 		<ol class="breadcrumb">
@@ -39,13 +39,13 @@
 					<div class="box-body">
 
 						<div class="panel panel-default">
-							<div class="panel-heading">Informacion del Empresa</div>
+							<div class="panel-heading">Informacion de la Empresa</div>
 							<ul class="list-group">			  
 								<?php while ($row = $detallesEmpresa->fetch_object()):
 									?>
 
 									<li class="list-group-item"><b>NIT:</b><h4> <?= $row->nit ?></h4></li>
-									<li class="list-group-item"><b>NOMBRE: </b><h4> <?= strtoupper($row->nombre) ?></h4></li>
+									<li class="list-group-item"><b>Nombre: </b><h4> <?= strtoupper($row->nombre) ?></h4></li>
 									<li class="list-group-item"><b>Direccion: </b> <h4><?= $row->direccion ?> </h4></li>
 									<li class="list-group-item"><b>Ciudad: </b> <h4><?= $row->ciudad ?></h4></li>
 									<li class="list-group-item"><b>Departamento: </b> <h4><?= $row->departamento ?> </h4></li>							
@@ -60,7 +60,7 @@
 					<div class="box-body">
 
 						<div class="panel panel-default">
-							<div class="panel-heading">Informacion del Configuracion</div>
+							<div class="panel-heading">Informacion de Configuracion</div>
 							<ul class="list-group">			  
 								<?php while ($row = $datosParametros->fetch_object()):
 									?>

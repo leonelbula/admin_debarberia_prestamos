@@ -1,7 +1,9 @@
 <?php
 
 require_once 'models/Productos.php';
+require_once 'models/Insumos.php';
 require_once 'models/ProductosSucursal.php';
+require_once 'models/InsumoSucursal.php';
 require_once 'models/CompraProducto.php';
 require_once 'models/Compra.php';
 require_once 'models/Traslado.php';
@@ -488,6 +490,7 @@ class comprasController {
 
 					$productoSucursal = new ProductoSucursal();
 					$productoSucursal->setId_producto($id_producto);
+					$productoSucursal->setId_sucursal($id_sucursal);
 					$detallesProducto = $productoSucursal->VercantidadProductoSucursal();
 
 					while ($row1 = $detallesProducto->fetch_object()) {
@@ -530,15 +533,15 @@ class comprasController {
 				} else {
 					$num_registro = 10000;
 				}
-
+				$tipo = 'P';
 				$traslado->setId_sucursal($id_sucursal);
 				$traslado->setNum_registro($num_registro);
 				$traslado->setFecha($fecha);
 				$traslado->setDetalle($listaProducto);
 				$traslado->setTotal($totalTraslado);
-
+				$traslado->setTipo($tipo);
 				$resp = $traslado->Guardar();
-
+				
 				if ($resp) {
 					echo'<script>
 
@@ -661,6 +664,7 @@ class comprasController {
 
 					$productoSucursal = new ProductoSucursal();
 					$productoSucursal->setId_producto($id_producto);
+					$productoSucursal->setId_sucursal($id_sucursal);
 					$ProductoDetalles = $productoSucursal->VercantidadProductoSucursal();
 
 					while ($row3 = $ProductoDetalles->fetch_object()) {
@@ -809,6 +813,425 @@ class comprasController {
 					$producto->ActulizarStock();
 
 					$productoSucursal = new ProductoSucursal();
+					$productoSucursal->setId_producto($id_producto);
+					$ProductoDetalles = $productoSucursal->VercantidadProductoSucursal();
+
+					while ($row3 = $ProductoDetalles->fetch_object()) {
+						$cantidaAnt = (int) $row3->cantidad;
+					}
+					$nuevaCantidad = $cantidaAnt - (int) $value['cantidad'];
+
+					$productoSucursal->setCantidad($nuevaCantidad);
+					$productoSucursal->ActulizarStockSucursal();
+				}
+				$traslado->setId($id_traslado);
+				$resp = $traslado->Eliminar();
+				
+				if($resp){
+					echo'<script>
+
+					swal({
+						  type: "success",
+						  title: "Registro Eliminado Correctamente",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "trasladomercancia";
+
+							}
+						})
+
+					</script>';
+				}else{
+					echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡No se puedo eliminar el registro!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "trasladomercancia";
+
+							}
+						})
+
+		</script>';
+				}
+		}else{
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡No a seleccionado un registro!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "trasladomercancia";
+
+							}
+						})
+
+		</script>';
+		}
+	}
+	
+	public function nuevotrasladoinsumo() {
+		require_once 'views/layout/menu.php';
+		require_once 'views/compras/nuevotrasladoinsumo.php';
+		require_once 'views/layout/copy.php';
+	}
+	
+	public function guardartrasladoinsumo() {
+		if (isset($_POST['idSucursal']) && !empty($_POST['idSucursal'])) {
+			$id_sucursal = $_POST['idSucursal'];
+			$listaProducto = $_POST['listaProductos'];
+			$totalTraslado = $_POST['totalTraslado'];
+			if ($id_sucursal) {
+
+				$listaProductos = json_decode($_POST["listaProductos"], true);
+
+				foreach ($listaProductos as $key => $value) {
+
+					//array_push($totalProductosComprados, $value["cantidad"]);
+					$costo = $value['precio'];
+					$cantidadT = $value['cantidad'];
+					$id_producto = $value["id"];
+
+					$productoSucursal = new InsumoSucursal();
+					$productoSucursal->setId_producto($id_producto);
+					$productoSucursal->setId_sucursal($id_sucursal);
+					$detallesProducto = $productoSucursal->VercantidadProductoSucursal();
+
+					while ($row1 = $detallesProducto->fetch_object()) {
+						$prodCantidad = $row1->cantidad;
+					}
+
+					$nuevCantSucursal = $prodCantidad + $cantidadT;
+
+					$productoSucursal->setCantidad($nuevCantSucursal);
+				
+					$productoSucursal->ActulizarStockSucursal();
+					
+					$producto = new Insumo();
+
+					$producto->setId($id_producto);
+					$respuest = $producto->VercantidadProducto();
+					while ($row = $respuest->fetch_object()) {
+						$cantidad = $row->cantidad;
+					}
+
+					$nuevCantidad = $cantidad - $cantidadT;
+
+					$producto->setCantidad($nuevCantidad);
+					$producto->ActulizarStock();
+				}
+
+				$traslado = new Traslado();
+
+
+				$fecha = date('Y-m-d');
+
+
+				$ultimoTraslado = $traslado->VerUltimaTraslado();
+
+				while ($row2 = $ultimoTraslado->fetch_object()) {
+					$num_registroAnt = $row2->num_registro;
+				}
+
+				if ($num_registroAnt != 0) {
+					$num_registro = $num_registroAnt + 1;
+				} else {
+					$num_registro = 10000;
+				}
+				
+				$tipo = 'I';
+				$traslado->setId_sucursal($id_sucursal);
+				$traslado->setNum_registro($num_registro);
+				$traslado->setFecha($fecha);
+				$traslado->setDetalle($listaProducto);
+				$traslado->setTotal($totalTraslado);
+				$traslado->setTipo($tipo);
+
+				$resp = $traslado->Guardar();
+
+				if ($resp) {
+					echo'<script>
+
+					swal({
+						  type: "success",
+						  title: "Registro Guardada Correctamente",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "trasladomercancia";
+
+							}
+						})
+
+					</script>';
+				} else {
+					echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Registro no Guardado !",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "trasladomercancia";
+
+							}
+						})
+
+			  	</script>';
+				}
+			} else {
+				echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡No se puede guardar se produjo un Error!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "trasladomercancia";
+
+							}
+						})
+
+		</script>';
+			}
+		}
+	}
+
+	public function editartrasladoinsumo() {
+		require_once 'views/layout/menu.php';
+		if (isset($_GET['id'])) {
+			$id_traslado = $_GET['id'];
+			$traslado = new Traslado();
+			$traslado->setId($id_traslado);
+			$detallesTraslado = $traslado->VerTrasladoId();
+			require_once 'views/compras/editartrasladoinsumo.php';
+		} else {
+			echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡No a seleccionado un registro!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "trasladomercancia";
+
+							}
+						})
+
+		</script>';
+		}
+
+		require_once 'views/layout/copy.php';
+	}
+
+	public function actulizartrasladoinsumo() {
+		if (isset($_POST['idTraslado'])) {
+			$id_traslado = $_POST['idTraslado'];
+			$id_sucursal = $_POST['idSucursal'];
+			$listaProducto = $_POST['listaProductos'];
+			$totalTraslado = $_POST['totalTraslado'];
+			if ($id_traslado && $id_sucursal) {
+
+				$traslado = new Traslado();
+				$traslado->setId($id_traslado);
+				$detallesTrasl = $traslado->VerTrasladoId();
+
+				while ($row2 = $detallesTrasl->fetch_object()) {
+					$detallesProducto = $row2->detalles;
+				}
+				$Producto = json_decode($detallesProducto, TRUE);
+
+				foreach ($Producto as $key => $value) {
+
+					$id_producto = $value["id"];
+
+					$producto = new Insumo();
+
+					$producto->setId($id_producto);
+					$respuestProducto = $producto->VercantidadProducto();
+
+					while ($row4 = $respuestProducto->fetch_object()) {
+						$cantidadPro = (int) $row4->cantidad;
+					}
+					$nuevaCantidadProducto = $cantidadPro + (int) $value['cantidad'];
+
+					$producto->setCantidad($nuevaCantidadProducto);
+					$producto->ActulizarStock();
+
+					$productoSucursal = new InsumoSucursal();
+					$productoSucursal->setId_producto($id_producto);
+					$productoSucursal->setId_sucursal($id_sucursal);
+					$ProductoDetalles = $productoSucursal->VercantidadProductoSucursal();
+
+					while ($row3 = $ProductoDetalles->fetch_object()) {
+						$cantidaAnt = (int) $row3->cantidad;
+					}
+					$nuevaCantidad = $cantidaAnt - (int) $value['cantidad'];
+
+					$productoSucursal->setCantidad($nuevaCantidad);
+					$productoSucursal->ActulizarStockSucursal();
+				}
+
+
+
+				$listaProductos = json_decode($_POST["listaProductos"], true);
+
+
+				foreach ($listaProductos as $key => $value) {
+
+					//array_push($totalProductosComprados, $value["cantidad"]);
+					$costo = $value['precio'];
+					$cantidadT = $value['cantidad'];
+					$id_producto = $value["id"];
+
+
+					$productoSucursal = new InsumoSucursal();
+					$productoSucursal->setId_producto($id_producto);
+					$detallesProducto = $productoSucursal->VercantidadProductoSucursal();
+
+					while ($row1 = $detallesProducto->fetch_object()) {
+						$prodCantidad = $row1->cantidad;
+					}
+
+					$nuevCantSucursal = $prodCantidad + $cantidadT;
+
+					$productoSucursal->setCantidad($nuevCantSucursal);
+					$productoSucursal->ActulizarStockSucursal();
+
+
+					$producto->setId($id_producto);
+					$respuest = $producto->VercantidadProducto();
+					while ($row = $respuest->fetch_object()) {
+						$cantidad = $row->cantidad;
+					}
+
+					$nuevCantidad = $cantidad - $cantidadT;
+
+					$producto->setCantidad($nuevCantidad);
+					$producto->ActulizarStock();
+				}
+
+				$traslado = new Traslado();
+
+
+				$fecha = $_POST['fecha_hora'];
+				$traslado->setId($id_traslado);
+				$traslado->setId_sucursal($id_sucursal);
+				$traslado->setFecha($fecha);
+				$traslado->setDetalle($listaProducto);
+				$traslado->setTotal($totalTraslado);
+
+				$resp = $traslado->Actulizar();
+
+				if ($resp) {
+					echo'<script>
+
+					swal({
+						  type: "success",
+						  title: "Registro Modificado Correctamente",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "trasladomercancia";
+
+							}
+						})
+
+					</script>';
+				} else {
+					echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Registro no Guardado !",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "trasladomercancia";
+
+							}
+						})
+
+			  	</script>';
+				}
+			} else {
+				echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡No a seleccionado un registro!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "trasladomercancia";
+
+							}
+						})
+
+		</script>';
+			}
+		}
+	}
+	
+	public function eliminartrasladoinsumo() {
+		if(isset($_GET['id'])){
+				$id_traslado = $_GET['id'];
+				$traslado = new Traslado();
+				$traslado->setId($id_traslado);
+				$detallesTrasl = $traslado->VerTrasladoId();
+
+				while ($row2 = $detallesTrasl->fetch_object()) {
+					$detallesProducto = $row2->detalles;
+				}
+				$Producto = json_decode($detallesProducto, TRUE);
+
+				foreach ($Producto as $key => $value) {
+
+					$id_producto = $value["id"];
+
+					$producto = new Insumo();
+
+					$producto->setId($id_producto);
+					$respuestProducto = $producto->VercantidadProducto();
+
+					while ($row4 = $respuestProducto->fetch_object()) {
+						$cantidadPro = (int) $row4->cantidad;
+					}
+					$nuevaCantidadProducto = $cantidadPro + (int) $value['cantidad'];
+
+					$producto->setCantidad($nuevaCantidadProducto);
+					$producto->ActulizarStock();
+
+					$productoSucursal = new InsumoSucursal();
 					$productoSucursal->setId_producto($id_producto);
 					$ProductoDetalles = $productoSucursal->VercantidadProductoSucursal();
 

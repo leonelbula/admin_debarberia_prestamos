@@ -3,7 +3,7 @@
   <section class="content-header">
       
     <h1>
-      Detalles venta sucuarsal
+      Detalles venta sucursal
     </h1>
  
     <ol class="breadcrumb">

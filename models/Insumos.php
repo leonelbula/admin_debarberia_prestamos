@@ -120,4 +120,18 @@ class Insumo {
 		}
 		return $resul;
 	}
+	public function VercantidadProducto() {
+		$sql = "SELECT cantidad FROM insumos WHERE id = {$this->getId()}";
+		$resp = $this->db->query($sql);		
+		return $resp;
+	}
+	public function ActulizarStock() {
+		$sql = "UPDATE insumos SET cantidad={$this->getCantidad()}  WHERE id = {$this->getId()}";
+		$resp = $this->db->query($sql);
+		$resul = FALSE;
+		if($resp){
+			$resul = TRUE;
+		}
+		return $resul;
+	}
 }

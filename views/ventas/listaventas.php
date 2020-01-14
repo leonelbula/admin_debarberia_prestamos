@@ -3,7 +3,7 @@
 	<section class="content-header">
 
 		<h1>
-			Lista sucrsales
+			Lista sucursales
 		</h1>
 
 		<ol class="breadcrumb">
@@ -39,7 +39,7 @@
 								<th>fecha</th>  			 
 								<th>Nombre</th>
 								<th>valor</th>					
-								<th>valor</th>
+								<th>Utilidad</th>
 
 							</tr>
 

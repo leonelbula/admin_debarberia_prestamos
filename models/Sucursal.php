@@ -76,6 +76,7 @@ class Sucursal{
 		$respt = $this->db->query($sql);
 		return $respt;
 	}
+	
 	public function motrarInformacion() {
 		$sql = "SELECT * FROM sucursal WHERE id = {$this->getId()}";
 		$respt = $this->db->query($sql);

@@ -2023,5 +2023,46 @@ class sucursalController {
 		require_once 'views/layout/copy.php';
 	}
 	
+	public function valorinventario() {
+		require_once 'views/layout/menu.php';
+		$sucursal = new Sucursal();
+		$listaSucursal = $sucursal->listaSucursal();
+		require_once 'views/sucursal/inventario.php';
+		require_once 'views/layout/copy.php';
+	}
+	static public function totalinventariosucursal($id_sucursal) {
+		$inventario = new ProductoSucursal();
+		$inventario->setId_sucursal($id_sucursal);
+		$detalles = $inventario->ValInventarioSucursal();
+		return $detalles;
+	}
+	public function inventariodetalle() {
+		require_once 'views/layout/menu.php';
+		if(isset($_GET['id'])){
+			$id_sucursal = $_GET['id'];
+			$sucursal = new Sucursal();
+			$sucursal->setId($id_sucursal);
+			$detallesSucursal = $sucursal->motrarInformacion();
+			
+		}else{
+			echo'<script>
 
+					swal({
+						  type: "error",
+						  title: "¡No a seleccionado una opcion!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "valorinventario";
+
+							}
+						})
+
+		</script>';
+		}
+		require_once 'views/sucursal/inventariodetalle.php';
+		require_once 'views/layout/copy.php';
+	}
 }

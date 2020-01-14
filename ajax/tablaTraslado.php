@@ -31,10 +31,13 @@ class ajaxTablaTraslado{
 		  	/*=============================================
  	 		TRAEMOS LAS ACCIONES
   			=============================================*/ 
-  			
-
-  			$botones =  "<div class='btn-group'><button class='btn btn-info btnImprimirTraslado' numtraslado='".$row->num_registro."'><i class='fa fa-print'></i></button><a href='editartraslado&id=".$row->id."'><button class='btn btn-warning  btnEditarTraslado'><i class='fa fa-pencil'></i></button></a><button class='btn btn-danger btnEliminarTraslado' idtraslado='".$row->id."'><i class='fa fa-times'></i></button></div>"; 
-  			
+  			if($row->tipo == 'P'){
+				$tipo = 'PRODUCTOS';
+				$botones =  "<div class='btn-group'><button class='btn btn-info btnImprimirTraslado' numtraslado='".$row->num_registro."'><i class='fa fa-print'></i></button><a href='editartraslado&id=".$row->id."'><button class='btn btn-warning  btnEditarTraslado'><i class='fa fa-pencil'></i></button></a><button class='btn btn-danger btnEliminarTraslado' idtraslado='".$row->id."'><i class='fa fa-times'></i></button></div>"; 
+			}else{
+				$tipo = 'INSUMO';
+				$botones =  "<div class='btn-group'><button class='btn btn-info btnImprimirTraslado' numtraslado='".$row->num_registro."'><i class='fa fa-print'></i></button><a href='editartrasladoinsumo&id=".$row->id."'><button class='btn btn-warning  btnEditarTraslado'><i class='fa fa-pencil'></i></button></a><button class='btn btn-danger btnEliminarTrasladoInsumo' idtraslado='".$row->id."'><i class='fa fa-times'></i></button></div>"; 
+			}
 
   			//$redir = "href='ver&id=".$row->id."'";
 
@@ -46,6 +49,7 @@ class ajaxTablaTraslado{
 				  "'.$row->fecha.'",
 			      "'.$row->num_registro.'",
 			      "'.$row->nombresucursal.'",
+				  "'.$tipo.'",
 				  "'.$row->total.'",				 
 				  "'.$botones.'"			     
 			    ],';

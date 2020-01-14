@@ -67,7 +67,20 @@ class InsumoSucursal {
 		$resul = $this->db->query($sql);
 		return $resul;
 	}
-	
+	public function VercantidadProductoSucursal() {
+		$sql = "SELECT cantidad FROM insumos_sucursal WHERE id_insumo = {$this->getId_producto()} AND id_sucursal = {$this->getId_sucursal()}";
+		$resp = $this->db->query($sql);		
+		return $resp;
+	}
+	public function ActulizarStockSucursal() {
+		$sql = "UPDATE insumos_sucursal SET cantidad={$this->getCantidad()}  WHERE id_insumo = {$this->getId_producto()} AND id_sucursal = {$this->getId_sucursal()}";
+		$resp = $this->db->query($sql);
+		$resul = FALSE;
+		if($resp){
+			$resul = TRUE;
+		}
+		return $resul;
+	}
 	public function MostrarProductosSucursal() {
 		$sql = "SELECT * FROM insumos_sucursal WHERE id = {$this->getId()} AND id_sucursal = {$this->getId_sucursal()}";
 		$resul = $this->db->query($sql);

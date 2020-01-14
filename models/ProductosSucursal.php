@@ -70,7 +70,12 @@ class ProductoSucursal {
 		$sql = "SELECT SUM(costo * cantidad) AS total FROM producto_sucursal WHERE id_sucursal =  {$this->getId_sucursal()}";
 		$resul = $this->db->query($sql);
 		return $resul->fetch_object();
-	}		
+	}
+	public function ValInventarioSucursal() {
+		$sql = "SELECT SUM(p.costo * ps.cantidad) AS total FROM producto_sucursal ps, producto p WHERE id_sucursal = {$this->getId_sucursal()} AND ps.id_producto = p.id ";
+		$resul = $this->db->query($sql);
+		return $resul;
+	}
 	public function Guardar() {
 		$sql = "INSERT INTO producto_sucursal VALUES (NULL,{$this->getId_producto()},{$this->getId_sucursal()},{$this->getCantidad()},{$this->getStock_minimo()})";
 		$resp = $this->db->query($sql);
@@ -100,7 +105,7 @@ class ProductoSucursal {
 		return $resul;
 	}
 	public function VercantidadProductoSucursal() {
-		$sql = "SELECT cantidad FROM producto_sucursal WHERE id_producto = {$this->getId_producto()}";
+		$sql = "SELECT cantidad FROM producto_sucursal WHERE id_producto = {$this->getId_producto()} AND id_sucursal = {$this->getId_sucursal()}";
 		$resp = $this->db->query($sql);		
 		return $resp;
 	}

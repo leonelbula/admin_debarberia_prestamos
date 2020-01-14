@@ -26,7 +26,14 @@
 				  <a href="<?= URL_BASE ?>compras/nuevotraslado">
 					  <button class="btn btn-primary">
 
-						  Nuevo Traslado
+						  Nuevo Traslado Productos
+
+					  </button>
+				  </a>
+				  <a href="<?= URL_BASE ?>compras/nuevotrasladoinsumo">
+					  <button class="btn btn-primary">
+
+						  Nuevo Traslado Insumos
 
 					  </button>
 				  </a>
@@ -39,7 +46,8 @@
 				<th>#</th>
 				<th>Fecha</th>
                 <th>N° Traslado</th>
-                <th>Sucursal</th>                
+                <th>Sucursal</th> 
+				<th>Tipo</th> 
 				<th>Valor</th>						
 				<th>acciones</th>
             </tr>

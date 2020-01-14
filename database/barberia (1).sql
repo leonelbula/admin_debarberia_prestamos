@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 02-01-2020 a las 12:59:05
+-- Tiempo de generación: 14-01-2020 a las 13:13:50
 -- Versión del servidor: 5.7.26
 -- Versión de PHP: 7.2.18
 
@@ -143,6 +143,22 @@ CREATE TABLE IF NOT EXISTS `abono_prestamos_sucursal` (
   `estado` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `abono_vendedor`
+--
+
+DROP TABLE IF EXISTS `abono_vendedor`;
+CREATE TABLE IF NOT EXISTS `abono_vendedor` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_factura` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  `descripcion` text COLLATE utf8_spanish_ci NOT NULL,
+  `valor` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -634,7 +650,7 @@ CREATE TABLE IF NOT EXISTS `insumos` (
 
 INSERT INTO `insumos` (`id`, `codigo`, `nombre`, `costo`, `cantidad`, `stock`, `id_vendedor`, `codigo_vendedor`) VALUES
 (1, '1', 'pulvo para afeitar', 4500, 10, 2, 1, '5454'),
-(2, '2', 'cuchillas en hojas', 150, 200, 50, 1, 'chi1002'),
+(2, '2', 'cuchillas en hojas', 150, 178, 50, 1, 'chi1002'),
 (3, '3', 'cuchillas en hojas', 150, 200, 50, 1, 'chi1002');
 
 -- --------------------------------------------------------
@@ -658,8 +674,8 @@ CREATE TABLE IF NOT EXISTS `insumos_sucursal` (
 --
 
 INSERT INTO `insumos_sucursal` (`id`, `id_insumo`, `id_sucursal`, `cantidad`, `stock_minimo`) VALUES
-(1, 2, 1, 61, 50),
-(2, 2, 2, 100, 50),
+(1, 2, 1, 70, 50),
+(2, 2, 2, 106, 50),
 (3, 2, 3, 50, 50),
 (4, 2, 9, 50, 50);
 
@@ -841,7 +857,7 @@ CREATE TABLE IF NOT EXISTS `producto` (
 --
 
 INSERT INTO `producto` (`id`, `id_categoria`, `codigo`, `nombre`, `costo`, `cantidad`, `precio_venta`, `porcentaje_utilidad`, `utilidad`, `stock_minimo`, `codigo_vendedor`, `id_vendedor`) VALUES
-(1, 1, '1000', 'papas de limon 150g ', 900, 209, 1260, 40, 360, 20, '454545', 1),
+(1, 1, '1000', 'papas de limon 150g ', 900, 203, 1260, 40, 360, 20, '454545', 1),
 (2, 1, '1001', 'gaseosa 250 ml ', 500, 195, 700, 40, 200, 20, '454545', 1),
 (6, 1, '1005', 'producto prueba', 500, 10, 750, 50, 250, 5, 'cre1450', 1);
 
@@ -872,7 +888,7 @@ CREATE TABLE IF NOT EXISTS `productoventa` (
 --
 
 INSERT INTO `productoventa` (`id`, `codigo`, `nombre`, `costo`, `cantidad`, `precio_venta`, `porcentaje_utilidad`, `utilidad`, `stock_minimo`, `codigo_vendedor`, `id_vendedor`) VALUES
-(1, '1000', 'producto editado', 5000, 18, 7500, 50, 2500, 10, '4545', 1);
+(1, '1000', 'producto editado', 5000, 12, 7500, 50, 2500, 10, '4545', 1);
 
 -- --------------------------------------------------------
 
@@ -897,7 +913,7 @@ CREATE TABLE IF NOT EXISTS `producto_sucursal` (
 --
 
 INSERT INTO `producto_sucursal` (`id`, `id_producto`, `id_sucursal`, `cantidad`, `stock_minimo`) VALUES
-(1, 1, 1, 5, 10),
+(1, 1, 1, 11, 10),
 (2, 2, 1, 7, 5),
 (3, 6, 2, 20, 5),
 (4, 6, 3, 20, 5),
@@ -1023,18 +1039,26 @@ CREATE TABLE IF NOT EXISTS `traslado_mercancia` (
   `fecha` date NOT NULL,
   `detalles` text COLLATE utf8_spanish_ci NOT NULL,
   `total` int(11) NOT NULL,
+  `tipo` varchar(2) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_sucursal` (`id_sucursal`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `traslado_mercancia`
 --
 
-INSERT INTO `traslado_mercancia` (`id`, `id_sucursal`, `num_registro`, `fecha`, `detalles`, `total`) VALUES
-(3, 1, 10002, '2019-11-27', '[{\"id\":\"1\",\"codigo\":\"1000\",\"descripcion\":\"papas de limon 150g \",\"cantidad\":\"10\",\"precio\":\"900\"},{\"id\":\"2\",\"codigo\":\"1001\",\"descripcion\":\"gaseosa 250 ml \",\"cantidad\":\"10\",\"precio\":\"500\"}]', 14000),
-(4, 1, 10003, '2019-11-28', '[{\"id\":\"1\",\"codigo\":\"1000\",\"descripcion\":\"papas de limon 150g \",\"cantidad\":\"10\",\"precio\":\"900\",\"subtotal\":\"9000\"},{\"id\":\"2\",\"codigo\":\"1001\",\"descripcion\":\"gaseosa 250 ml \",\"cantidad\":\"20\",\"precio\":\"500\",\"subtotal\":\"10000\"},{\"id\":\"6\",\"codigo\":\"1005\",\"descripcion\":\"producto prueba\",\"cantidad\":\"1\",\"precio\":\"500\",\"subtotal\":\"500\"}]', 19500),
-(5, 1, 10004, '2019-12-27', '[{\"id\":\"1\",\"codigo\":\"1000\",\"descripcion\":\"papas de limon 150g \",\"cantidad\":\"1\",\"precio\":\"900\",\"subtotal\":\"900\"},{\"id\":\"2\",\"codigo\":\"1001\",\"descripcion\":\"gaseosa 250 ml \",\"cantidad\":\"1\",\"precio\":\"500\",\"subtotal\":\"500\"},{\"id\":\"6\",\"codigo\":\"1005\",\"descripcion\":\"producto prueba\",\"cantidad\":\"1\",\"precio\":\"500\",\"subtotal\":\"500\"}]', 1900);
+INSERT INTO `traslado_mercancia` (`id`, `id_sucursal`, `num_registro`, `fecha`, `detalles`, `total`, `tipo`) VALUES
+(3, 1, 10002, '2019-11-27', '[{\"id\":\"1\",\"codigo\":\"1000\",\"descripcion\":\"papas de limon 150g \",\"cantidad\":\"10\",\"precio\":\"900\"},{\"id\":\"2\",\"codigo\":\"1001\",\"descripcion\":\"gaseosa 250 ml \",\"cantidad\":\"10\",\"precio\":\"500\"}]', 14000, 'P'),
+(4, 1, 10003, '2019-11-28', '[{\"id\":\"1\",\"codigo\":\"1000\",\"descripcion\":\"papas de limon 150g \",\"cantidad\":\"10\",\"precio\":\"900\",\"subtotal\":\"9000\"},{\"id\":\"2\",\"codigo\":\"1001\",\"descripcion\":\"gaseosa 250 ml \",\"cantidad\":\"20\",\"precio\":\"500\",\"subtotal\":\"10000\"},{\"id\":\"6\",\"codigo\":\"1005\",\"descripcion\":\"producto prueba\",\"cantidad\":\"1\",\"precio\":\"500\",\"subtotal\":\"500\"}]', 19500, 'P'),
+(5, 1, 10004, '2019-12-27', '[{\"id\":\"1\",\"codigo\":\"1000\",\"descripcion\":\"papas de limon 150g \",\"cantidad\":\"1\",\"precio\":\"900\",\"subtotal\":\"900\"},{\"id\":\"2\",\"codigo\":\"1001\",\"descripcion\":\"gaseosa 250 ml \",\"cantidad\":\"1\",\"precio\":\"500\",\"subtotal\":\"500\"},{\"id\":\"6\",\"codigo\":\"1005\",\"descripcion\":\"producto prueba\",\"cantidad\":\"1\",\"precio\":\"500\",\"subtotal\":\"500\"}]', 1900, 'P'),
+(6, 1, 10005, '2020-01-14', '[{\"id\":\"2\",\"codigo\":\"2\",\"descripcion\":\"cuchillas en hojas\",\"cantidad\":\"10\",\"precio\":\"150\",\"subtotal\":\"1500\"}]', 1500, 'I'),
+(7, 1, 10006, '2020-01-14', '[{\"id\":\"2\",\"codigo\":\"2\",\"descripcion\":\"cuchillas en hojas\",\"cantidad\":\"1\",\"precio\":\"150\",\"subtotal\":\"150\"}]', 150, 'I'),
+(8, 1, 10007, '2020-01-14', '[{\"id\":\"2\",\"codigo\":\"2\",\"descripcion\":\"cuchillas en hojas\",\"cantidad\":\"5\",\"precio\":\"150\",\"subtotal\":\"750\"}]', 750, 'I'),
+(9, 2, 10008, '2020-01-14', '[{\"id\":\"2\",\"codigo\":\"2\",\"descripcion\":\"cuchillas en hojas\",\"cantidad\":\"5\",\"precio\":\"150\",\"subtotal\":\"750\"}]', 750, 'I'),
+(10, 1, 10009, '2020-01-14', '[{\"id\":\"1\",\"codigo\":\"1000\",\"descripcion\":\"papas de limon 150g \",\"cantidad\":\"1\",\"precio\":\"900\",\"subtotal\":\"900\"}]', 900, 'P'),
+(11, 1, 10010, '2020-01-14', '[{\"id\":\"1\",\"codigo\":\"1000\",\"descripcion\":\"papas de limon 150g \",\"cantidad\":\"1\",\"precio\":\"900\",\"subtotal\":\"900\"}]', 900, 'P'),
+(12, 2, 10011, '2020-01-14', '[{\"id\":\"2\",\"codigo\":\"2\",\"descripcion\":\"cuchillas en hojas\",\"cantidad\":\"1\",\"precio\":\"150\",\"subtotal\":\"150\"}]', 150, 'I');
 
 -- --------------------------------------------------------
 
@@ -1253,8 +1277,8 @@ CREATE TABLE IF NOT EXISTS `venta_vendedores` (
 --
 
 INSERT INTO `venta_vendedores` (`id`, `id_vendedor`, `num_factura`, `fecha`, `detalles`, `utilidad`, `totalventa`, `totalcosto`, `saldo`, `tipo`) VALUES
-(1, 1, 14, '2020-01-02', '[{\"id\":\"1\",\"codigo\":\"1000\",\"descripcion\":\"producto editado\",\"cantidad\":\"1\",\"precio\":\"7500\",\"costo\":\"5000\",\"subtotal\":\"7500\"}]', 2500, 7500, 5000, 7500, 1),
-(2, 1, 14, '2020-01-02', '[{\"id\":\"1\",\"codigo\":\"1000\",\"descripcion\":\"producto editado\",\"cantidad\":\"1\",\"precio\":\"7500\",\"costo\":\"5000\",\"subtotal\":\"7500\"}]', 2500, 7500, 5000, 7500, 1);
+(1, 1, 1, '2020-01-02', '[{\"id\":\"1\",\"codigo\":\"1000\",\"descripcion\":\"producto editado\",\"cantidad\":\"1\",\"precio\":\"7500\",\"costo\":\"5000\",\"subtotal\":\"7500\"}]', 2500, 7500, 5000, 7500, 1),
+(2, 1, 2, '2020-01-02', '[{\"id\":\"1\",\"codigo\":\"1000\",\"descripcion\":\"producto editado\",\"cantidad\":\"2\",\"precio\":\"7500\",\"costo\":\"5000\",\"subtotal\":\"15000\"}]', 5000, 15000, 10000, 15000, 1);
 
 --
 -- Restricciones para tablas volcadas

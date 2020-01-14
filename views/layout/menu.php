@@ -183,6 +183,7 @@ if (!isset($_SESSION['identity'])) {
           <ul class="treeview-menu">
             <li><a href="<?=URL_BASE?>sucursal/"><i class="fa fa-circle-o"></i> LISTA SUCURSALES</a></li>
 			<li><a href="<?=URL_BASE?>sucursal/ventassucursal"><i class="fa fa-circle-o"></i> VENTA ACTUAL</a></li>
+			<li><a href="<?=URL_BASE?>sucursal/valorinventario"><i class="fa fa-circle-o"></i> INVENTARIO ACTUAL</a></li>
           </ul>
         </li>        
 		<li class="treeview">
@@ -193,13 +194,13 @@ if (!isset($_SESSION['identity'])) {
             </span>
           </a>
           <ul class="treeview-menu">           
-			<li><a href="<?=URL_BASE?>ventas/ventassucursal"><i class="fa fa-circle-o"></i> VENTAS POR SUCURSAL</a></li>
+			<li><a href="<?=URL_BASE?>ventas/ventassucursal"><i class="fa fa-circle-o"></i> VENTA POR SUCURSAL</a></li>
             <li><a href="<?=URL_BASE?>ventas/reportes"><i class="fa fa-circle-o"></i> REPORTES</a></li>
           </ul>
         </li>
 		<li class="treeview">
           <a href="#">
-            <i class="fa fa fa-th"></i> <span>VENTAS DE PRODUCTO</span>
+            <i class="fa fa fa-th"></i> <span>VENTA DE PRODUCTO</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -208,7 +209,7 @@ if (!isset($_SESSION['identity'])) {
 			<li><a href="<?=URL_BASE?>ventasproducto/"><i class="fa fa-circle-o"></i> VENTAS </a></li>
 			<li><a href="<?=URL_BASE?>ventasproducto/productos"><i class="fa fa-circle-o"></i> LISTA PRODUCTO </a></li>
 			<li><a href="<?=URL_BASE?>ventasproducto/vendedores"><i class="fa fa-circle-o"></i> LISTA VENDEDORES </a></li>
-         <li><a href="<?=URL_BASE?>ventasproducto/estadocuenta"><i class="fa fa-circle-o"></i> ESTDO DE CUENTA </a></li>
+         <li><a href="<?=URL_BASE?>ventasproducto/estadocuenta"><i class="fa fa-circle-o"></i> ESTADO DE CUENTA </a></li>
             <li><a href="<?=URL_BASE?>ventasproducto/reportes"><i class="fa fa-circle-o"></i> REPORTES</a></li>
           </ul>
         </li>     

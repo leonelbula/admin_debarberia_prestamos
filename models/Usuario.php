@@ -66,6 +66,11 @@ class Usuario{
 		$resul = $this->db->query($sql);
 		return $resul;
 	}
+	public function MostrarTodosTipo() {
+		$sql = "SELECT * FROM usuarios WHERE tipo = 'usuario'";
+		$resul = $this->db->query($sql);
+		return $resul;
+	}
 	public function MostrarUsuarioId() {
 		$sql = "SELECT * FROM usuarios WHERE id_usuario = {$this->getId_usuario()}";
 		$resul = $this->db->query($sql);

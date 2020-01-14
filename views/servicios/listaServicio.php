@@ -18,7 +18,7 @@
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">lista de Servicos</h3>
+          <h3 class="box-title">lista de Servicios</h3>
 
         </div>
 		  <div class="box-body">

@@ -266,10 +266,10 @@
 								<span class="input-group-addon"><i class="fa fa-th"></i></span>
 
 								<select class="form-control" name="empleado" required>
-									<option value="">Seleccione un empleado</option>
+									<option value="">Seleccione un Usuario</option>
 									<?php 
 										
-										$listaSucursal = empleadosController::listaEmpleado();
+										$listaSucursal = UsuarioController::listaUsuario();
 										while ($row = $listaSucursal->fetch_object()) {
 											echo '<option value="'.$row->id.'">'.$row->nombre.'</option>';
 										}
