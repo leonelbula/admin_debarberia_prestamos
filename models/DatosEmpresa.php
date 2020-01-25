@@ -100,7 +100,7 @@ class DatosEmpresa{
 	}
 	public function Actualizar() {
 		$sql = "UPDATE datos_empresa SET nombre='{$this->getNombre()}',nit='{$this->getNit()}',direccion='{$this->getDireccion()}',"
-		. "departamento='{$this->getDepartamento()}',ciudad='{$this->getCiudad()}',telefono='{$this->getTelefono()}','{$this->getFecha_inicio()}' WHERE id = {$this->getId()}";
+		. "departamento='{$this->getDepartamento()}',ciudad='{$this->getCiudad()}',telefono='{$this->getTelefono()}',fecha_inicio='{$this->getFecha_inicio()}' WHERE id = {$this->getId()}";
 		$resp = $this->db->query($sql);
 		$result = FALSE;
 		if($resp){

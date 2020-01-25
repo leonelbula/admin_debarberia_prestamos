@@ -101,7 +101,7 @@ class ParametrosController{
 			$departamento = isset($_POST['departamento']) ? $_POST['departamento']:FALSE;
 			$ciudad = isset($_POST['ciudad']) ? $_POST['ciudad']:FALSE;
 			$telefono = isset($_POST['telefono']) ? $_POST['telefono']:FALSE;
-			$fecha_inicio = date('Y-m-d');
+			$fecha_inicio = isset($_POST['fecha']) ? $_POST['fecha']:FALSE;
 			
 			
 			if($nit && $nombre && $direccion){
@@ -113,6 +113,7 @@ class ParametrosController{
 				$datosEmp->setDepartamento(ucwords($departamento));
 				$datosEmp->setCiudad(ucwords($ciudad));
 				$datosEmp->setTelefono($telefono);
+				$datosEmp->setFecha_inicio($fecha_inicio);
 				
 				
 				$respt = $datosEmp->Actualizar();

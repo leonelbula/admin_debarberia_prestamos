@@ -195,6 +195,7 @@ if (!isset($_SESSION['identity'])) {
           </a>
           <ul class="treeview-menu">           
 			<li><a href="<?=URL_BASE?>ventas/ventassucursal"><i class="fa fa-circle-o"></i> VENTA POR SUCURSAL</a></li>
+			<li><a href="<?=URL_BASE?>ventas/cierres"><i class="fa fa-circle-o"></i> CIERRE DE CAJA</a></li>
             <li><a href="<?=URL_BASE?>ventas/reportes"><i class="fa fa-circle-o"></i> REPORTES</a></li>
           </ul>
         </li>
@@ -325,7 +326,7 @@ if (!isset($_SESSION['identity'])) {
             <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
           </ul>
         </li>
-        <li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>PAGINA WEB</span></a></li>
+        <li><a href="<?=URL_BASE?>pagina/"><i class="fa fa-book"></i> <span>PAGINA WEB</span></a></li>
         
       <?php
 		

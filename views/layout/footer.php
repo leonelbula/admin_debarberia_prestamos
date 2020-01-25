@@ -54,6 +54,8 @@
 <script src="<?= URL_BASE ?>assets/js/tablaProductosVentas.js"></script>
 <script src="<?= URL_BASE ?>assets/js/ventasVendedor.js"></script>
 <script src="<?= URL_BASE ?>assets/js/tablaventasvendedor.js"></script>
+<script src="<?= URL_BASE ?>assets/js/tablaCierres.js"></script>
+<script src="<?= URL_BASE ?>assets/js/pagina.js"></script>
 
 
 </body>

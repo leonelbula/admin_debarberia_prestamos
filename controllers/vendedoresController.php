@@ -72,7 +72,7 @@ class vendedoresController {
 									  }).then(function(result){
 										if (result.value) {
 
-										window.location = "'. URL_BASE.'";
+										window.location = "'. URL_BASE.'vendedores/";
 
 										}
 									})

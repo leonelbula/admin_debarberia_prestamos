@@ -182,6 +182,17 @@
 							</div>
 							<!-- /.input group -->
 						</div>
+						<div class="form-group">
+							<label>Fecha de Inicio:</label>
+
+							<div class="input-group">
+								<div class="input-group-addon">
+									<i class="fa fa-phone"></i>
+								</div>
+								<input type="date" class="form-control" name="fecha" >
+							</div>
+							<!-- /.input group -->
+						</div>
 						
 					</div>
 
@@ -306,7 +317,18 @@
 									<input type="text" class="form-control" name="telefono" value="<?= $row->telefono ?>" data-inputmask='"mask": "(999) 999-9999"' data-mask>
 								</div>
 								<!-- /.input group -->
-							</div>												
+							</div>
+							<div class="form-group">
+							<label>Fecha de Inicio:</label>
+
+							<div class="input-group">
+								<div class="input-group-addon">
+									<i class="fa fa-phone"></i>
+								</div>
+								<input type="date" class="form-control" name="fecha" value="<?= $row->fecha_inicio ?>">
+							</div>
+							<!-- /.input group -->
+						</div>
 
 						</div>
 
