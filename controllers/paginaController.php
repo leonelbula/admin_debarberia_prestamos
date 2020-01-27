@@ -104,16 +104,38 @@ class paginaController{
 		require_once 'views/pagina/datospagina.php';
 		if(isset($_POST['id'])){
 			$id = $_POST['id'];
-			$nombre = isset($_POST['titulo']) ? $_POST['titulo']:FALSE;
-			$descripcion = isset($_POST['titulo2']) ? $_POST['titulo2']:FALSE;
-			
+			$nombre = isset($_POST['nombre']) ? $_POST['nombre']:FALSE;
+			$descripcion = isset($_POST['description']) ? $_POST['description']:FALSE;
+						
 			if($id && $nombre && $descripcion){
 				$contenido = new ContenidoEmpleado();
 				$contenido->setId($id);
 				$contenido->setNombre($nombre);
 				$contenido->setDescripcion($descripcion);
-				$resp = $contenido->Editar();
 				
+				
+				$file = $_FILES['editarImagen'];
+				$fileNom = $file['name'];
+				$type = $file['type'];
+				
+				$dir = 'imagen/pagina';
+				
+				if ($type == 'image/jpg' || $type == 'image/jpeg' || $type == 'image/png') {
+					
+					if(!is_dir($dir)){
+						mkdir($dir, 0777,TRUE);
+					}
+					
+					 move_uploaded_file($file['tmp_name'],$dir.'/'.$fileNom);
+					
+					$contenido->setImg($fileNom);
+					
+				}else{
+					$fileNom = "";
+					$contenido->setImg($fileNom);
+				}
+				
+				$resp= $contenido->Editar();
 				
 				if($resp){
 					echo'<script>
@@ -188,21 +210,43 @@ class paginaController{
 			  	</script>';
 		}
 	}
+	
 	public function actuizarcontenido3() {
 		require_once 'views/layout/menu.php';		
 		require_once 'views/pagina/datospagina.php';
 		if(isset($_POST['id'])){
 			$id = $_POST['id'];
-			$titulo = isset($_POST['titulo']) ? $_POST['titulo']:FALSE;
-			$titulo2 = isset($_POST['titulo2']) ? $_POST['titulo2']:FALSE;
+			$nombre = isset($_POST['nombre']) ? $_POST['nombre']:FALSE;
+			$horrario = isset($_POST['horrario']) ? $_POST['horrario']:FALSE;			
 			
-			if($id && $titulo && $titulo2){
-				$contenido = new PaginaContenido();
+			if($id && $nombre && $horrario){
+				$contenido = new ContenidoSucursal();
 				$contenido->setId($id);
-				$contenido->setTitulo($titulo);
-				$contenido->setTitulo2($titulo2);
-				$resp = $contenido->Editar();
+				$contenido->setNombre($nombre);
+				$contenido->setHorrario($horrario);				
 				
+				$file = $_FILES['editarImagen'];
+				$fileNom = $file['name'];
+				$type = $file['type'];
+				
+				$dir = 'imagen/pagina';
+				
+				if ($type == 'image/jpg' || $type == 'image/jpeg' || $type == 'image/png') {
+					
+					if(!is_dir($dir)){
+						mkdir($dir, 0777,TRUE);
+					}
+					
+					 move_uploaded_file($file['tmp_name'],$dir.'/'.$fileNom);
+					
+					$contenido->setImg($fileNom);
+					
+				}else{
+					$fileNom = "";
+					$contenido->setImg($fileNom);
+				}
+				
+				$resp= $contenido->Editar();
 				
 				if($resp){
 					echo'<script>
